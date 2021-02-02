@@ -6,10 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/chiay/Documents/GitHub/spooder/jsoup-1.13.1.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/jsoup-1.13.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

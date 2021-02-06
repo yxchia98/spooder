@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class App {
     public static void main(String[] args) throws IOException {
-        String url = "https://www.reddit.com";
+        String url = "https://www.reddit.com/search/?q=gamestop";
         print("Fetching %s...", url);
 
         Document doc = Jsoup.connect(url).maxBodySize(0).get();
@@ -23,8 +23,7 @@ public class App {
         Elements threadLinks = doc.select("a[data-click-id='body']");
         
         for (Element thread : threadLinks) {
-        	System.out.println(thread.text());
-        	System.out.println(thread.attr("abs:href"));
+        	System.out.println(thread.text() + ": " + thread.attr("abs:href"));
         }
 
 //        print("\nMedia: (%d)", media.size());

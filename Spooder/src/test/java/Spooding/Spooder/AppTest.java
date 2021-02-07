@@ -33,7 +33,7 @@ public class AppTest
         List<HtmlElement> itemList = page.getByXPath("//a[@data-click-id='body']");
         for (HtmlElement item : itemList) {
 //        	System.out.println(item);
-        	System.out.println(item.getTextContent() + ": " + ((HtmlAnchor) item).getAttribute("href"));
+        	System.out.println(item.getTextContent() + ": " + page.getFullyQualifiedUrl(((HtmlAnchor) item).getAttribute("href")));
         }
         assertTrue( true );
     }

@@ -3,6 +3,7 @@ package Spooding.Spooder;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,7 +34,14 @@ public class AppTest
         List<HtmlElement> itemList = page.getByXPath("//a[@data-click-id='body']");
         for (HtmlElement item : itemList) {
 //        	System.out.println(item);
-        	System.out.println(item.getTextContent() + ": " + page.getFullyQualifiedUrl(((HtmlAnchor) item).getAttribute("href")));
+//        	URL nextUrl = page.getFullyQualifiedUrl(((HtmlAnchor) item).getAttribute("href"));
+        	System.out.println(item.getTextContent());
+        	HtmlPage nextPage = ((HtmlAnchor) item).click();
+        	List<HtmlElement> nextPageList = nextPage.getByXPath("//div[@data-click-id='text']//p");
+        	for (HtmlElement text : nextPageList) {
+        		System.out.println(text.getTextContent());
+        	}
+        	System.out.println("");
         }
         assertTrue( true );
     }

@@ -16,5 +16,5 @@ public void setBaseUrl(String baseUrl) {
 }
 
 
-public abstract void crawl() throws IOException;
+public abstract void crawl() throws IOException, InterruptedException;
 }

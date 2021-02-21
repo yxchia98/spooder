@@ -28,11 +28,12 @@ public class RedditCrawler extends Crawler {
 	public void crawl() throws InterruptedException {
 		// Setting system properties of ChromeDriver
 //		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
+		String postText = "";
 		WebDriverManager.chromedriver().setup();
 
 		// Creating an object of ChromeDriver
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
+		options.addArguments("--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
 				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage");
 		WebDriver driver = new ChromeDriver(options);
 //				WebDriverWait wait = new WebDriverWait(driver, 40);
@@ -57,12 +58,15 @@ public class RedditCrawler extends Crawler {
 			System.out.println(listItem.getAttribute("href"));
 			js.executeScript("arguments[0].click();", listItem);
 			List<WebElement> postList = driver.findElements(By.xpath("//div[@data-click-id='text']"));
-			for (WebElement list1 : postList) {
-				System.out.println(list1.getText());
+			postText = "";
+			for (WebElement postContent : postList) {
+				postText += postContent.getText() + "\n";
 			}
+			System.out.println(postText);
 			js.executeScript("window.history.back();");
 
 		}
+		driver.close();
 	}
 
 }

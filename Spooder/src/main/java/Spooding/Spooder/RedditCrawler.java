@@ -33,7 +33,7 @@ public class RedditCrawler extends Crawler {
 
 		// Creating an object of ChromeDriver
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
+		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
 				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage");
 		WebDriver driver = new ChromeDriver(options);
 //				WebDriverWait wait = new WebDriverWait(driver, 40);

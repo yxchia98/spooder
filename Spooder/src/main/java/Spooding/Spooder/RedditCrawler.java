@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
+import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,6 +30,7 @@ public class RedditCrawler extends Crawler {
 		// Setting system properties of ChromeDriver
 //		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
 		String postText = "";
+		String postLink = "";
 		WebDriverManager.chromedriver().setup();
 
 		// Creating an object of ChromeDriver
@@ -52,21 +54,29 @@ public class RedditCrawler extends Crawler {
 		js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
 		Thread.sleep(5000);
 		List<WebElement> list = driver.findElements(By.xpath("//a[@data-click-id='body']"));
+		
 		for (WebElement listItem : list) {
 			count++;
 			System.out.println(count + ": " + listItem.getText());
 			System.out.println(listItem.getAttribute("href"));
 			js.executeScript("arguments[0].click();", listItem);
-			List<WebElement> postList = driver.findElements(By.xpath("//div[@data-click-id='text']"));
+			List<WebElement> postTextList = driver.findElements(By.xpath("//div[@data-click-id='text']"));
+			List<WebElement> postLinkList = driver.findElements(By.xpath("/html/body/div[1]/div/div[2]/div[3]/div/div/div/div[2]/div[1]/div[2]/div[1]/div/div[2]/div[1]/div[3]/a"));
 			postText = "";
-			for (WebElement postContent : postList) {
-				postText += postContent.getText() + "\n";
+			postLink = "";
+			for (WebElement postTextContent : postTextList) {
+				postText += postTextContent.getText() + "\n";
 			}
+			for(WebElement postLinkContent : postLinkList) {
+				postLink += postLinkContent.getAttribute("href");
+			}
+			System.out.println("Links found inside: " + postLink);
 			System.out.println(postText);
 			js.executeScript("window.history.back();");
 
 		}
 		driver.close();
+		driver.quit();
 	}
 
 }

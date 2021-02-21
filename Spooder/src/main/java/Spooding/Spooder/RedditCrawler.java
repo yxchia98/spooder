@@ -29,7 +29,6 @@ public class RedditCrawler extends Crawler {
 		// Setting system properties of ChromeDriver
 //		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
 		WebDriverManager.chromedriver().setup();
-		int count = 0;
 
 		// Creating an object of ChromeDriver
 		ChromeOptions options = new ChromeOptions();

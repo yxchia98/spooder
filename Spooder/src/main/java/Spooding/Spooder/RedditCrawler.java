@@ -80,4 +80,8 @@ public class RedditCrawler extends Crawler {
 		driver.quit();
 	}
 
+	public void export() {
+		
+	}
+
 }

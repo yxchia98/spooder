@@ -79,6 +79,10 @@ public class RedditCrawler extends Crawler {
 		driver.close();
 		driver.quit();
 	}
+	
+	public void export() {
+		
+	}
 
 	public void export() {
 		

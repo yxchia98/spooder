@@ -4,7 +4,7 @@ import java.io.IOException;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 
-public class TwitterCrawler {
+public class TwitterCrawler extends Crawler {
 	
 	//consumer key, secret consumer key, access token and secret access token of the twitter app
 	private final static String CONSUMER_KEY = 
@@ -15,20 +15,45 @@ public class TwitterCrawler {
     		"856759336692965376-YC6tmQ3ZFOFgtOTV8SxJdbeEO4yAsaJ";
 	private final static String accessTokenSecret = 
 			"oplA82eDLeesZ6scybEgNCjlhPfVKBEXlH0Ey4G61wVnQ";
+	private static Twitter twitter;
+	private String topic;
+	private int count;
 	
+	TwitterCrawler(String topic, int count) {
+		this.topic = topic;
+		this.count = count;
+	}
+	
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	//Method to set the keys to start using the twitter crawler
-	public static void twitterStart(Twitter twitter) {
-		
+	public static void twitterStart() {
+		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 		
 		AccessToken oathAccessToken = new AccessToken(accessToken,
 		accessTokenSecret);
 		
 		twitter.setOAuthAccessToken(oathAccessToken);
+		
 	}
 	
 	//Method for searching tweets with some sample query fields, can add more
-	public static QueryResult searchTweet(Twitter twitter, String topic, int count, String resultType, String language)  throws TwitterException, IOException {
+	public void crawl() throws IOException, InterruptedException, TwitterException {
 		
 		//Initialise Query
 		//set the search topic
@@ -36,22 +61,13 @@ public class TwitterCrawler {
 		//set the number of tweets we want
 		q.setCount(count);
 		//set the result type
-		if (resultType == "recent")
-			q.setResultType(Query.RECENT);
-		else if (resultType == "mix")
-			q.setResultType(Query.MIXED);
-		else if (resultType == "popular")
-			q.setResultType(Query.POPULAR);
-		else {
-			System.out.println("Invalid result type, please enter \"recent\", \"mix\" or \"popular\"");
-			return null;
-		}
+		q.setResultType(Query.MIXED);
 		//set tweet's language restriction
-		q.setLang(language);
+		q.setLang("en");
 		
 		QueryResult r = twitter.search(q);
 		
-		return r;
+		printTweet(r);
 	}
 	
 	//Method for printing out the query results
@@ -81,5 +97,7 @@ public class TwitterCrawler {
 		return a;
 	}
 	
-	
+	public void export() {
+		
+	}
 }

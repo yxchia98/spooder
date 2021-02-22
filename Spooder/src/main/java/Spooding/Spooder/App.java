@@ -18,9 +18,8 @@ public class App {
     	redditCrawl.crawl();
     	
     	//Twitter
-    	Twitter twitter = new TwitterFactory().getInstance();
-		TwitterCrawler.twitterStart(twitter);
-		QueryResult tweet = TwitterCrawler.searchTweet(twitter,searchString, 100, "mix", "en");
-		TwitterCrawler.printTweet(tweet);
+		TwitterCrawler twitterCrawler = new TwitterCrawler(searchString, 100);
+    	TwitterCrawler.twitterStart();
+		twitterCrawler.crawl();
     }
 }

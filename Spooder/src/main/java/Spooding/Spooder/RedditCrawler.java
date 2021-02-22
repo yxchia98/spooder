@@ -58,7 +58,7 @@ public class RedditCrawler extends Crawler {
 		
 		for (WebElement listItem : list) {
 			count++;
-			System.out.println(count + ": " + listItem.getText());
+			System.out.println(count + ": " + listItem.getText()); //post title
 			System.out.println(listItem.getAttribute("href"));
 			js.executeScript("arguments[0].click();", listItem);
 			List<WebElement> postTextList = driver.findElements(By.xpath("//div[@data-click-id='text']"));
@@ -72,7 +72,7 @@ public class RedditCrawler extends Crawler {
 				postLink += postLinkContent.getAttribute("href");
 			}
 			System.out.println("Links found inside: " + postLink);
-			System.out.println(postText);
+			System.out.println(postText); //post content
 			js.executeScript("window.history.back();");
 
 		}

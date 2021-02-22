@@ -84,8 +84,4 @@ public class RedditCrawler extends Crawler {
 		
 	}
 
-	public void export() {
-		
-	}
-
 }

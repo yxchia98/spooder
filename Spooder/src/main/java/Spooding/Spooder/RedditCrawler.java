@@ -3,27 +3,28 @@ package Spooding.Spooder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class RedditCrawler extends Crawler {
+	private String baseUrl;
 	private int count = 0;
 
-	public RedditCrawler() {
-		super();
+	public String getBaseUrl() {
+		return baseUrl;
 	}
 
-	public RedditCrawler(String url) {
-		super.setBaseUrl(url);
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
 	}
+	
+	public RedditCrawler(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+
+
 
 	@Override
 	public void crawl() throws InterruptedException {

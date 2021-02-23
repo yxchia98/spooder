@@ -52,7 +52,7 @@ public class RedditCrawler extends Crawler {
 		driver.get(getBaseUrl());
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
-		Thread.sleep(5000); //pause the browser to let javascript load new posts
+		Thread.sleep(3500); //pause the browser to let javascript load new posts
 		List<WebElement> list = driver.findElements(By.xpath("//a[@data-click-id='body']"));
 		
 		for (WebElement listItem : list) {

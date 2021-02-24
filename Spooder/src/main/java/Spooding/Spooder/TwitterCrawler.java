@@ -84,17 +84,21 @@ public class TwitterCrawler extends Crawler {
 	//Method for cleaning a string
 	public static String cleanString(String s) {	
 		//Clean up string
-		//remove leading and ending whitespaces, newline and tabs, usernames (with or without RT), links, 
-		//non-letter char (including "#" in hashtags), multiple whitespaces to one
-		String a = s.trim()
+		String text = s.trim()
+				// remove tabs and newlines
 				.replaceAll("[\n\t]", " ")
+				// remove retweet "RT" tag
 				.replaceAll("RT ", "")
+				// remove usernames
 				.replaceAll("@[\\S]+ ", "")
+				// remove links
 				.replaceAll("http[s]:[\\S]+", "")
+				// remove non-letter characters
 				.replaceAll("[^a-zA-Z ]", "")
+				// merge multiple white spaces to a single white space
 				.replaceAll("[\\s]+", " ");
 		
-		return a;
+		return text;
 	}
 	
 	public void export() {

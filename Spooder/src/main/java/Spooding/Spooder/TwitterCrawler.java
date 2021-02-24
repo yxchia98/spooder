@@ -41,7 +41,7 @@ public class TwitterCrawler extends Crawler {
 	}
 
 	//Method to set the keys to start using the twitter crawler
-	public static void twitterStart() {
+	public void twitterStart() {
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 		
@@ -56,8 +56,8 @@ public class TwitterCrawler extends Crawler {
 	public void crawl() throws IOException, InterruptedException, TwitterException {
 		
 		//Initialise Query
-		//set the search topic
-		Query q = new Query(topic);
+		//set the search topic, filter out retweets and replies
+		Query q = new Query(topic.concat(" -filter:retweets -filter:replies"));
 		//set the number of tweets we want
 		q.setCount(count);
 		//set the result type

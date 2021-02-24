@@ -13,7 +13,7 @@ public class App {
 		String url;
 		int choice, subChoice;
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter search string:");
+		System.out.print("Enter search string: ");
 		String searchString = input.next();
 		url = "https://www.reddit.com/search/?q=" + searchString;
 
@@ -21,6 +21,7 @@ public class App {
 		RedditCrawler redditCrawl = new RedditCrawler(url);
 		// instantiate twitterCrawler
 		TwitterCrawler twitterCrawler = new TwitterCrawler(searchString, 100);
+		twitterCrawler.twitterStart();
 
 		while (proceed) {
 			System.out.print(
@@ -29,7 +30,6 @@ public class App {
 			switch (choice) {
 			case 1:
 				redditCrawl.crawl();
-				TwitterCrawler.twitterStart();
 				twitterCrawler.crawl();
 				break;
 			case 2:
@@ -37,7 +37,6 @@ public class App {
 				subChoice = input.nextInt();
 				switch(subChoice) {
 				case 1:
-					TwitterCrawler.twitterStart();
 					twitterCrawler.crawl();
 					break;
 				case 2:

@@ -19,7 +19,7 @@ public class TwitterCrawler extends Crawler {
 	private String topic;
 	private int count;
 	
-	TwitterCrawler(String topic, int count) {
+	public TwitterCrawler(String topic, int count) {
 		this.topic = topic;
 		this.count = count;
 	}
@@ -72,14 +72,16 @@ public class TwitterCrawler extends Crawler {
 	
 	//Method for printing out the query results
 	public static void printTweet(QueryResult r) {
-		
+
+		NLP.init();
 		for (Status s: r.getTweets()) {
 			System.out.printf("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),
 								  cleanString(s.getText()));
 			
-			//System.out.printf("Score: " + SentimentAnalysis.analyse(cleanString(s.getText())));
+			int score = NLP.analyse(cleanString(s.getText()));
+			System.out.println("Score: " + score);
 		}
 	}
 	

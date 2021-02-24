@@ -78,6 +78,8 @@ public class TwitterCrawler extends Crawler {
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),
 								  cleanString(s.getText()));
+			
+			//System.out.printf("Score: " + SentimentAnalysis.analyse(cleanString(s.getText())));
 		}
 	}
 	

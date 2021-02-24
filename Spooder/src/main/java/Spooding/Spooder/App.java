@@ -25,7 +25,7 @@ public class App {
 
 		while (proceed) {
 			System.out.print(
-					"----------MAIN MENU----------\n1. Crawl from all sources\n2. Crawl from specific source\n3. Sentimental analysis with current dataset\n4. Exit\nEnter choice: ");
+					"\n----------MAIN MENU----------\n1. Crawl from all sources\n2. Crawl from specific source\n3. Sentimental analysis with current dataset\n4. Exit\nEnter choice: ");
 			choice = input.nextInt();
 			switch (choice) {
 			case 1:
@@ -33,7 +33,7 @@ public class App {
 				twitterCrawler.crawl();
 				break;
 			case 2:
-				System.out.print("----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. return\nChoice: ");
+				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. return\nChoice: ");
 				subChoice = input.nextInt();
 				switch(subChoice) {
 				case 1:

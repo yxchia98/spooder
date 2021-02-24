@@ -60,6 +60,12 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.7.30</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
+		<dependency>
+		    <groupId>edu.stanford.nlp</groupId>
+		    <artifactId>stanford-corenlp</artifactId>
+		    <version>4.2.0</version>
+		</dependency>
 
 	</dependencies>
 

@@ -2,13 +2,16 @@ package Spooding.Spooder;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import com.opencsv.exceptions.CsvValidationException;
+
 import twitter4j.*;
 
 /**
  * Example program to list links from a URL.
  */
 public class App {
-	public static void main(String[] args) throws IOException, InterruptedException, TwitterException {
+	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = true;
 		String url;
 		int choice, subChoice;
@@ -22,6 +25,8 @@ public class App {
 		// instantiate twitterCrawler
 		TwitterCrawler twitterCrawler = new TwitterCrawler(searchString, 100);
 		twitterCrawler.twitterStart();
+		
+		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
 
 		while (proceed) {
 			System.out.print(
@@ -49,6 +54,7 @@ public class App {
 				}
 				break;
 			case 3:
+				sentimentalAnalysis.Analyze();
 				break;
 			case 4:
 				proceed = false;

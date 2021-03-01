@@ -29,7 +29,7 @@ public class RedditCrawler extends Crawler {
 	public void crawl() throws InterruptedException {
 		// Setting system properties of ChromeDriver
 //		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
-		String postText = "";
+//		String postText = "";
 		WebDriverManager.chromedriver().setup();
 
 		// Creating an object of ChromeDriver
@@ -76,8 +76,11 @@ public class RedditCrawler extends Crawler {
 		driver.quit();
 	}
 
-	public void export() {
-
+	public void exportExcel() {
+		System.out.println("Exporting Reddit data to Excel");
+	}
+	public void importExcel() {
+		System.out.println("Importing Reddit data from Excel");
 	}
 
 }

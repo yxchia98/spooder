@@ -7,10 +7,15 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import twitter4j.*;
 
-/**
- * Example program to list links from a URL.
- */
+
 public class App {
+	
+	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
+		crawler.crawl();
+	}
+
+	
+	
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = true;
 		String url;
@@ -19,12 +24,15 @@ public class App {
 		System.out.print("Enter search string: ");
 		String searchString = input.next();
 		url = "https://www.reddit.com/search/?q=" + searchString;
+		
+		//instantiate App object, enabling polymorphism via App methods
+		App crawlerProgram = new App();
 
 		// instantiate redditCrawler
-		RedditCrawler redditCrawl = new RedditCrawler(url);
+		Crawler redditCrawler = new RedditCrawler(url);
 		// instantiate twitterCrawler
-		TwitterCrawler twitterCrawler = new TwitterCrawler(searchString, 100);
-		twitterCrawler.twitterStart();
+		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
+//		twitterCrawler.twitterStart();
 		
 		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
 
@@ -34,18 +42,18 @@ public class App {
 			choice = input.nextInt();
 			switch (choice) {
 			case 1:
-				redditCrawl.crawl();
-				twitterCrawler.crawl();
+				crawlerProgram.crawl(twitterCrawler);
+				crawlerProgram.crawl(redditCrawler);
 				break;
 			case 2:
 				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. return\nChoice: ");
 				subChoice = input.nextInt();
 				switch(subChoice) {
 				case 1:
-					twitterCrawler.crawl();
+					crawlerProgram.crawl(twitterCrawler);
 					break;
 				case 2:
-					redditCrawl.crawl();
+					crawlerProgram.crawl(redditCrawler);
 					break;
 				case 3:
 					break;

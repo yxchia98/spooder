@@ -54,7 +54,8 @@ public class TwitterCrawler extends Crawler {
 	
 	//Method for searching tweets with some sample query fields, can add more
 	public void crawl() throws IOException, InterruptedException, TwitterException {
-		
+		//set configurations for twitter crawler
+		this.twitterStart();
 		//Initialise Query
 		//set the search topic, filter out retweets and replies
 		Query q = new Query(topic.concat(" -filter:retweets -filter:replies"));
@@ -105,7 +106,10 @@ public class TwitterCrawler extends Crawler {
 		return text;
 	}
 	
-	public void export() {
-		
+	public void exportExcel() {
+		System.out.println("Exporting Twitter data to Excel");
+	}
+	public void importExcel() {
+		System.out.println("Importing Twitter data from Excel");
 	}
 }

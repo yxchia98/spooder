@@ -1,6 +1,8 @@
 package Spooding.Spooder;
 
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.logging.Level;
@@ -8,6 +10,8 @@ import java.util.logging.Logger;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
+
+import com.opencsv.CSVWriter;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -28,7 +32,7 @@ public class RedditCrawler extends Crawler {
 	}
 
 	@Override
-	public void crawl() throws InterruptedException {
+	public void crawl() throws InterruptedException, IOException {
 		// Setting system properties of ChromeDriver
 //		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
 //		String postText = "";
@@ -107,12 +111,19 @@ public class RedditCrawler extends Crawler {
 		
 	}
 
-	public void exportExcel() {
+	public void exportExcel() throws IOException {
 		System.out.println("Exporting Reddit data to Excel");
+		List<String[]> writeList = new ArrayList<>();
+		CSVWriter writer = new CSVWriter(new FileWriter("reddit.csv"));
 		for (RedditPost post : this.redditList) {
-			System.out.println(this.redditList.indexOf(post) + 1 + ": " + post.getTitle()); //print out post titles
-			System.out.println("Votes: " + post.getVotes()); //print out post votes
+//			System.out.println(this.redditList.indexOf(post) + 1 + ": " + post.getTitle()); //print out post titles
+//			System.out.println("Votes: " + post.getVotes()); //print out post votes
+			String[] data = {post.getTitle(), Integer.toString(post.getVotes())};
+			writeList.add(data);
 		}
+		writer.writeAll(writeList, false);
+		writer.close();
+		System.out.println("Exported");
 	}
 	public void importExcel() {
 		System.out.println("Importing Reddit data from Excel");

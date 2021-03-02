@@ -1,6 +1,10 @@
 package Spooding.Spooder;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.opencsv.CSVWriter;
 
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -74,7 +78,7 @@ public class TwitterCrawler extends Crawler {
 	}
 	
 	//Method for printing out the query results
-	public void printTweet(QueryResult r) {
+	public void printTweet(QueryResult r) throws IOException {
 
 		NLP.init();
 		for (Status s: r.getTweets()) {
@@ -112,11 +116,18 @@ public class TwitterCrawler extends Crawler {
 		return text;
 	}
 	
-	public void exportExcel() {
+	public void exportExcel() throws IOException {
 		System.out.println("Exporting Twitter data to Excel");
+		List<String[]> writeList = new ArrayList<>();
+		CSVWriter writer = new CSVWriter(new FileWriter("twitter.csv"));
 		for(TwitterPost post : twitterList) {
-			System.out.print(twitterList.indexOf(post)+1 + ". @" + post.getUser() + ": " + post.getTitle() + "\n");
+//			System.out.print(twitterList.indexOf(post)+1 + ". @" + post.getUser() + ": " + post.getTitle() + "\n");		//print out user handles and tweets
+			String[] data = {post.getUser(), post.getTitle()};
+			writeList.add(data);
 		}
+		writer.writeAll(writeList, false);
+		writer.close();
+		System.out.println("Exported");
 	}
 	public void importExcel() {
 		System.out.println("Importing Twitter data from Excel");

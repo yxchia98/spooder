@@ -24,7 +24,6 @@ public class App {
 		System.out.print("Enter search string: ");
 		String searchString = input.next();
 		url = "https://www.reddit.com/search/?q=" + searchString;
-		
 		//instantiate App object, enabling polymorphism via App methods
 		App crawlerProgram = new App();
 

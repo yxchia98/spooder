@@ -1,5 +1,6 @@
 package Spooding.Spooder;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -18,6 +19,7 @@ public class TwitterCrawler extends Crawler {
 	private static Twitter twitter;
 	private String topic;
 	private int count;
+	private ArrayList<TwitterPost> twitterList = new ArrayList<>();
 	
 	public TwitterCrawler(String topic, int count) {
 		this.topic = topic;
@@ -72,7 +74,7 @@ public class TwitterCrawler extends Crawler {
 	}
 	
 	//Method for printing out the query results
-	public static void printTweet(QueryResult r) {
+	public void printTweet(QueryResult r) {
 
 		NLP.init();
 		for (Status s: r.getTweets()) {
@@ -83,7 +85,11 @@ public class TwitterCrawler extends Crawler {
 			
 			int score = NLP.analyse(cleanString(s.getText()));
 			System.out.println("Score: " + score);
+			//instantiate new twitterobject
+			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
+			this.twitterList.add(currentTweet);
 		}
+		exportExcel();
 	}
 	
 	//Method for cleaning a string
@@ -108,6 +114,9 @@ public class TwitterCrawler extends Crawler {
 	
 	public void exportExcel() {
 		System.out.println("Exporting Twitter data to Excel");
+		for(TwitterPost post : twitterList) {
+			System.out.print(twitterList.indexOf(post)+1 + ". @" + post.getUser() + ": " + post.getTitle() + "\n");
+		}
 	}
 	public void importExcel() {
 		System.out.println("Importing Twitter data from Excel");

@@ -129,7 +129,4 @@ public class TwitterCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-	public void importExcel() {
-		System.out.println("Importing Twitter data from Excel");
-	}
 }

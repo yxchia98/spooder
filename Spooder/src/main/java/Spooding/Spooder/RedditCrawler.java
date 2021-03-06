@@ -18,7 +18,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class RedditCrawler extends Crawler {
 	private String baseUrl;		//baseurl of reddit link based on search string
 	private ArrayList<RedditPost> redditList = new ArrayList<>();	//arraylist to store post objects
-
+	private WebDriver driver;
 	public String getBaseUrl() {
 		return baseUrl;
 	}
@@ -27,35 +27,20 @@ public class RedditCrawler extends Crawler {
 		this.baseUrl = baseUrl;
 	}
 
+	public RedditCrawler() {
+		this.driver = initWebDriver();
+	}
+	
 	public RedditCrawler(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
-	@Override
 	public void crawl() throws InterruptedException, IOException {
-		// Setting system properties of ChromeDriver
-//		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
-//		String postText = "";
-		WebDriverManager.chromedriver().setup();
-
-		// Creating an object of ChromeDriver
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
-				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage");
-		//suppress info loggings
-		System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
-		Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-		WebDriver driver = new ChromeDriver(options);
-
-//Deleting all the cookies
-		driver.manage().deleteAllCookies();
-
-//Specifiying pageLoadTimeout and Implicit wait
-//		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-//		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-
+		driver = initWebDriver();
 //launching the specified URL
+		System.out.println("Crawling from reddit...");
 		driver.get(getBaseUrl());
+		System.out.println("Website reached.");
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
 		Thread.sleep(4000); // pause the browser to let javascript load new posts
@@ -65,6 +50,7 @@ public class RedditCrawler extends Crawler {
 			Thread.sleep(4000); // pause the browser to let javascript load new posts
 			list = driver.findElements(By.xpath("//div[contains(@class, '_1oQyIsiPHYt6nx7VOmd1sz')]"));
 		}
+		System.out.println("Retrieved " + list.size() + " posts");
 		
 
 		for (WebElement listItem : list) {
@@ -88,9 +74,9 @@ public class RedditCrawler extends Crawler {
 //			js.executeScript("window.history.back();");
 			//end of post content extraction
 		}
+		exportExcel();
 		driver.close();
 		driver.quit();
-		exportExcel();
 	}
 	
 	private int formatVotes(String votes) {
@@ -124,9 +110,6 @@ public class RedditCrawler extends Crawler {
 		writer.writeAll(writeList, false);
 		writer.close();
 		System.out.println("Exported");
-	}
-	public void importExcel() {
-		System.out.println("Importing Reddit data from Excel");
 	}
 
 }

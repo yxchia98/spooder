@@ -2,7 +2,6 @@ package Spooding.Spooder;
 
 import java.io.IOException;
 import java.util.Scanner;
-
 import com.opencsv.exceptions.CsvValidationException;
 
 import twitter4j.*;
@@ -13,7 +12,6 @@ public class App {
 	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
 		crawler.crawl();
 	}
-
 	
 	
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
@@ -32,6 +30,9 @@ public class App {
 		// instantiate twitterCrawler
 		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
 //		twitterCrawler.twitterStart();
+		//instantiate straits times crawler
+		Crawler straitsCrawler = new STCrawler(50);
+		
 		
 		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
 
@@ -45,7 +46,7 @@ public class App {
 				crawlerProgram.crawl(redditCrawler);
 				break;
 			case 2:
-				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. return\nChoice: ");
+				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. Crawl from Straits Times\n4. Return\nEnter Choice: ");
 				subChoice = input.nextInt();
 				switch(subChoice) {
 				case 1:
@@ -55,6 +56,9 @@ public class App {
 					crawlerProgram.crawl(redditCrawler);
 					break;
 				case 3:
+					crawlerProgram.crawl(straitsCrawler);
+					break;
+				case 4:
 					break;
 				default: 
 					break;

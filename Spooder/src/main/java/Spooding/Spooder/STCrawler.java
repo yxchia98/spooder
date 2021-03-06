@@ -56,15 +56,13 @@ public class STCrawler extends Crawler {
 
 	public void exportExcel() throws IOException {
 		System.out.println("Exporting Straits Times articles data to Excel");
-		List<String[]> writeList = new ArrayList<>();
 		CSVWriter writer = new CSVWriter(new FileWriter("straitstimes.csv"));
 		for (STPost post : this.postArray) {
 //			System.out.println(this.redditList.indexOf(post) + 1 + ": " + post.getTitle()); //print out post titles
 //			System.out.println("Votes: " + post.getVotes()); //print out post votes
 			String[] data = { post.getTitle() };
-			writeList.add(data);
+			writer.writeNext(data, false);
 		}
-		writer.writeAll(writeList, false);
 		writer.close();
 		System.out.println("Exported");
 	}
@@ -84,19 +82,21 @@ public class STCrawler extends Crawler {
 //		driver.switchTo().defaultContent();
 		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
 		for (WebElement listItem : list) {
-			System.out.println(listItem.getText());
+			STPost currPost = new STPost(listItem.getText());
+			postArray.add(currPost);
 		}
 		List<WebElement> nextList;
 		while (list.size() < limit) {
 			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
 			for (WebElement listItem : nextList) {
-				System.out.println(listItem.getText());
+				STPost currPost = new STPost(listItem.getText());
+				postArray.add(currPost);
 			}
 			list.addAll(nextList);
 			System.out.println(list.size());
 		}
-//		exportExcel();
+		exportExcel();
 		driver.close();
 		driver.quit();
 	}

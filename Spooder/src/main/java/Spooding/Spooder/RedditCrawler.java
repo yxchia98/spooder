@@ -99,15 +99,13 @@ public class RedditCrawler extends Crawler {
 
 	public void exportExcel() throws IOException {
 		System.out.println("Exporting Reddit data to Excel");
-		List<String[]> writeList = new ArrayList<>();
 		CSVWriter writer = new CSVWriter(new FileWriter("reddit.csv"));
 		for (RedditPost post : this.redditList) {
 //			System.out.println(this.redditList.indexOf(post) + 1 + ": " + post.getTitle()); //print out post titles
 //			System.out.println("Votes: " + post.getVotes()); //print out post votes
 			String[] data = {post.getTitle(), Integer.toString(post.getVotes())};
-			writeList.add(data);
+			writer.writeNext(data, false);
 		}
-		writer.writeAll(writeList, false);
 		writer.close();
 		System.out.println("Exported");
 	}

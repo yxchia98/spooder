@@ -54,38 +54,7 @@ public class STCrawler extends Crawler {
 		this.limit = limit;
 	}
 
-	// override initWebDriver method as javascript should be disabled on straits
-	// times.
-	protected WebDriver initWebDriver() {
-		// Setting system properties of ChromeDriver
-//		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
-//		String postText = "";
-		WebDriverManager.chromedriver().setup();
-
-		// Creating an object of ChromeDriver
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
-				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage", "--disable-popup-blocking", "--no-sandbox");
-		options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-		Map<String, Object> chromePrefs = new HashMap<>();
-		chromePrefs.put("profile.managed_default_content_settings.javascript", 2);
-		options.setExperimentalOption("prefs", chromePrefs);
-		// suppress info loggings
-		System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
-		Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-		WebDriver driver = new ChromeDriver(options);
-
-//Deleting all the cookies
-		driver.manage().deleteAllCookies();
-
-//Specifiying pageLoadTimeout and Implicit wait
-//		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-//		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-		return driver;
-	}
-
 	public void exportExcel() throws IOException {
-		// TODO Auto-generated method stub
 		System.out.println("Exporting Straits Times articles data to Excel");
 		List<String[]> writeList = new ArrayList<>();
 		CSVWriter writer = new CSVWriter(new FileWriter("straitstimes.csv"));
@@ -102,11 +71,17 @@ public class STCrawler extends Crawler {
 
 	public void crawl() throws IOException, InterruptedException, TwitterException {
 //launching the specified URL
-		this.driver = initWebDriver();
+		driver = initWebDriver();
 		System.out.println("Crawling from straits times...");
 		driver.get(getBaseUrl());
-		Thread.sleep(1000); 
 		System.out.println("Website reached.");
+		Thread.sleep(1000);
+		driver.navigate().refresh();
+//		driver.switchTo().frame("2668504091318393559_0-frame");
+//	    driver.switchTo().defaultContent();
+//		System.out.println("Entered iframe");
+//		driver.findElement(By.xpath(".//button[@data-lbl='Close Button']")).click();
+//		driver.switchTo().defaultContent();
 		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
 		for (WebElement listItem : list) {
 			System.out.println(listItem.getText());
@@ -114,7 +89,6 @@ public class STCrawler extends Crawler {
 		List<WebElement> nextList;
 		while (list.size() < limit) {
 			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
-			Thread.sleep(1000); 
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
 			for (WebElement listItem : nextList) {
 				System.out.println(listItem.getText());

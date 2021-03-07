@@ -58,8 +58,6 @@ public class STCrawler extends Crawler {
 		System.out.println("Exporting Straits Times articles data to Excel");
 		CSVWriter writer = new CSVWriter(new FileWriter("straitstimes.csv"));
 		for (STPost post : this.postArray) {
-//			System.out.println(this.redditList.indexOf(post) + 1 + ": " + post.getTitle()); //print out post titles
-//			System.out.println("Votes: " + post.getVotes()); //print out post votes
 			String[] data = { post.getTitle() };
 			writer.writeNext(data, false);
 		}
@@ -73,8 +71,9 @@ public class STCrawler extends Crawler {
 		System.out.println("Crawling from straits times...");
 		driver.get(getBaseUrl());
 		System.out.println("Website reached.");
-		Thread.sleep(1000);
+//		Thread.sleep(3000);
 		driver.navigate().refresh();
+//		Thread.sleep(3000);
 //		driver.switchTo().frame("2668504091318393559_0-frame");
 //	    driver.switchTo().defaultContent();
 //		System.out.println("Entered iframe");
@@ -82,14 +81,17 @@ public class STCrawler extends Crawler {
 //		driver.switchTo().defaultContent();
 		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
 		for (WebElement listItem : list) {
+//			System.out.println(listItem.getText());
 			STPost currPost = new STPost(listItem.getText());
 			postArray.add(currPost);
 		}
 		List<WebElement> nextList;
 		while (list.size() < limit) {
 			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
+			Thread.sleep(500);
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
 			for (WebElement listItem : nextList) {
+//				System.out.println(listItem.getText());
 				STPost currPost = new STPost(listItem.getText());
 				postArray.add(currPost);
 			}

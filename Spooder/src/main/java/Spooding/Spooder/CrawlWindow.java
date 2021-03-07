@@ -87,9 +87,8 @@ public class CrawlWindow implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
-			label.setText("Number of Clicks: " + count);
 		} else if (e.getSource() == crawlReddit) {
-			label.setText("Number of Clicks: " + count);
+			label.setText("Crawling from Reddit");
 		} else if (e.getSource() == back) {
 			GUI.frameOpen = false;
 			frame.dispose();

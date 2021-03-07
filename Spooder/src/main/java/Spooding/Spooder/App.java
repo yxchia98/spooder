@@ -51,6 +51,8 @@ public class App {
 				switch(subChoice) {
 				case 1:
 					crawlerProgram.crawl(twitterCrawler);
+					WordCloudGenerator wordCloud = new WordCloudGenerator("twitter.csv");
+					wordCloud.generateCloud();
 					break;
 				case 2:
 					crawlerProgram.crawl(redditCrawler);

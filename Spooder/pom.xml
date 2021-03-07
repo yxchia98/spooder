@@ -68,6 +68,20 @@
 			<artifactId>opencsv</artifactId>
 			<version>5.3</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.kennycason</groupId>
+		    <artifactId>kumo-core</artifactId>
+		    <version>1.28</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.kennycason</groupId>
+		    <artifactId>kumo-tokenizers</artifactId>
+		    <version>1.28</version>
+		</dependency>
+		
+		
 
 	</dependencies>
 

@@ -75,25 +75,22 @@ public class TwitterCrawler extends Crawler {
 		QueryResult r = twitter.search(q);
 		
 		printTweet(r);
+		exportExcel();
 	}
 	
 	//Method for printing out the query results
 	public void printTweet(QueryResult r) throws IOException {
 
-		NLP.init();
 		for (Status s: r.getTweets()) {
 			System.out.printf("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),
 								  cleanString(s.getText()));
 			
-			int score = NLP.analyse(cleanString(s.getText()));
-			System.out.println("Score: " + score);
 			//instantiate new twitterobject
 			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
 			this.twitterList.add(currentTweet);
 		}
-		exportExcel();
 	}
 	
 	//Method for cleaning a string
@@ -122,7 +119,8 @@ public class TwitterCrawler extends Crawler {
 		CSVWriter writer = new CSVWriter(new FileWriter("twitter.csv"));
 		for(TwitterPost post : twitterList) {
 //			System.out.print(twitterList.indexOf(post)+1 + ". @" + post.getUser() + ": " + post.getTitle() + "\n");		//print out user handles and tweets
-			String[] data = {post.getUser(), post.getTitle()};
+//			String[] data = {post.getUser(), post.getTitle()};
+			String[] data = {post.getTitle()};
 			writeList.add(data);
 		}
 		writer.writeAll(writeList, false);

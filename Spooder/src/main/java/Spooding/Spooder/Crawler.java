@@ -1,8 +1,6 @@
 package Spooding.Spooder;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +26,6 @@ public abstract class Crawler implements Exportable{
 		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
 				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage", "--disable-popup-blocking");
 		options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-		Map<String, Object> chromePrefs = new HashMap<>();
 		//suppress info loggings
 		System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
 		Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);

@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
 
 import twitter4j.*;
@@ -75,7 +81,7 @@ public class TwitterCrawler extends Crawler {
 		QueryResult r = twitter.search(q);
 		
 		printTweet(r);
-		exportExcel();
+		exportMongo();
 	}
 	
 	//Method for printing out the query results
@@ -114,6 +120,10 @@ public class TwitterCrawler extends Crawler {
 	}
 	
 	public void exportExcel() throws IOException {
+		if (twitterList.isEmpty()) {
+			System.out.println("No twitter data to export");
+			return;
+		}
 		System.out.println("Exporting Twitter data to Excel");
 		List<String[]> writeList = new ArrayList<>();
 		CSVWriter writer = new CSVWriter(new FileWriter("twitter.csv"));
@@ -126,5 +136,35 @@ public class TwitterCrawler extends Crawler {
 		writer.writeAll(writeList, false);
 		writer.close();
 		System.out.println("Exported");
+	}
+	
+	public void exportMongo() {
+		boolean exist = false;
+		//connect to mongoDB atlas
+		MongoClient mongoClient = MongoClients.create(
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+		MongoDatabase database = mongoClient.getDatabase("spooder");
+		//check if specified collection is in database
+		for (String name : database.listCollectionNames()){
+			if (name.equals("twitter")) {
+				exist = true;
+			}
+		}
+		if (!exist) {
+			database.createCollection("twitter");
+			System.out.println("twitter collection created.");
+		}
+		MongoCollection<Document> collection = database.getCollection("twitter");
+		//first clear all documents in collection, to avoid duplications from multiple crawls
+		collection.deleteMany(new Document());
+		System.out.println("Connected to MongoDB");
+		for (TwitterPost post : twitterList) {
+			Document doc = new Document();
+			doc.append("Title", post.getTitle());
+			doc.append("User", post.getUser());
+			collection.insertOne(doc);
+		}
+		mongoClient.close();
+
 	}
 }

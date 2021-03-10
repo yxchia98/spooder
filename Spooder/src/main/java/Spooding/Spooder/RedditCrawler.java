@@ -21,13 +21,14 @@ public class RedditCrawler extends Crawler {
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-
+	
+	//if user wants to crawl from another url
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
 	public RedditCrawler() {
-		this.driver = initWebDriver();
+		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 	}
 	
 	public RedditCrawler(String baseUrl) {

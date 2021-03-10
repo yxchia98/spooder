@@ -25,12 +25,12 @@ public class App {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter search string: ");
 		String searchString = input.next();
-		url = "https://www.reddit.com/search/?q=" + searchString;
+//		url = "https://www.reddit.com/search/?q=" + searchString;
 		//instantiate App object, enabling polymorphism via App methods
 		App crawlerProgram = new App();
 
 		// instantiate redditCrawler
-		Crawler redditCrawler = new RedditCrawler(url);
+		Crawler redditCrawler = new RedditCrawler();
 		// instantiate twitterCrawler
 		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
 //		twitterCrawler.twitterStart();

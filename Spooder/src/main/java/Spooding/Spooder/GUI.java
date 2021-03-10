@@ -8,28 +8,20 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class GUI implements ActionListener {
 
-	private int count = 0;
 	private JFrame frame;
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
-	private JLabel label1, label2, label3;
+	private JLabel label1, label2, bottomText;
 	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exit, submitWord;
 	private JTextField textField;
-
-	public static boolean frameOpen = false, word = false;
+	
+	public static boolean frameOpen = false, searchText = false;
+	public static String crawlText = null;
 
 	public GUI() {
-		ImageIcon image = new ImageIcon("redditIcon.png");
 
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -54,7 +46,7 @@ public class GUI implements ActionListener {
 		panel5.setPreferredSize(new Dimension(100, 100));
 		label1 = new JLabel();
 		label2 = new JLabel();
-		label3 = new JLabel();
+		bottomText = new JLabel();
 		label1.setText("Crawl Text");
 		label1.setFont(new Font("Arial", Font.BOLD, 25));
 		label1.setVerticalAlignment(JLabel.CENTER);
@@ -63,18 +55,18 @@ public class GUI implements ActionListener {
 		label2.setFont(new Font("Arial", Font.BOLD, 25));
 		label2.setVerticalAlignment(JLabel.CENTER);
 		label2.setHorizontalAlignment(JLabel.CENTER);
-		label3.setText("");
-		label3.setForeground(Color.RED);
-		label3.setFont(new Font("Arial", Font.BOLD, 25));
-		label3.setVerticalAlignment(JLabel.CENTER);
-		label3.setHorizontalAlignment(JLabel.CENTER);
+		bottomText.setText("");
+		bottomText.setForeground(Color.RED);
+		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
+		bottomText.setVerticalAlignment(JLabel.CENTER);
+		bottomText.setHorizontalAlignment(JLabel.CENTER);
 
 		// New Window
 		frame = new JFrame();
 		frame.setTitle("Crawl Policy Opinions");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
-		frame.setResizable(true);
+		//frame.setResizable(true);
 
 		// panel5 setup
 		panel5.setLayout(new GridLayout(8, 3, 10, 10));
@@ -99,7 +91,8 @@ public class GUI implements ActionListener {
 		// for getting Keyword
 		textField = new JTextField();
 		textField.setPreferredSize(new Dimension(250, 40));
-		textField.setFont(new Font("Arial", Font.PLAIN, 35));
+		textField.setFont(new Font("Arial", Font.PLAIN, 20));
+		textField.setText("");
 
 		// button within panel5
 		panel5.add(label1);
@@ -111,7 +104,7 @@ public class GUI implements ActionListener {
 		panel5.add(crawlSpecific);
 		panel5.add(sentimentAnalysis);
 		panel5.add(exit);
-		panel5.add(label3);
+		panel5.add(bottomText);
 
 		// borders
 		frame.add(panel1, BorderLayout.NORTH);
@@ -119,7 +112,7 @@ public class GUI implements ActionListener {
 		frame.add(panel3, BorderLayout.EAST);
 		frame.add(panel4, BorderLayout.SOUTH);
 		frame.add(panel5, BorderLayout.CENTER);
-
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
 	}
@@ -132,31 +125,62 @@ public class GUI implements ActionListener {
 
 	@Override
     public void actionPerformed(ActionEvent e) {
+		//if crawl word is empty show error message
+		//if crawl word is not empty, set 
         if(e.getSource()==submitWord) {
-            System.out.println("Crawling :" + textField.getText());
-            word = true;
-            submitWord.setEnabled(false);
-            textField.setEditable(false);
+            if(textField.getText().isBlank()) {
+            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(!textField.getText().isBlank()) {
+            	searchText = true;
+            	crawlText = textField.getText(); //set crawl Text
+            	System.out.println("Crawling :" + textField.getText());
+            }
         }
-        if(e.getSource()==crawlAll && word == true) {
-            count++;
-            label3.setText("Crawling");
+        
+        //crawling all sources
+        if(e.getSource()==crawlAll) { 
+        	if (searchText == true) {
+            bottomText.setText("Crawling Twitter and Reddit");
+            CrawlProgressBar newBar = new CrawlProgressBar();
+            }
+        	else if (searchText == false) {
+        		JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+            }
+        	
         }
-        if (frameOpen == false) {
+        //if crawlWindow closed turn back on button.
+        if (frameOpen == false) { 
             crawlSpecific.setEnabled(true);
         }
-        if(e.getSource()==crawlSpecific & frameOpen == false && word == true) {
-
-            CrawlWindow crawlWindow = new CrawlWindow();
-            frameOpen = true;
+        //crawl Specific button
+        if(e.getSource()==crawlSpecific) {
+        	//if search text and frame not open
+        	if (searchText == true && frameOpen == false) {
+        		CrawlWindow crawlWindow = new CrawlWindow();
+            	frameOpen = true;
+            	bottomText.setText("Crawling Specific");
+            }
+        	else if (searchText == true && frameOpen == true) {
+            	bottomText.setText("Window Open");
+            }
+        	//if no search text show error message
+            else if (searchText == false ) {
+            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        else if(e.getSource()==crawlSpecific & frameOpen == true && word == false) {
-            crawlSpecific.setEnabled(false);
-            JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-        }
+        //start sentiment analysis
         else if(e.getSource()==sentimentAnalysis ) {
-            label3.setText("Generating Sentiment Analysis");
+        	if (searchText == true) {
+        		bottomText.setText("Generating Sentiment Analysis");
+        		//add in sentiment analysis
+            }
+        	else if (searchText == false) {
+            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+            }
         }
+        
+        //close window
         else if(e.getSource()==exit) {
             frame.dispose();
         }

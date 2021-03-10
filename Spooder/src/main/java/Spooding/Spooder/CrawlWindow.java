@@ -8,18 +8,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class CrawlWindow implements ActionListener {
 
-	private int count;
-	private JButton crawlReddit, crawlTwitter, back;
+	private JButton crawlReddit, crawlTwitter, crawlStraitstimes, back;
 	private JFrame frame = new JFrame();
 	private JPanel panel1, panel2, panel3, panel4, panel5;
-	private JLabel label = new JLabel("Hello");
+	private JLabel topText, bottomText;
 
 	CrawlWindow() {
 		JPanel panel1 = new JPanel();
@@ -41,23 +37,24 @@ public class CrawlWindow implements ActionListener {
 		panel3.setPreferredSize(new Dimension(50, 50));
 		panel4.setPreferredSize(new Dimension(50, 50));
 		panel5.setPreferredSize(new Dimension(100, 100));
-		label = new JLabel();
-		label.setText("Select what you want to do");
-		label.setFont(new Font("Arial", Font.BOLD, 25));
-//label.setIcon(image);
-		label.setVerticalAlignment(JLabel.CENTER);
-		label.setHorizontalAlignment(JLabel.CENTER);
+		topText = new JLabel();
+		topText.setText("Select what you want to do");
+		topText.setFont(new Font("Arial", Font.BOLD, 25));
+		topText.setVerticalAlignment(JLabel.CENTER);
+		topText.setHorizontalAlignment(JLabel.CENTER);
+		bottomText = new JLabel();
+		bottomText.setText("");
+		bottomText.setForeground(Color.RED);
+		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
+		bottomText.setVerticalAlignment(JLabel.CENTER);
+		bottomText.setHorizontalAlignment(JLabel.CENTER);
 
 //New Window
 		frame = new JFrame();
-		frame.setTitle("Crawl Policy Opinions");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Crawl Specific");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
-		frame.setResizable(true);
-
-//panel5 setup
-		panel5.setLayout(new GridLayout(7, 3, 10, 10));
-		panel5.add(label);
+		//frame.setResizable(true);
 
 //buttons
 		crawlTwitter = new JButton("Crawl from Twitter");
@@ -65,14 +62,21 @@ public class CrawlWindow implements ActionListener {
 
 		crawlReddit = new JButton("Crawl from Reddit");
 		crawlReddit.addActionListener(this);
+		
+		crawlStraitstimes = new JButton("Crawl from Straits Times");
+		crawlStraitstimes.addActionListener(this);
 
 		back = new JButton("Exit");
-		back.addActionListener(this);
-
-//button within panel5
+		back.addActionListener(this);		
+		
+//panel5 setup
+		panel5.setLayout(new GridLayout(7, 3, 10, 10));
+		panel5.add(topText);
 		panel5.add(crawlTwitter);
 		panel5.add(crawlReddit);
+		panel5.add(crawlStraitstimes);
 		panel5.add(back);
+		panel5.add(bottomText);
 
 //borders
 		frame.add(panel1, BorderLayout.NORTH);
@@ -80,15 +84,21 @@ public class CrawlWindow implements ActionListener {
 		frame.add(panel3, BorderLayout.EAST);
 		frame.add(panel4, BorderLayout.SOUTH);
 		frame.add(panel5, BorderLayout.CENTER);
-
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
+			bottomText.setText("Crawling from Twitter");
+			CrawlProgressBar newBar = new CrawlProgressBar();
 		} else if (e.getSource() == crawlReddit) {
-			label.setText("Crawling from Reddit");
+			bottomText.setText("Crawling from Reddit");
+			CrawlProgressBar newBar = new CrawlProgressBar();
+		} else if (e.getSource() == crawlStraitstimes) {
+			bottomText.setText("Crawl from Straits Times");
+			CrawlProgressBar newBar = new CrawlProgressBar();
 		} else if (e.getSource() == back) {
 			GUI.frameOpen = false;
 			frame.dispose();

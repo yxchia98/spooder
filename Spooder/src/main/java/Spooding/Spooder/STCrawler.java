@@ -55,7 +55,7 @@ public class STCrawler extends Crawler {
 		System.out.println("Website reached.");
 //		Thread.sleep(3000);
 		driver.navigate().refresh();
-//		Thread.sleep(3000);
+		Thread.sleep(3000);
 //		driver.switchTo().frame("2668504091318393559_0-frame");
 //	    driver.switchTo().defaultContent();
 //		System.out.println("Entered iframe");
@@ -63,9 +63,7 @@ public class STCrawler extends Crawler {
 //		driver.switchTo().defaultContent();
 		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
 		for (WebElement listItem : list) {
-//			System.out.println(listItem.getText());
-			STPost currPost = new STPost(listItem.getText());
-			postArray.add(currPost);
+			postArray.add(new STPost(listItem.getText()));
 		}
 		List<WebElement> nextList;
 		while (list.size() < limit) {
@@ -73,9 +71,7 @@ public class STCrawler extends Crawler {
 			Thread.sleep(500);
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
 			for (WebElement listItem : nextList) {
-//				System.out.println(listItem.getText());
-				STPost currPost = new STPost(listItem.getText());
-				postArray.add(currPost);
+				postArray.add(new STPost(listItem.getText()));
 			}
 			list.addAll(nextList);
 			System.out.println(list.size());
@@ -128,5 +124,6 @@ public class STCrawler extends Crawler {
 		mongoClient.close();
 
 	}
+	
 
 }

@@ -61,8 +61,8 @@ public class RedditCrawler extends Crawler {
 //			System.out.println(redditList.size() + ": " + title); //Post Title
 //			System.out.println("Votes: " + votes); // Post votes
 //			System.out.println("Link: " + postTitle.getAttribute("href")); //Post Link
-			RedditPost currentPost = new RedditPost(title, votes);
-			redditList.add(currentPost);
+//			RedditPost currentPost = new RedditPost(title, votes);
+			redditList.add(new RedditPost(title, votes));
 			//goes into the post and extracts post contents, nullify this code if you want the crawler to run significantly faster.
 //			js.executeScript("arguments[0].click();", listItem);
 //			List<WebElement> postTextList = driver.findElements(By.xpath("//div[@data-click-id='text']"));

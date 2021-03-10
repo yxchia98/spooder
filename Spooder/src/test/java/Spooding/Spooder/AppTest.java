@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.List;
 
 import org.bson.Document;
+import org.junit.jupiter.api.Test;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;

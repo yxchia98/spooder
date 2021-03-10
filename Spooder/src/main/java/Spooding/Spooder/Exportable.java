@@ -4,5 +4,6 @@ import java.io.IOException;
 
 public interface Exportable {
 	public abstract void exportExcel() throws IOException;
+	public abstract void exportMongo();
 
 }

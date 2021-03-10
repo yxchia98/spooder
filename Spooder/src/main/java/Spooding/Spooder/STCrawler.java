@@ -3,25 +3,18 @@ package Spooding.Spooder;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.bson.Document;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.By.ByXPath;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 import twitter4j.TwitterException;
 
 public class STCrawler extends Crawler {
@@ -54,7 +47,45 @@ public class STCrawler extends Crawler {
 		this.limit = limit;
 	}
 
+	public void crawl() throws IOException, InterruptedException, TwitterException {
+//launching the specified URL
+		driver = initWebDriver();
+		System.out.println("Crawling from straits times...");
+		driver.get(getBaseUrl());
+		System.out.println("Website reached.");
+//		Thread.sleep(3000);
+		driver.navigate().refresh();
+		Thread.sleep(3000);
+//		driver.switchTo().frame("2668504091318393559_0-frame");
+//	    driver.switchTo().defaultContent();
+//		System.out.println("Entered iframe");
+//		driver.findElement(By.xpath(".//button[@data-lbl='Close Button']")).click();
+//		driver.switchTo().defaultContent();
+		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
+		for (WebElement listItem : list) {
+			postArray.add(new STPost(listItem.getText()));
+		}
+		List<WebElement> nextList;
+		while (list.size() < limit) {
+			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
+			Thread.sleep(500);
+			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
+			for (WebElement listItem : nextList) {
+				postArray.add(new STPost(listItem.getText()));
+			}
+			list.addAll(nextList);
+			System.out.println(list.size());
+		}
+		exportMongo();
+		driver.close();
+		driver.quit();
+	}
+	
 	public void exportExcel() throws IOException {
+		if (postArray.isEmpty()) {
+			System.out.println("No straitstimes data to export");
+			return;
+		}
 		System.out.println("Exporting Straits Times articles data to Excel");
 		CSVWriter writer = new CSVWriter(new FileWriter("straitstimes.csv"));
 		for (STPost post : this.postArray) {
@@ -65,42 +96,34 @@ public class STCrawler extends Crawler {
 		System.out.println("Exported");
 	}
 
-	public void crawl() throws IOException, InterruptedException, TwitterException {
-//launching the specified URL
-		driver = initWebDriver();
-		System.out.println("Crawling from straits times...");
-		driver.get(getBaseUrl());
-		System.out.println("Website reached.");
-//		Thread.sleep(3000);
-		driver.navigate().refresh();
-//		Thread.sleep(3000);
-//		driver.switchTo().frame("2668504091318393559_0-frame");
-//	    driver.switchTo().defaultContent();
-//		System.out.println("Entered iframe");
-//		driver.findElement(By.xpath(".//button[@data-lbl='Close Button']")).click();
-//		driver.switchTo().defaultContent();
-		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
-		for (WebElement listItem : list) {
-//			System.out.println(listItem.getText());
-			STPost currPost = new STPost(listItem.getText());
-			postArray.add(currPost);
-		}
-		List<WebElement> nextList;
-		while (list.size() < limit) {
-			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
-			Thread.sleep(500);
-			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
-			for (WebElement listItem : nextList) {
-//				System.out.println(listItem.getText());
-				STPost currPost = new STPost(listItem.getText());
-				postArray.add(currPost);
+	public void exportMongo() {
+		boolean exist = false;
+		//connect to mongoDB atlas
+		MongoClient mongoClient = MongoClients.create(
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+		MongoDatabase database = mongoClient.getDatabase("spooder");
+		//check if specified collection is in database
+		for (String name : database.listCollectionNames()){
+			if (name.equals("straitstimes")) {
+				exist = true;
 			}
-			list.addAll(nextList);
-			System.out.println(list.size());
 		}
-		exportExcel();
-		driver.close();
-		driver.quit();
+		if (!exist) {
+			database.createCollection("straitstimes");
+			System.out.println("straitstimes collection created.");
+		}
+		MongoCollection<Document> collection = database.getCollection("straitstimes");
+		//first clear all documents in collection, to avoid duplications from multiple crawls
+		collection.deleteMany(new Document());
+		System.out.println("Connected to MongoDB");
+		for (STPost post : postArray) {
+			Document doc = new Document();
+			doc.append("Title", post.getTitle());
+			collection.insertOne(doc);
+		}
+		mongoClient.close();
+
 	}
+	
 
 }

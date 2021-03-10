@@ -5,15 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.bson.Document;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.*;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class RedditCrawler extends Crawler {
 	private String baseUrl;		//baseurl of reddit link based on search string
@@ -22,13 +21,14 @@ public class RedditCrawler extends Crawler {
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-
+	
+	//if user wants to crawl from another url
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 
 	public RedditCrawler() {
-		this.driver = initWebDriver();
+		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 	}
 	
 	public RedditCrawler(String baseUrl) {
@@ -62,8 +62,8 @@ public class RedditCrawler extends Crawler {
 //			System.out.println(redditList.size() + ": " + title); //Post Title
 //			System.out.println("Votes: " + votes); // Post votes
 //			System.out.println("Link: " + postTitle.getAttribute("href")); //Post Link
-			RedditPost currentPost = new RedditPost(title, votes);
-			redditList.add(currentPost);
+//			RedditPost currentPost = new RedditPost(title, votes);
+			redditList.add(new RedditPost(title, votes));
 			//goes into the post and extracts post contents, nullify this code if you want the crawler to run significantly faster.
 //			js.executeScript("arguments[0].click();", listItem);
 //			List<WebElement> postTextList = driver.findElements(By.xpath("//div[@data-click-id='text']"));
@@ -75,7 +75,7 @@ public class RedditCrawler extends Crawler {
 //			js.executeScript("window.history.back();");
 			//end of post content extraction
 		}
-		exportExcel();
+		exportMongo();
 		driver.close();
 		driver.quit();
 	}
@@ -99,6 +99,10 @@ public class RedditCrawler extends Crawler {
 	}
 
 	public void exportExcel() throws IOException {
+		if (redditList.isEmpty()) {
+			System.out.println("No reddit data to export");
+			return;
+		}
 		System.out.println("Exporting Reddit data to Excel");
 		CSVWriter writer = new CSVWriter(new FileWriter("reddit.csv"));
 		for (RedditPost post : this.redditList) {
@@ -109,6 +113,36 @@ public class RedditCrawler extends Crawler {
 		}
 		writer.close();
 		System.out.println("Exported");
+	}
+	
+	public void exportMongo() {
+		boolean exist = false;
+		//connect to mongoDB atlas
+		MongoClient mongoClient = MongoClients.create(
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+		MongoDatabase database = mongoClient.getDatabase("spooder");
+		//check if specified collection is in database
+		for (String name : database.listCollectionNames()){
+			if (name.equals("reddit")) {
+				exist = true;
+			}
+		}
+		if (!exist) {
+			database.createCollection("reddit");
+			System.out.println("reddit collection created.");
+		}
+		MongoCollection<Document> collection = database.getCollection("reddit");
+		//first clear all documents in collection, to avoid duplications from multiple crawls
+		collection.deleteMany(new Document());
+		System.out.println("Connected to MongoDB");
+		for (RedditPost post : redditList) {
+			Document doc = new Document();
+			doc.append("Title", post.getTitle());
+			doc.append("Votes", post.getVotes());
+			collection.insertOne(doc);
+		}
+		mongoClient.close();
+
 	}
 
 }

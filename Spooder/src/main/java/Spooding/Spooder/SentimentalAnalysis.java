@@ -6,6 +6,10 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 //OpenCSV reader library
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -14,6 +18,8 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+
+import org.bson.Document;
 
 public class SentimentalAnalysis {
 	String[] nextRecord;

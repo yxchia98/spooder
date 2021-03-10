@@ -14,7 +14,9 @@ import com.opencsv.CSVWriter;
 
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
-
+/**
+ * Class for Twitter Crawler
+ */
 public class TwitterCrawler extends Crawler {
 	
 	//consumer key, secret consumer key, access token and secret access token of the twitter app
@@ -26,33 +28,55 @@ public class TwitterCrawler extends Crawler {
     		"856759336692965376-YC6tmQ3ZFOFgtOTV8SxJdbeEO4yAsaJ";
 	private final static String accessTokenSecret = 
 			"oplA82eDLeesZ6scybEgNCjlhPfVKBEXlH0Ey4G61wVnQ";
+	
 	private static Twitter twitter;
 	private String topic;
 	private int count;
 	private ArrayList<TwitterPost> twitterList = new ArrayList<>();
+	
+	/**
+	 * Constructor for the TwitterCrawler Class
+	 * @param topic What topic to search for
+	 * @param count How many queries
+	 */
 	
 	public TwitterCrawler(String topic, int count) {
 		this.topic = topic;
 		this.count = count;
 	}
 	
+	/**
+	 * Get method to return topic variable
+	 * @return topic topic to crawl for
+	 */
 	public String getTopic() {
 		return topic;
 	}
-
+	/**
+	 * Set method to set variable topic
+	 * @param topic topic to crawl for
+	 */
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-
+	/**
+	 * Get method to get variable count
+	 * @return number of queries to search for
+	 */
 	public int getCount() {
 		return count;
 	}
-
+	/**
+	 * Set method to modify variable count
+	 * @param count number of queries to search for
+	 */
 	public void setCount(int count) {
 		this.count = count;
 	}
 
-	//Method to set the keys to start using the twitter crawler
+	/**
+	 * Method to set the keys to start using the twitter crawler
+	 */
 	public void twitterStart() {
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
@@ -64,7 +88,9 @@ public class TwitterCrawler extends Crawler {
 		
 	}
 	
-	//Method for searching tweets with some sample query fields, can add more
+	/**
+	 * Method for searching Tweets with some sample query fields, can add more
+	 */
 	public void crawl() throws IOException, InterruptedException, TwitterException {
 		//set configurations for twitter crawler
 		this.twitterStart();
@@ -84,7 +110,11 @@ public class TwitterCrawler extends Crawler {
 		exportMongo();
 	}
 	
-	//Method for printing out the query results
+	/**
+	 * Method for printing out query results
+	 * @param r variable that stores the Query results
+	 * @throws IOException exception regarding input/output
+	 */
 	public void printTweet(QueryResult r) throws IOException {
 
 		for (Status s: r.getTweets()) {
@@ -99,7 +129,11 @@ public class TwitterCrawler extends Crawler {
 		}
 	}
 	
-	//Method for cleaning a string
+	/**
+	 * Method for filtering unwanted info from String such as tabs, newlines, etc
+	 * @param s String to be cleaned/filtered
+	 * @return the cleaned up string after filtering
+	 */
 	public static String cleanString(String s) {	
 		//Clean up string
 		String text = s.trim()
@@ -118,7 +152,9 @@ public class TwitterCrawler extends Crawler {
 		
 		return text;
 	}
-	
+	/**
+	 * Method to export data in to a .csv file type
+	 */
 	public void exportExcel() throws IOException {
 		if (twitterList.isEmpty()) {
 			System.out.println("No twitter data to export");
@@ -137,7 +173,9 @@ public class TwitterCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-	
+	/**
+	 * Method to export data into MongoDB
+	 */
 	public void exportMongo() {
 		boolean exist = false;
 		//connect to mongoDB atlas

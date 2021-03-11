@@ -7,19 +7,26 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.*;
+
+import twitter4j.TwitterException;
 
 public class GUI implements ActionListener {
 
 	private JFrame frame;
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
-	private JLabel label1, label2, bottomText;
-	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exit, submitWord;
-	private JTextField textField;
+	private JLabel topText, middleText, bottomText;
+	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exportData, exit, submitWord;
+	private static JTextField textField;
 	
 	public static boolean frameOpen = false, searchText = false;
 	public static String crawlText = null;
+	
+	static Crawler twitterCrawler, redditCrawler, straitsCrawler;
+	Boolean proceed = true;
 
 	public GUI() {
 
@@ -44,17 +51,17 @@ public class GUI implements ActionListener {
 		panel3.setPreferredSize(new Dimension(50, 50));
 		panel4.setPreferredSize(new Dimension(50, 50));
 		panel5.setPreferredSize(new Dimension(100, 100));
-		label1 = new JLabel();
-		label2 = new JLabel();
+		topText = new JLabel();
+		middleText = new JLabel();
 		bottomText = new JLabel();
-		label1.setText("Crawl Text");
-		label1.setFont(new Font("Arial", Font.BOLD, 25));
-		label1.setVerticalAlignment(JLabel.CENTER);
-		label1.setHorizontalAlignment(JLabel.CENTER);
-		label2.setText("Select what you want to do");
-		label2.setFont(new Font("Arial", Font.BOLD, 25));
-		label2.setVerticalAlignment(JLabel.CENTER);
-		label2.setHorizontalAlignment(JLabel.CENTER);
+		topText.setText("Crawl Text");
+		topText.setFont(new Font("Arial", Font.BOLD, 25));
+		topText.setVerticalAlignment(JLabel.CENTER);
+		topText.setHorizontalAlignment(JLabel.CENTER);
+		middleText.setText("Select what you want to do");
+		middleText.setFont(new Font("Arial", Font.BOLD, 25));
+		middleText.setVerticalAlignment(JLabel.CENTER);
+		middleText.setHorizontalAlignment(JLabel.CENTER);
 		bottomText.setText("");
 		bottomText.setForeground(Color.RED);
 		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
@@ -69,7 +76,7 @@ public class GUI implements ActionListener {
 		//frame.setResizable(true);
 
 		// panel5 setup
-		panel5.setLayout(new GridLayout(8, 3, 10, 10));
+		panel5.setLayout(new GridLayout(9, 3, 10, 10));
 		panel6.setLayout(new GridLayout(1, 2, 10, 10));
 
 		// buttons
@@ -84,6 +91,9 @@ public class GUI implements ActionListener {
 
 		sentimentAnalysis = new JButton("Sentiment Analysis with current Dataset");
 		sentimentAnalysis.addActionListener(this);
+		
+		exportData = new JButton("Export Data to Excel");
+		exportData.addActionListener(this);
 
 		exit = new JButton("Exit");
 		exit.addActionListener(this);
@@ -95,14 +105,15 @@ public class GUI implements ActionListener {
 		textField.setText("");
 
 		// button within panel5
-		panel5.add(label1);
+		panel5.add(topText);
 		panel5.add(panel6);
 		panel6.add(textField);
 		panel6.add(submitWord);
-		panel5.add(label2);
+		panel5.add(middleText);
 		panel5.add(crawlAll);
 		panel5.add(crawlSpecific);
 		panel5.add(sentimentAnalysis);
+		panel5.add(exportData);
 		panel5.add(exit);
 		panel5.add(bottomText);
 
@@ -120,10 +131,36 @@ public class GUI implements ActionListener {
 	public static void main(String[] args) {
 
 		GUI newGUI = new GUI();
-		// new MyFrame();
+		
+		String url;
+		int choice, subChoice;
+		System.out.print("Enter search string: ");
+		String searchString = textField.getText();
+//		url = "https://www.reddit.com/search/?q=" + searchString;
+		//instantiate App object, enabling polymorphism via App methods
+		App crawlerProgram = new App();
+
+		// instantiate redditCrawler
+		Crawler redditCrawler = new RedditCrawler();
+		// instantiate twitterCrawler
+		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
+//		twitterCrawler.twitterStart();
+		//instantiate straits times crawler
+		Crawler straitsCrawler = new STCrawler(50);
+		
+		
+		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
 	}
 
-	@Override
+	//Polymorphism methods
+	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
+		crawler.crawl();
+	}
+	public void exportExcel(Crawler crawler) throws IOException {
+		crawler.exportExcel();
+	}
+	
+
     public void actionPerformed(ActionEvent e) {
 		//if crawl word is empty show error message
 		//if crawl word is not empty, set 
@@ -142,8 +179,13 @@ public class GUI implements ActionListener {
         if(e.getSource()==crawlAll) { 
         	if (searchText == true) {
             bottomText.setText("Crawling Twitter and Reddit");
-            CrawlProgressBar newBar = new CrawlProgressBar();
-            }
+//            while(proceed) {
+//            	crawlerProgram.crawl(twitterCrawler);
+//            	crawlerProgram.crawl(redditCrawler);
+//            	crawlerProgram.crawl(straitsCrawler);
+            	CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
+//            }
+        	}
         	else if (searchText == false) {
         		JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
             }
@@ -170,10 +212,23 @@ public class GUI implements ActionListener {
             }
         }
         //start sentiment analysis
-        else if(e.getSource()==sentimentAnalysis ) {
+        if(e.getSource()==sentimentAnalysis ) {
         	if (searchText == true) {
         		bottomText.setText("Generating Sentiment Analysis");
         		//add in sentiment analysis
+//        		sentimentalAnalysis.Analyze();
+            }
+        	else if (searchText == false) {
+            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        if(e.getSource()==exportData ) {
+        	if (searchText == true) {
+        		bottomText.setText("Exporting Data");
+            	CrawlProgressBar newBar = new CrawlProgressBar("Exporting...");
+        		//add in sentiment analysis
+//        		sentimentalAnalysis.Analyze();
             }
         	else if (searchText == false) {
             	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);

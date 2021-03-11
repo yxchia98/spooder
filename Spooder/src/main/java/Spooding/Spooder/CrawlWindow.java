@@ -92,13 +92,29 @@ public class CrawlWindow implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
 			bottomText.setText("Crawling from Twitter");
-			CrawlProgressBar newBar = new CrawlProgressBar();
+			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
+			
+			//add CrawlTwitter
+//			GUI.crawlerProgram.crawl(twitterCrawler);
+//			WordCloudGenerator wordCloudT = new WordCloudGenerator("twitter.csv");
+//			wordCloudT.generateCloud();
+			
 		} else if (e.getSource() == crawlReddit) {
 			bottomText.setText("Crawling from Reddit");
-			CrawlProgressBar newBar = new CrawlProgressBar();
+			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
+			
+			//add CrawlReddit
+//			GUI.crawlerProgram.crawl(redditCrawler);
+//			WordCloudGenerator wordCloudR = new WordCloudGenerator("reddit.csv");
+//			wordCloudR.generateCloud();
 		} else if (e.getSource() == crawlStraitstimes) {
 			bottomText.setText("Crawl from Straits Times");
-			CrawlProgressBar newBar = new CrawlProgressBar();
+			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
+			
+			//add CrawlStraitsTimes
+//			GUI.crawlerProgram.crawl(straitsCrawler);
+//			WordCloudGenerator wordCloudS = new WordCloudGenerator("straits.csv");
+//			wordCloudS.generateCloud();
 		} else if (e.getSource() == back) {
 			GUI.frameOpen = false;
 			frame.dispose();

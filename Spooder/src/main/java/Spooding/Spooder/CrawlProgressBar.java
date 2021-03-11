@@ -19,14 +19,19 @@ public class CrawlProgressBar implements ActionListener{
 	private JTextArea textArea = new JTextArea();
 	private Task task;
 
+	private String titleString;
+
 
 	//UI setup
-	CrawlProgressBar() {
+	CrawlProgressBar(String titleString) {
+		
+		this.titleString = titleString;
+		
 		fillCounter = 0;
 		crawlBar.setValue(0);
 		crawlBar.setBounds(12, 0, 450, 50);
 		crawlBar.setStringPainted(true);
-		crawlBar.setString("Crawling...");
+		crawlBar.setString(titleString);
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -50,13 +55,6 @@ public class CrawlProgressBar implements ActionListener{
 		panel4.setPreferredSize(new Dimension(50, 50));
 		panel5.setPreferredSize(new Dimension(100, 100));
 		panel6.setPreferredSize(new Dimension(50, 50));
-
-		bottomText = new JLabel();
-		bottomText.setText("Crawling...");
-		bottomText.setForeground(Color.RED);
-		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
-		bottomText.setVerticalAlignment(JLabel.CENTER);
-		bottomText.setHorizontalAlignment(JLabel.CENTER);
 		
 		textArea.setBackground(Color.LIGHT_GRAY);
 		
@@ -65,7 +63,7 @@ public class CrawlProgressBar implements ActionListener{
 
 //New Window
 		frame = new JFrame();
-		frame.setTitle("Crawling...");
+		frame.setTitle(titleString);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 400);
 		//frame.setResizable(true);
@@ -151,40 +149,14 @@ public class CrawlProgressBar implements ActionListener{
 	Timer timer = new Timer(50, new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			fillCounter += 1;
-			System.out.println("test" + fillCounter);
-
 		}
 	});
 	
-//	private void fill() {
-//		while(fillCounter<= 100) { //set the <= to a set variable
-//			crawlBar.setValue(fillCounter);
-////			try {
-////				Thread.sleep(50);
-////			} catch (InterruptedException e) {
-////				// TODO Auto-generated catch block
-////				e.printStackTrace();
-////			}
-////			if(true) {  //set the parameter to something that shows progress
-////			fillCounter += 1; 
-////			System.out.println("test" + fillCounter);
-////			}
-//			timer.start();
+//	public static void main(String[] args) {
 //
-//		}
-//		if(fillCounter >=100) {
-//			timer.stop();
-//			frame.setCursor(null);
-//			close.setEnabled(true);
-//		}
+//		CrawlProgressBar newBar = new CrawlProgressBar("test");
+//
+//		// new MyFrame();
 //	}
-	
-	
-	public static void main(String[] args) {
-
-		CrawlProgressBar newBar = new CrawlProgressBar();
-
-		// new MyFrame();
-	}
 }
 

@@ -15,32 +15,53 @@ import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
-
+/**
+ * Word Cloud Generator Class
+ */
 public class WordCloudGenerator {
 	private String source;
 	private Dimension dimension = new Dimension(600, 600);
-	
+	/**
+	 * Constructor
+	 * @param source input string
+	 */
 	public WordCloudGenerator(String source) {
 		this.source = source;
 	}
-	
+	/**
+	 * Get method to return source
+	 * @return source
+	 */
 	public String getSource() {
 		return source;
 	}
-
+	/**
+	 * Set Method to set source
+	 * @param source input string
+	 */
 	public void setSource(String source) {
 		this.source = source;
 	}
-
+	/**
+	 * Get Method to return dimension size
+	 * @return dimension size
+	 */
 	public Dimension getDimension() {
 		return dimension;
 	}
-	
+	/**
+	 * Method to set the size of image in pixels
+	 * @param width integer value for width in pixels
+	 * @param height integer value for height in pixels
+	 */
 	public void setDimension(int width, int height) {
 		this.dimension.width = width;
 		this.dimension.height = height;
 	}
-
+	/**
+	 * Method to create and save the word cloud image onto disk
+	 * @throws IOException
+	 */
 	public void generateCloud() throws IOException { 
 		final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 		// set word limit
@@ -64,7 +85,11 @@ public class WordCloudGenerator {
 		wordCloud.build(wordFrequencies);
 		wordCloud.writeToFile("wordCloud/twitter_word_cloud.png");
 	}
-
+	/**
+	 * Method to load in stop words from txt file
+	 * @return Array list of stop words
+	 * @throws IOException
+	 */
 	private Collection<String> loadStopWords() throws IOException {
 		Collection<String> stopWords;
 		stopWords = Files.readAllLines(Paths.get("stopWords.txt"));

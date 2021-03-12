@@ -13,7 +13,9 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
-
+/**
+ * Reddit Crawler Class
+ */
 public class RedditCrawler extends Crawler {
 	private String baseUrl;		//baseurl of reddit link based on search string
 	private ArrayList<RedditPost> redditList = new ArrayList<>();	//arraylist to store post objects

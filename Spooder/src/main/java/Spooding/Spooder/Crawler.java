@@ -12,8 +12,16 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import twitter4j.TwitterException;
-
+/**
+ * Crawler Class (implements Exportable Interface)
+ */
 public abstract class Crawler implements Exportable{
+	/**
+	 * Method for initializing crawl function using ChromeDriver
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws TwitterException
+	 */
 	public abstract void crawl() throws IOException, InterruptedException, TwitterException;
 	protected WebDriver initWebDriver() {
 		// Setting system properties of ChromeDriver

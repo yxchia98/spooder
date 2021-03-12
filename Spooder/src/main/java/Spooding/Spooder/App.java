@@ -6,18 +6,39 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import twitter4j.*;
 
-
+/**
+ * Main class for the crawler application
+ */
 public class App {
 	
 	//Polymorphism methods
+	/**
+	 * Method to crawl data based on crawler input
+	 * @param crawler crawler type data variable
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws TwitterException
+	 */
 	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
 		crawler.crawl();
 	}
+	/**
+	 * Method to export data into a .csv file based on crawler input
+	 * @param crawler crawler type data variable
+	 * @throws IOException
+	 */
 	public void exportExcel(Crawler crawler) throws IOException {
 		crawler.exportExcel();
 	}
 	
-	
+	/**
+	 * Main
+	 * @param args
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws TwitterException
+	 * @throws CsvValidationException
+	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = true;
 		String url;

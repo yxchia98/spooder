@@ -20,7 +20,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import org.bson.Document;
-
+/**
+ * Class for Sentimental Analysis using NLP
+ */
 public class SentimentalAnalysis {
 	String[] nextRecord;
 	
@@ -38,6 +40,9 @@ public class SentimentalAnalysis {
 	String negativeString = sentimentData.getNegativeString();
 	String neutralString = sentimentData.getNeutralString();
 	
+	/**
+	 * Constructor
+	 */
 	public SentimentalAnalysis()
 	{
 		
@@ -84,7 +89,9 @@ public class SentimentalAnalysis {
         }
         printSentimentCount();
 	}
-	
+	/**
+	 * Method to print out Sentiment Analysis Data
+	 */
 	public void printSentimentCount()
 	{
 		System.out.println("Number of Positive: " + positiveCounter);

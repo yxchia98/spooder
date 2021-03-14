@@ -68,7 +68,7 @@ public class STCrawler extends Crawler {
 		List<WebElement> nextList;
 		while (list.size() < limit) {
 			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
-			Thread.sleep(500);
+			Thread.sleep(1000);
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
 			for (WebElement listItem : nextList) {
 				postArray.add(new STPost(listItem.getText()));

@@ -25,11 +25,15 @@ public class GUI implements ActionListener {
 	public static boolean frameOpen = false, searchText = false;
 	public static String crawlText = null;
 	
-	static Crawler twitterCrawler, redditCrawler, straitsCrawler;
 	Boolean proceed = true;
+	protected App crawlerProgram;
+	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
 
-	public GUI() {
-
+	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
+		this.crawlerProgram = crawlerProgram;
+		this.redditCrawler = redditCrawler;
+		this.twitterCrawler = twitterCrawler;
+		this.straitsCrawler = straitsCrawler;
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
@@ -128,37 +132,29 @@ public class GUI implements ActionListener {
 
 	}
 
-	public static void main(String[] args) {
-
-		GUI newGUI = new GUI();
-		
-		String url;
-		int choice, subChoice;
-		System.out.print("Enter search string: ");
-		String searchString = textField.getText();
-//		url = "https://www.reddit.com/search/?q=" + searchString;
-		//instantiate App object, enabling polymorphism via App methods
-		App crawlerProgram = new App();
-
-		// instantiate redditCrawler
-		Crawler redditCrawler = new RedditCrawler();
-		// instantiate twitterCrawler
-		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
-//		twitterCrawler.twitterStart();
-		//instantiate straits times crawler
-		Crawler straitsCrawler = new STCrawler(50);
-		
-		
-		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
-	}
-
-	//Polymorphism methods
-	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
-		crawler.crawl();
-	}
-	public void exportExcel(Crawler crawler) throws IOException {
-		crawler.exportExcel();
-	}
+//	public static void main(String[] args) {
+//
+//		GUI newGUI = new GUI();
+//		
+//		String url;
+//		int choice, subChoice;
+//		System.out.print("Enter search string: ");
+//		String searchString = textField.getText();
+////		url = "https://www.reddit.com/search/?q=" + searchString;
+//		//instantiate App object, enabling polymorphism via App methods
+//		App crawlerProgram = new App();
+//
+//		// instantiate redditCrawler
+//		Crawler redditCrawler = new RedditCrawler();
+//		// instantiate twitterCrawler
+//		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
+////		twitterCrawler.twitterStart();
+//		//instantiate straits times crawler
+//		Crawler straitsCrawler = new STCrawler(50);
+//		
+//		
+//		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
+//	}
 	
 
     public void actionPerformed(ActionEvent e) {
@@ -180,9 +176,42 @@ public class GUI implements ActionListener {
         	if (searchText == true) {
             bottomText.setText("Crawling Twitter and Reddit");
 //            while(proceed) {
-//            	crawlerProgram.crawl(twitterCrawler);
-//            	crawlerProgram.crawl(redditCrawler);
-//            	crawlerProgram.crawl(straitsCrawler);
+            	try {
+					crawlerProgram.crawl(twitterCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (TwitterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					crawlerProgram.crawl(redditCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (TwitterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					crawlerProgram.crawl(straitsCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (TwitterException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
 //            }
         	}

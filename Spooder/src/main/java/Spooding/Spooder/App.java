@@ -40,12 +40,12 @@ public class App {
 	 * @throws CsvValidationException
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
-		Boolean proceed = true;
+		Boolean proceed = false;
 		String url;
 		int choice, subChoice;
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter search string: ");
-		String searchString = input.next();
+//		System.out.print("Enter search string: ");
+//		String searchString = input.next();
 //		url = "https://www.reddit.com/search/?q=" + searchString;
 		//instantiate App object, enabling polymorphism via App methods
 		App crawlerProgram = new App();
@@ -53,10 +53,11 @@ public class App {
 		// instantiate redditCrawler
 		Crawler redditCrawler = new RedditCrawler();
 		// instantiate twitterCrawler
-		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
+		Crawler twitterCrawler = new TwitterCrawler("Singapore", 100);
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
+		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
 		
 		
 		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();

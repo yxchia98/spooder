@@ -23,10 +23,8 @@ public class WordCloudGenerator {
 	private Dimension dimension = new Dimension(600, 600);
 	/**
 	 * Constructor
-	 * @param source input string
 	 */
-	public WordCloudGenerator(String source) {
-		this.source = source;
+	public WordCloudGenerator() {
 	}
 	/**
 	 * Get method to return source
@@ -72,7 +70,7 @@ public class WordCloudGenerator {
         frequencyAnalyzer.setStopWords(loadStopWords());
         
         // load the source csv file into the analyzer
-		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(source);
+		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(source + ".csv");
 		// there are 2 collision mode to choose from, PIXEL_PERFECT and RECTANGLE
 		final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 		
@@ -83,7 +81,7 @@ public class WordCloudGenerator {
 		wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 		wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
 		wordCloud.build(wordFrequencies);
-		wordCloud.writeToFile("wordCloud/twitter_word_cloud.png");
+		wordCloud.writeToFile("wordCloud/" + source + "_word_cloud.png");
 	}
 	/**
 	 * Method to load in stop words from txt file

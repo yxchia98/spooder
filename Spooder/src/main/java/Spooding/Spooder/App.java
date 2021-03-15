@@ -40,7 +40,7 @@ public class App {
 	 * @throws CsvValidationException
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
-		Boolean proceed = false;
+		Boolean proceed = true;
 		String url;
 		int choice, subChoice;
 		Scanner input = new Scanner(System.in);
@@ -57,10 +57,11 @@ public class App {
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
-		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
+		//GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
 		
 		
 		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
+		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
 		while (proceed) {
 			System.out.print(
@@ -78,8 +79,6 @@ public class App {
 				switch(subChoice) {
 				case 1:
 					crawlerProgram.crawl(twitterCrawler);
-					WordCloudGenerator wordCloud = new WordCloudGenerator("twitter.csv");
-					wordCloud.generateCloud();
 					break;
 				case 2:
 					crawlerProgram.crawl(redditCrawler);
@@ -95,6 +94,13 @@ public class App {
 				break;
 			case 3:
 				sentimentalAnalysis.Analyze();
+				// generate word cloud for each sources
+				wordCloud.setSource("twitter");
+				wordCloud.generateCloud();
+				wordCloud.setSource("reddit");
+				wordCloud.generateCloud();
+				wordCloud.setSource("straitstimes");
+				wordCloud.generateCloud();
 				break;
 			case 4:
 				System.out.print("\n----------Export Data to CSV----------\n1.Raw data\n2.Data after Sentiment Analysis\nEnter Choice:");

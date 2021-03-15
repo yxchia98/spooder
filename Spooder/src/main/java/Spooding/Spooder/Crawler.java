@@ -13,14 +13,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import twitter4j.TwitterException;
 /**
- * Crawler Class (implements Exportable Interface)
+ * Crawler Class
  */
 public abstract class Crawler implements Exportable{
 	/**
 	 * Method for initializing crawl function using ChromeDriver
-	 * @throws IOException
-	 * @throws InterruptedException
-	 * @throws TwitterException
+	 * @throws IOException Throws exception is related to Input and Output operations
+	 * @throws InterruptedException Throws exception when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 * @throws TwitterException Throws exception when TwitterAPI calls are failed
 	 */
 	public abstract void crawl() throws IOException, InterruptedException, TwitterException;
 	protected WebDriver initWebDriver() {

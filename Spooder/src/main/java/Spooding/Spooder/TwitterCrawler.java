@@ -15,7 +15,7 @@ import com.opencsv.CSVWriter;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 /**
- * Class for Twitter Crawler
+ * Twitter Crawler Class
  */
 public class TwitterCrawler extends Crawler {
 	
@@ -53,21 +53,21 @@ public class TwitterCrawler extends Crawler {
 		return topic;
 	}
 	/**
-	 * Set method to set variable topic
+	 * Set method to set topic variable
 	 * @param topic topic to crawl for
 	 */
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
 	/**
-	 * Get method to get variable count
+	 * Get method to get count variable
 	 * @return number of queries to search for
 	 */
 	public int getCount() {
 		return count;
 	}
 	/**
-	 * Set method to modify variable count
+	 * Set method to modify count variable
 	 * @param count number of queries to search for
 	 */
 	public void setCount(int count) {

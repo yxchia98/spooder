@@ -2,12 +2,12 @@ package Spooding.Spooder;
 
 import java.io.IOException;
 /**
- * Exportable Interface which decides what methods certain classes must contain
+ * Exportable Interface
  */
 public interface Exportable {
 	/**
 	 * Method to export data in to a .csv file type
-	 * @throws IOException
+	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
 	public abstract void exportExcel() throws IOException;
 	/**

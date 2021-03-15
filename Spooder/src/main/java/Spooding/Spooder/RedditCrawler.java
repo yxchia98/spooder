@@ -20,23 +20,37 @@ public class RedditCrawler extends Crawler {
 	private String baseUrl;		//baseurl of reddit link based on search string
 	private ArrayList<RedditPost> redditList = new ArrayList<>();	//arraylist to store post objects
 	private WebDriver driver;
+	/**
+	 * Get Method to return URL
+	 * @return URL
+	 */
 	public String getBaseUrl() {
 		return baseUrl;
 	}
 	
 	//if user wants to crawl from another url
+	/**
+	 * Set Method to modify baseUrl variable
+	 * @param baseUrl URL
+	 */
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-
+	/**
+	 * Method to set default URL if none is provided
+	 */
 	public RedditCrawler() {
 		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 	}
 	
+	/**
+	 * Method???
+	 * @param baseUrl
+	 */
 	public RedditCrawler(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-
+	
 	public void crawl() throws InterruptedException, IOException {
 		driver = initWebDriver();
 //launching the specified URL
@@ -82,6 +96,11 @@ public class RedditCrawler extends Crawler {
 		driver.quit();
 	}
 	
+	/**
+	 * Method to format the votes
+	 * @param votes
+	 * @return vote count after formatting
+	 */
 	private int formatVotes(String votes) {
 		double result;
 		String formattedString;
@@ -116,7 +135,7 @@ public class RedditCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-	
+
 	public void exportMongo() {
 		boolean exist = false;
 		//connect to mongoDB atlas

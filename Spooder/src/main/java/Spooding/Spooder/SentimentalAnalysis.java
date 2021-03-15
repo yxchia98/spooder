@@ -21,7 +21,7 @@ import java.util.*;
 
 import org.bson.Document;
 /**
- * Class for Sentimental Analysis using NLP
+ * Sentimental Analysis Class using NLP
  */
 public class SentimentalAnalysis {
 	String[] nextRecord;
@@ -47,7 +47,11 @@ public class SentimentalAnalysis {
 	{
 		
 	}
-	
+	/**
+	 * Method to perform Sentiment Analysis
+	 * @throws IOException Throws exception is related to Input and Output operations
+	 * @throws CsvValidationException Exception thrown by a LineValidator or LineValidatorAggregator when a single line is invalid.
+	 */
 	public void Analyze() throws IOException, CsvValidationException
 	{
 		

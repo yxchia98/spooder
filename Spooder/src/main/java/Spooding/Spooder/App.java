@@ -7,7 +7,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import twitter4j.*;
 
 /**
- * Main class for the crawler application
+ * Main Class for the crawler application
  */
 public class App {
 	
@@ -15,9 +15,9 @@ public class App {
 	/**
 	 * Method to crawl data based on crawler input
 	 * @param crawler crawler type data variable
-	 * @throws IOException
-	 * @throws InterruptedException
-	 * @throws TwitterException
+	 * @throws IOException Throws exception is related to Input and Output operations
+	 * @throws InterruptedException Throws exception when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 * @throws TwitterException Throws exception when TwitterAPI calls are failed
 	 */
 	public void crawl(Crawler crawler) throws IOException, InterruptedException, TwitterException {
 		crawler.crawl();
@@ -25,7 +25,7 @@ public class App {
 	/**
 	 * Method to export data into a .csv file based on crawler input
 	 * @param crawler crawler type data variable
-	 * @throws IOException
+	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
 	public void exportExcel(Crawler crawler) throws IOException {
 		crawler.exportExcel();
@@ -33,11 +33,11 @@ public class App {
 	
 	/**
 	 * Main
-	 * @param args
-	 * @throws IOException
-	 * @throws InterruptedException
-	 * @throws TwitterException
-	 * @throws CsvValidationException
+	 * @param args arguments
+	 * @throws IOException Throws exception is related to Input and Output operations
+	 * @throws InterruptedException Throws exception when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
+	 * @throws TwitterException Throws exception when TwitterAPI calls are failed
+	 * @throws CsvValidationException Exception thrown by a LineValidator or LineValidatorAggregator when a single line is invalid.
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = true;

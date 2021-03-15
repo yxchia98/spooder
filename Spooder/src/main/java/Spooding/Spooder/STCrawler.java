@@ -16,33 +16,52 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
 import twitter4j.TwitterException;
-
+/**
+ * Straits Times Crawler Class
+ */
 public class STCrawler extends Crawler {
 	private String baseUrl = "https://www.straitstimes.com/tags/budget-2021";
 	private int limit = 50;
 	private ArrayList<STPost> postArray = new ArrayList<>();
 	private WebDriver driver;
-
+	/**
+	 * Method???
+	 */
 	public STCrawler() {
 		this.driver = initWebDriver();
 	}
-
+	/**
+	 * Method???
+	 * @param limit
+	 */
 	public STCrawler(int limit) {
 		this.limit = limit;
 	}
-
+	/**
+	 * Get Method to return URL
+	 * @return URL
+	 */
 	public String getBaseUrl() {
 		return baseUrl;
 	}
-
+	/**
+	 * Set Method to modify baseUrl variable
+	 * @param baseUrl URL
+	 */
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-
+	/**
+	 * Get Method to return limit variable
+	 * @return Limit
+	 */
 	public int getLimit() {
 		return limit;
 	}
-
+	/**
+	 * Set method to modify limit variable
+	 * @param limit Limit
+	 */
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}

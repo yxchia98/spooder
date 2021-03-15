@@ -58,7 +58,7 @@ public class WordCloudGenerator {
 	}
 	/**
 	 * Method to create and save the word cloud image onto disk
-	 * @throws IOException
+	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
 	public void generateCloud() throws IOException { 
 		final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -84,7 +84,7 @@ public class WordCloudGenerator {
 		wordCloud.writeToFile("wordCloud/" + source + "_word_cloud.png");
 	}
 	/**
-	 * Method to load in stop words from txt file
+	 * Method to load in stop words from .txt file
 	 * @return Array list of stop words
 	 * @throws IOException
 	 */

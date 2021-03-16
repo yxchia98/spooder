@@ -8,6 +8,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.*;
 
 public abstract class MongoConnect {
 	/**
@@ -95,7 +96,7 @@ public abstract class MongoConnect {
 	
 	/**
 	 * Connects to the sentiment collection of MongoDB and extracts out individual documents into
-	 * SentimentPost objects, whereby they're stored into a array lis
+	 * SentimentPost objects, whereby they're stored into a array list
 	 * @return ArrayList of SentimentPost objects.
 	 */
 	protected ArrayList<SentimentPost> importSentimentMongo(){
@@ -107,6 +108,26 @@ public abstract class MongoConnect {
 		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
         System.out.println("Connected to MongoDB");
         for (Document doc : collection.find()) {
+            list.add(new SentimentPost(doc.get("Title").toString(), doc.get("Sentiment").toString(), doc.getString("Source").toString()));
+        }
+        mongoClient.close();
+        return list;
+    }
+	/**
+	 * Connects to the sentiment collection of MongoDB and extracts out individual documents, based on their source into
+	 * SentimentPost objects, whereby they're stored into a array list
+	 * @param source source type to be extracted
+	 * @return ArrayList of SentimentPost objects according to source type
+	 */
+	protected ArrayList<SentimentPost> importSentimentMongo(String source){
+        ArrayList<SentimentPost> list = new ArrayList<>();
+        //connect to mongoDB atlas
+        MongoClient mongoClient = MongoClients.create(
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+        MongoDatabase database = mongoClient.getDatabase("spooder");
+		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
+        System.out.println("Connected to MongoDB");
+        for (Document doc : collection.find(eq("Source", source))) {
             list.add(new SentimentPost(doc.get("Title").toString(), doc.get("Sentiment").toString(), doc.getString("Source").toString()));
         }
         mongoClient.close();

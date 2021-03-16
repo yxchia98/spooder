@@ -58,16 +58,17 @@ public class App {
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
-		//GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
+
 		
 		SentimentalAnalysis redditAnalysis = new SentimentalAnalysis();
 		SentimentalAnalysis twitterAnalysis = new SentimentalAnalysis();
 		SentimentalAnalysis straitsTimeAnalysis = new SentimentalAnalysis();
 		
-		SentimentPost allData = new SentimentPost();
-		ArrayList<SentimentPost> data = new ArrayList<>();
+		SentimentData allData = new SentimentData();
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
+
+        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
 
 		while (proceed) {
 			System.out.print(
@@ -104,18 +105,16 @@ public class App {
 				analysisChoice = input.nextInt();
 				switch(analysisChoice) {
 				case 1:
-					redditAnalysis.Analyze("reddit.csv", "Reddit");
-					twitterAnalysis.Analyze("twitter.csv", "Twitter");
-					straitsTimeAnalysis.Analyze("straitstimes.csv", "Straits Time");
+					redditAnalysis.Analyze(allData.getAllData(),"All Sources");
 					break;
 				case 2:
-					redditAnalysis.Analyze("reddit.csv", "Reddit");
+					redditAnalysis.Analyze(allData.getRedditData(), "Reddit");
 					break;
 				case 3:
-					twitterAnalysis.Analyze("twitter.csv", "Twitter");
+					twitterAnalysis.Analyze(allData.getTwitterData(), "Twitter");
 					break;
 				case 4:
-					straitsTimeAnalysis.Analyze("straitstimes.csv", "Straits Time");
+					straitsTimeAnalysis.Analyze(allData.getSTData(), "Straits Time");
 					break;
 				case 5:
 					break;
@@ -123,12 +122,12 @@ public class App {
 					break;
 				}
 				// generate word cloud for each sources
-				wordCloud.setSource("twitter");
-				wordCloud.generateCloud();
-				wordCloud.setSource("reddit");
-				wordCloud.generateCloud();
-				wordCloud.setSource("straitstimes");
-				wordCloud.generateCloud();
+				//wordCloud.setSource("twitter");
+				//wordCloud.generateCloud();
+				//wordCloud.setSource("reddit");
+				//wordCloud.generateCloud();
+				//wordCloud.setSource("straitstimes");
+				//wordCloud.generateCloud();
 				break;
 			case 4:
 				System.out.print("\n----------Export Data to CSV----------\n1.Raw data\n2.Data after Sentiment Analysis\nEnter Choice:");

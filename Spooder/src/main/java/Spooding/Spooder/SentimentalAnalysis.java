@@ -6,10 +6,6 @@ import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 //OpenCSV reader library
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -18,8 +14,6 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-
-import org.bson.Document;
 
 /**
  * Sentimental Analysis Class using NLP
@@ -65,12 +59,9 @@ public class SentimentalAnalysis extends MongoConnect {
 	 *                                LineValidatorAggregator when a single line is
 	 *                                invalid.
 	 */
-	public void Analyze(String CSVFileName, String dataset)
+	public void Analyze(ArrayList<SentimentPost> dataList, String source)
 			throws IOException, CsvValidationException, InterruptedException {
 
-		FileReader reader = new FileReader(CSVFileName, StandardCharsets.UTF_8);
-		@SuppressWarnings("resource")
-		CSVReader csvReader = new CSVReader(reader);
 
 		pipelineProps.setProperty("annotators", "parse, sentiment");
 		pipelineProps.setProperty("parse.binaryTrees", "true");
@@ -80,19 +71,23 @@ public class SentimentalAnalysis extends MongoConnect {
 		StanfordCoreNLP tokenizer = new StanfordCoreNLP(tokenizerProps);
 		StanfordCoreNLP pipeline = new StanfordCoreNLP(pipelineProps);
 
+		ArrayList<SentimentPost> tempList = new ArrayList<SentimentPost>(dataList);
+		
+		String dataSource = post.getSource();
+
 		// String testLine = "I love programming";
-		System.out.println("Sentimental Analysis from " + dataset);
-		while ((nextRecord = csvReader.readNext()) != null) {
+		System.out.println("Sentimental Analysis from " + source);
+		for (int i = 0; i < tempList.size(); i++) {
 			sentimentCounter++;
-			tempRecord = nextRecord.clone();
-			tempRecord[0] = tempRecord[0].replaceAll("[^A-Za-z0-9]"," ");
-			Annotation annotation = tokenizer.process(tempRecord[0]);
+			String titles = tempList.get(i).getTitle();
+			titles = titles.replaceAll("[^A-Za-z0-9]"," ");
+			Annotation annotation = tokenizer.process(titles);
 			pipeline.annotate(annotation);
 
 			for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
 				
 				String output = sentence.get(SentimentCoreAnnotations.SentimentClass.class);
-				System.out.println(nextRecord[0]);
+				System.out.println(dataList.get(i).getTitle());
 				System.out.println(sentimentCounter + " " + output);
 
 				if (output.equals(positiveString) == true)
@@ -106,13 +101,15 @@ public class SentimentalAnalysis extends MongoConnect {
 				if (output.equals(veryNegativeString) == true)
 					veryNegativeCounter += 1;
 
-				SentimentPost post = new SentimentPost(nextRecord[0], output, dataset);
+				SentimentPost post = new SentimentPost(dataList.get(i).getTitle(), output, dataList.get(i).getSource());
 				data.add(post);
 			}
 		}
-
+		
+		if (source.equals("All Sources"))
+			exportSentimentMongo(data);
 		Thread.sleep(1000);
-		System.out.println("\nSentiment count from " + CSVFileName + "\n");
+		System.out.println("\nSentiment count from " + source + "\n");
 		printSentimentCount();
 	}
 

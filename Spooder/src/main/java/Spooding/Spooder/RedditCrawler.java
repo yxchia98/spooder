@@ -31,6 +31,7 @@ public class RedditCrawler extends Crawler {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
+	
 	/**
 	 * Method to set default URL if none is provided
 	 */
@@ -49,6 +50,7 @@ public class RedditCrawler extends Crawler {
 	public void crawl() throws InterruptedException, IOException {
 		driver = initWebDriver();
 //launching the specified URL
+		CrawlProgressBar redditBar = new CrawlProgressBar("Crawling Reddit...","crawlReddit");
 		System.out.println("Crawling from reddit...");
 		driver.get(getBaseUrl());
 		System.out.println("Website reached.");
@@ -74,6 +76,7 @@ public class RedditCrawler extends Crawler {
 		exportRedditMongo(redditList);
 		driver.close();
 		driver.quit();
+		redditBar.close.setEnabled(true);
 	}
 	
 	/**
@@ -100,6 +103,7 @@ public class RedditCrawler extends Crawler {
 	}
 
 	public void exportExcel() throws IOException {
+		redditList = importRedditMongo();
 		if (redditList.isEmpty()) {
 			System.out.println("No reddit data to export");
 			return;

@@ -8,12 +8,14 @@ import java.util.Random;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
+import Spooding.Spooder.ProgressBarDemo.Task;
+
 public class CrawlProgressBar implements ActionListener{
 	JProgressBar crawlBar = new JProgressBar(); //values are the min and max value of progress
 	private static int fillCounter = 0;
 	private int maxValue;
 
-	private JButton close;
+	JButton close;
 	private JFrame frame = new JFrame();
 	private JPanel panel1, panel2, panel3, panel4, panel5,panel6;
 	private JLabel topText, bottomText;
@@ -61,6 +63,7 @@ public class CrawlProgressBar implements ActionListener{
 		crawlBar.setBounds(12, 0, 450, 50);
 		crawlBar.setStringPainted(true);
 		crawlBar.setString(titleString);
+		crawlBar.setIndeterminate(true);
 		
 		
 		JPanel panel1 = new JPanel();
@@ -136,15 +139,16 @@ public class CrawlProgressBar implements ActionListener{
 		//fill(); //fill method
 		crawlBar.setIndeterminate(true);
 		
-		task = new Task();
-		task.execute();
-		
+        task = new Task();
+        task.execute();
+
 	}
     class Task extends SwingWorker<Void, Void> {
     	
         /*
          * Main task. Executed in background thread.
          */
+    	@Override
         public Void doInBackground() {
            crawlBar.setIndeterminate(false);
             //Initialize progress property.
@@ -164,10 +168,12 @@ public class CrawlProgressBar implements ActionListener{
             
         }
 
-        /*
+
+		/*
          * Executed in event dispatching thread
          */
         public void done() {
+        	
             frame.setCursor(null); //turn off the wait cursor
             textArea.append("Done!\n");
         }
@@ -195,6 +201,13 @@ public class CrawlProgressBar implements ActionListener{
 	
 	public void setTextArea(String text) {
 		textArea.append(text);
+	}
+	
+	public void setBarMax(int max) {
+		crawlBar.setMaximum(max);
+	}
+	public void setFrameTitle(String title) {
+		frame.setTitle(title);
 	}
 }
 

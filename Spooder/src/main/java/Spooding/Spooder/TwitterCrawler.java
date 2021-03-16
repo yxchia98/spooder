@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
+import edu.stanford.nlp.tagger.io.TaggedFileRecord.Format;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 /**
@@ -27,6 +28,7 @@ public class TwitterCrawler extends Crawler {
 	private String topic;
 	private int count;
 	private ArrayList<TwitterPost> twitterList = new ArrayList<>();
+
 	
 	/**
 	 * Constructor for the TwitterCrawler Class
@@ -110,8 +112,15 @@ public class TwitterCrawler extends Crawler {
 	 * @throws IOException exception regarding input/output
 	 */
 	public void printTweet(QueryResult r) throws IOException {
-
+		CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling Twitter...","crawlTwitter");
 		for (Status s: r.getTweets()) {
+			String text = String.format("At %s, @%-15s :  %s\n",
+								  s.getCreatedAt().toString(),
+								  s.getUser().getScreenName(),
+								  cleanString(s.getText()));
+			
+			twitterBar.setTextArea(text);
+			
 			System.out.printf("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),
@@ -121,6 +130,8 @@ public class TwitterCrawler extends Crawler {
 			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
 			this.twitterList.add(currentTweet);
 		}
+		twitterBar.crawlBar.setIndeterminate(false);
+		twitterBar.close.setEnabled(true);
 	}
 	
 	/**
@@ -150,6 +161,7 @@ public class TwitterCrawler extends Crawler {
 	 * Method to export data in to a .csv file type
 	 */
 	public void exportExcel() throws IOException {
+		twitterList = importTwitterMongo();
 		if (twitterList.isEmpty()) {
 			System.out.println("No twitter data to export");
 			return;
@@ -167,36 +179,4 @@ public class TwitterCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-	/**
-	 * Method to export data into MongoDB
-	 */
-//	public void exportMongo() {
-//		boolean exist = false;
-//		//connect to mongoDB atlas
-//		MongoClient mongoClient = MongoClients.create(
-//				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-//		MongoDatabase database = mongoClient.getDatabase("spooder");
-//		//check if specified collection is in database
-//		for (String name : database.listCollectionNames()){
-//			if (name.equals("twitter")) {
-//				exist = true;
-//			}
-//		}
-//		if (!exist) {
-//			database.createCollection("twitter");
-//			System.out.println("twitter collection created.");
-//		}
-//		MongoCollection<Document> collection = database.getCollection("twitter");
-//		//first clear all documents in collection, to avoid duplications from multiple crawls
-//		collection.deleteMany(new Document());
-//		System.out.println("Connected to MongoDB");
-//		for (TwitterPost post : twitterList) {
-//			Document doc = new Document();
-//			doc.append("Title", post.getTitle());
-//			doc.append("User", post.getUser());
-//			collection.insertOne(doc);
-//		}
-//		mongoClient.close();
-//
-//	}
 }

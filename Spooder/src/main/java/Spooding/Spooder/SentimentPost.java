@@ -1,6 +1,5 @@
 package Spooding.Spooder;
 
-import java.util.*;
 
 public class SentimentPost {
 	private String title;

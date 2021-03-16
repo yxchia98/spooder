@@ -102,7 +102,7 @@ public class CrawlWindow implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
 			bottomText.setText("Crawling from Twitter");
-			CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling...","crawlTwitter");
+			//CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling...","crawlTwitter");
         	try {
 				crawlerProgram.crawl(twitterCrawler);
 			} catch (IOException e1) {
@@ -122,7 +122,7 @@ public class CrawlWindow implements ActionListener {
 			
 		} else if (e.getSource() == crawlReddit) {
 			bottomText.setText("Crawling from Reddit");
-			CrawlProgressBar redditBar = new CrawlProgressBar("Crawling...","crawlReddit");
+			//CrawlProgressBar redditBar = new CrawlProgressBar("Crawling...","crawlReddit");
         	try {
 				crawlerProgram.crawl(redditCrawler);
 			} catch (IOException e1) {
@@ -141,7 +141,7 @@ public class CrawlWindow implements ActionListener {
 //			wordCloudR.generateCloud();
 		} else if (e.getSource() == crawlStraitstimes) {
 			bottomText.setText("Crawl from Straits Times");
-			CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling...","crawlStraitstimes");
+			//CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling...","crawlStraitstimes");
         	try {
 				crawlerProgram.crawl(straitsCrawler);
 			} catch (IOException e1) {

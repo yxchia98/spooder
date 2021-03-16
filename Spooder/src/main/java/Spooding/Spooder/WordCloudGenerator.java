@@ -94,7 +94,7 @@ public class WordCloudGenerator extends MongoConnect {
             }	
         }
         
-        // load the source csv file into the analyzer
+        // load the data source from mongodb into the analyzer
 		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(dataList);
 		// there are 2 collision mode to choose from, PIXEL_PERFECT and RECTANGLE
 		final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);

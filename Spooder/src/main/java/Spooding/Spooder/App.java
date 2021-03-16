@@ -79,6 +79,13 @@ public class App {
 				crawlerProgram.crawl(twitterCrawler);
 				crawlerProgram.crawl(redditCrawler);
 				crawlerProgram.crawl(straitsCrawler);
+				// generate word cloud for each sources
+				wordCloud.setSource("twitter");
+				wordCloud.generateCloud();
+				wordCloud.setSource("reddit");
+				wordCloud.generateCloud();
+				wordCloud.setSource("straitstimes");
+				wordCloud.generateCloud();
 				break;
 			case 2:
 				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. Crawl from Straits Times\n4. Return\nEnter Choice: ");
@@ -86,12 +93,18 @@ public class App {
 				switch(subChoice) {
 				case 1:
 					crawlerProgram.crawl(twitterCrawler);
+					wordCloud.setSource("twitter");
+					wordCloud.generateCloud();
 					break;
 				case 2:
 					crawlerProgram.crawl(redditCrawler);
+					wordCloud.setSource("reddit");
+					wordCloud.generateCloud();
 					break;
 				case 3:
 					crawlerProgram.crawl(straitsCrawler);
+					wordCloud.setSource("straitstimes");
+					wordCloud.generateCloud();
 					break;
 				case 4:
 					break;
@@ -121,13 +134,6 @@ public class App {
 				default:
 					break;
 				}
-				// generate word cloud for each sources
-				//wordCloud.setSource("twitter");
-				//wordCloud.generateCloud();
-				//wordCloud.setSource("reddit");
-				//wordCloud.generateCloud();
-				//wordCloud.setSource("straitstimes");
-				//wordCloud.generateCloud();
 				break;
 			case 4:
 				System.out.print("\n----------Export Data to CSV----------\n1.Raw data\n2.Data after Sentiment Analysis\nEnter Choice:");

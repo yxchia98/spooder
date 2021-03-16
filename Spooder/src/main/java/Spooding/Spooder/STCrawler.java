@@ -63,7 +63,9 @@ public class STCrawler extends Crawler {
 
 	public void crawl() throws IOException, InterruptedException, TwitterException {
 //launching the specified URL
+		
 		driver = initWebDriver();
+		CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling The Straits Times...","crawlStraitstimes");
 		System.out.println("Crawling from straits times...");
 		driver.get(getBaseUrl());
 		System.out.println("Website reached.");

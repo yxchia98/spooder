@@ -50,6 +50,7 @@ public class RedditCrawler extends Crawler {
 	public void crawl() throws InterruptedException, IOException {
 		driver = initWebDriver();
 //launching the specified URL
+		CrawlProgressBar redditBar = new CrawlProgressBar("Crawling Reddit...","crawlReddit");
 		System.out.println("Crawling from reddit...");
 		driver.get(getBaseUrl());
 		System.out.println("Website reached.");

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.opencsv.CSVWriter;
 
+import edu.stanford.nlp.tagger.io.TaggedFileRecord.Format;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 /**
@@ -27,6 +28,7 @@ public class TwitterCrawler extends Crawler {
 	private String topic;
 	private int count;
 	private ArrayList<TwitterPost> twitterList = new ArrayList<>();
+
 	
 	/**
 	 * Constructor for the TwitterCrawler Class
@@ -110,8 +112,15 @@ public class TwitterCrawler extends Crawler {
 	 * @throws IOException exception regarding input/output
 	 */
 	public void printTweet(QueryResult r) throws IOException {
-
+		CrawlProgressBar newBar = new CrawlProgressBar("Crawling Twitter...","crawlTwitter");
 		for (Status s: r.getTweets()) {
+			String text = String.format("At %s, @%-15s :  %s\n",
+								  s.getCreatedAt().toString(),
+								  s.getUser().getScreenName(),
+								  cleanString(s.getText()));
+			
+			newBar.setTextArea(text);
+			
 			System.out.printf("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),

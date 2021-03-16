@@ -154,7 +154,7 @@ public class GUI implements ActionListener {
         if(e.getSource()==crawlAll) { 
         	if (searchText == true) {
             bottomText.setText("Crawling Twitter and Reddit");
-            CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
+            //CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
             	try {
 					crawlerProgram.crawl(twitterCrawler);
 				} catch (IOException e1) {

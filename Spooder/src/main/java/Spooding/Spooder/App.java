@@ -58,7 +58,7 @@ public class App {
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
-		//GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
+
 		
 		SentimentalAnalysis redditAnalysis = new SentimentalAnalysis();
 		SentimentalAnalysis twitterAnalysis = new SentimentalAnalysis();
@@ -68,6 +68,8 @@ public class App {
 		ArrayList<SentimentPost> data = new ArrayList<>();
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
+		
+		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
 
 		while (proceed) {
 			System.out.print(

@@ -1,5 +1,5 @@
 package Spooding.Spooder;
-
+ 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,45 +7,38 @@ import java.beans.*;
 import java.util.Random;
 
 public class ProgressBarDemo extends JPanel
-                             implements ActionListener, 
-                                        PropertyChangeListener {
+                                 implements ActionListener,
+                                            PropertyChangeListener {
 
-    private JProgressBar progressBar;
+    private ProgressMonitor progressMonitor;
     private JButton startButton;
     private JTextArea taskOutput;
     private Task task;
-    
+
     class Task extends SwingWorker<Void, Void> {
-        /*
-         * Main task. Executed in background thread.
-         */
         @Override
         public Void doInBackground() {
             Random random = new Random();
             int progress = 0;
-            //Initialize progress property.
             setProgress(0);
-            while (progress < 100) {
-                //Sleep for up to one second.
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ignore) {}
-                //Make random progress.
-                progress += random.nextInt(10);
-                setProgress(Math.min(progress, 100));
-            }
+            try {
+                Thread.sleep(1000);
+                while (progress < 100 && !isCancelled()) {
+                    //Sleep for up to one second.
+                    Thread.sleep(random.nextInt(1000));
+                    //Make random progress.
+                    progress += random.nextInt(10);
+                    setProgress(Math.min(progress, 100));
+                }
+            } catch (InterruptedException ignore) {}
             return null;
         }
 
-        /*
-         * Executed in event dispatching thread
-         */
         @Override
         public void done() {
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
-            setCursor(null); //turn off the wait cursor
-            taskOutput.append("Done!\n");
+            progressMonitor.setProgress(0);
         }
     }
 
@@ -57,57 +50,64 @@ public class ProgressBarDemo extends JPanel
         startButton.setActionCommand("start");
         startButton.addActionListener(this);
 
-        progressBar = new JProgressBar(0, 100);
-        progressBar.setValue(0);
-        progressBar.setStringPainted(true);
-
         taskOutput = new JTextArea(5, 20);
         taskOutput.setMargin(new Insets(5,5,5,5));
         taskOutput.setEditable(false);
 
-        JPanel panel = new JPanel();
-        panel.add(startButton);
-        panel.add(progressBar);
-
-        add(panel, BorderLayout.PAGE_START);
+        add(startButton, BorderLayout.PAGE_START);
         add(new JScrollPane(taskOutput), BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
     }
 
+
     /**
      * Invoked when the user presses the start button.
      */
     public void actionPerformed(ActionEvent evt) {
-        startButton.setEnabled(false);
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        //Instances of javax.swing.SwingWorker are not reusuable, so
-        //we create new instances as needed.
+        progressMonitor = new ProgressMonitor(ProgressBarDemo.this,
+                                  "Running a Long Task",
+                                  "", 0, 100);
+        progressMonitor.setProgress(0);
         task = new Task();
         task.addPropertyChangeListener(this);
         task.execute();
+        startButton.setEnabled(false);
     }
 
     /**
      * Invoked when task's progress property changes.
      */
     public void propertyChange(PropertyChangeEvent evt) {
-        if ("progress" == evt.getPropertyName()) {
+        if ("progress" == evt.getPropertyName() ) {
             int progress = (Integer) evt.getNewValue();
-            progressBar.setValue(progress);
-            taskOutput.append(String.format(
-                    "Completed %d%% of task.\n", task.getProgress()));
-        } 
+            progressMonitor.setProgress(progress);
+            String message =
+                String.format("Completed %d%%.\n", progress);
+            progressMonitor.setNote(message);
+            taskOutput.append(message);
+            if (progressMonitor.isCanceled() || task.isDone()) {
+                Toolkit.getDefaultToolkit().beep();
+                if (progressMonitor.isCanceled()) {
+                    task.cancel(true);
+                    taskOutput.append("Task canceled.\n");
+                } else {
+                    taskOutput.append("Task completed.\n");
+                }
+                startButton.setEnabled(true);
+            }
+        }
+
     }
 
-
     /**
-     * Create the GUI and show it. As with all GUI code, this must run
-     * on the event-dispatching thread.
+     * Create the GUI and show it.  For thread safety,
+     * this method should be invoked from the
+     * event-dispatching thread.
      */
-    public static void createAndShowGUI() {
+    private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("ProgressBarDemo");
+        JFrame frame = new JFrame("ProgressMonitorDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.

@@ -7,8 +7,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
+
+import twitter4j.TwitterException;
 
 public class CrawlWindow implements ActionListener {
 
@@ -17,7 +20,14 @@ public class CrawlWindow implements ActionListener {
 	private JPanel panel1, panel2, panel3, panel4, panel5;
 	private JLabel topText, bottomText;
 
-	CrawlWindow() {
+	protected App crawlerProgram;
+	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
+	CrawlWindow(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
+		this.crawlerProgram = crawlerProgram;
+		this.redditCrawler = redditCrawler;
+		this.twitterCrawler = twitterCrawler;
+		this.straitsCrawler = straitsCrawler;
+		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel();
@@ -92,8 +102,19 @@ public class CrawlWindow implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
 			bottomText.setText("Crawling from Twitter");
-			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
-			
+			CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling...","crawlTwitter");
+        	try {
+				crawlerProgram.crawl(twitterCrawler);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (TwitterException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//add CrawlTwitter
 //			GUI.crawlerProgram.crawl(twitterCrawler);
 //			WordCloudGenerator wordCloudT = new WordCloudGenerator("twitter.csv");
@@ -101,16 +122,38 @@ public class CrawlWindow implements ActionListener {
 			
 		} else if (e.getSource() == crawlReddit) {
 			bottomText.setText("Crawling from Reddit");
-			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
-			
+			CrawlProgressBar redditBar = new CrawlProgressBar("Crawling...","crawlReddit");
+        	try {
+				crawlerProgram.crawl(redditCrawler);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (TwitterException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//add CrawlReddit
 //			GUI.crawlerProgram.crawl(redditCrawler);
 //			WordCloudGenerator wordCloudR = new WordCloudGenerator("reddit.csv");
 //			wordCloudR.generateCloud();
 		} else if (e.getSource() == crawlStraitstimes) {
 			bottomText.setText("Crawl from Straits Times");
-			CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
-			
+			CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling...","crawlStraitstimes");
+        	try {
+				crawlerProgram.crawl(straitsCrawler);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (TwitterException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			//add CrawlStraitsTimes
 //			GUI.crawlerProgram.crawl(straitsCrawler);
 //			WordCloudGenerator wordCloudS = new WordCloudGenerator("straits.csv");

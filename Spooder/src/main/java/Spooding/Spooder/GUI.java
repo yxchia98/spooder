@@ -28,12 +28,16 @@ public class GUI implements ActionListener {
 	Boolean proceed = true;
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
+	protected SentimentalAnalysis sentimentalAnalysis;
+	protected WordCloudGenerator wordCloud;
 
-	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
+	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,SentimentalAnalysis sentimentalAnalysis,WordCloudGenerator wordCloud ) {
 		this.crawlerProgram = crawlerProgram;
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
+		this.sentimentalAnalysis = sentimentalAnalysis;
+		this.wordCloud =wordCloud;
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
@@ -130,32 +134,7 @@ public class GUI implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-	}
-
-//	public static void main(String[] args) {
-//
-//		GUI newGUI = new GUI();
-//		
-//		String url;
-//		int choice, subChoice;
-//		System.out.print("Enter search string: ");
-//		String searchString = textField.getText();
-////		url = "https://www.reddit.com/search/?q=" + searchString;
-//		//instantiate App object, enabling polymorphism via App methods
-//		App crawlerProgram = new App();
-//
-//		// instantiate redditCrawler
-//		Crawler redditCrawler = new RedditCrawler();
-//		// instantiate twitterCrawler
-//		Crawler twitterCrawler = new TwitterCrawler(searchString, 100);
-////		twitterCrawler.twitterStart();
-//		//instantiate straits times crawler
-//		Crawler straitsCrawler = new STCrawler(50);
-//		
-//		
-//		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
-//	}
-	
+	}	
 
     public void actionPerformed(ActionEvent e) {
 		//if crawl word is empty show error message
@@ -175,7 +154,7 @@ public class GUI implements ActionListener {
         if(e.getSource()==crawlAll) { 
         	if (searchText == true) {
             bottomText.setText("Crawling Twitter and Reddit");
-//            while(proceed) {
+            CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
             	try {
 					crawlerProgram.crawl(twitterCrawler);
 				} catch (IOException e1) {
@@ -212,8 +191,7 @@ public class GUI implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            	CrawlProgressBar newBar = new CrawlProgressBar("Crawling...");
-//            }
+            	
         	}
         	else if (searchText == false) {
         		JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
@@ -228,7 +206,7 @@ public class GUI implements ActionListener {
         if(e.getSource()==crawlSpecific) {
         	//if search text and frame not open
         	if (searchText == true && frameOpen == false) {
-        		CrawlWindow crawlWindow = new CrawlWindow();
+        		CrawlWindow crawlWindow = new CrawlWindow(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
             	frameOpen = true;
             	bottomText.setText("Crawling Specific");
             }
@@ -244,8 +222,30 @@ public class GUI implements ActionListener {
         if(e.getSource()==sentimentAnalysis ) {
         	if (searchText == true) {
         		bottomText.setText("Generating Sentiment Analysis");
-        		//add in sentiment analysis
-//        		sentimentalAnalysis.Analyze();
+        		wordCloud.setSource("twitter");
+				try {
+					
+					wordCloud.generateCloud();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				wordCloud.setSource("reddit");
+				try {
+					
+					wordCloud.generateCloud();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				wordCloud.setSource("straitstimes");
+				try {
+					
+					wordCloud.generateCloud();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         	else if (searchText == false) {
             	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
@@ -255,7 +255,25 @@ public class GUI implements ActionListener {
         if(e.getSource()==exportData ) {
         	if (searchText == true) {
         		bottomText.setText("Exporting Data");
-            	CrawlProgressBar newBar = new CrawlProgressBar("Exporting...");
+				try {
+					crawlerProgram.exportExcel(twitterCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					crawlerProgram.exportExcel(redditCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					crawlerProgram.exportExcel(straitsCrawler);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	CrawlProgressBar newBar = new CrawlProgressBar("Exporting...","export");
         		//add in sentiment analysis
 //        		sentimentalAnalysis.Analyze();
             }

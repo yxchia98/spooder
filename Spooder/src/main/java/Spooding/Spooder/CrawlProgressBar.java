@@ -186,15 +186,22 @@ public class CrawlProgressBar implements ActionListener{
 //		}
 //	});
 	
-	public static void main(String[] args) {
-
-		CrawlProgressBar newBar = new CrawlProgressBar("test","crawlAll");
-
-		// new MyFrame();
-	}
+//	public static void main(String[] args) {
+//
+//		CrawlProgressBar newBar = new CrawlProgressBar("test","crawlAll");
+//
+//		// new MyFrame();
+//	}
 	
 	public void setTextArea(String text) {
 		textArea.append(text);
+	}
+	
+	public void setBarMax(int max) {
+		crawlBar.setMaximum(max);
+	}
+	public void setFrameTitle(String title) {
+		frame.setTitle(title);
 	}
 }
 

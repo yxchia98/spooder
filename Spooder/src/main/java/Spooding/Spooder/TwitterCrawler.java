@@ -150,6 +150,7 @@ public class TwitterCrawler extends Crawler {
 	 * Method to export data in to a .csv file type
 	 */
 	public void exportExcel() throws IOException {
+		twitterList = importTwitterMongo();
 		if (twitterList.isEmpty()) {
 			System.out.println("No twitter data to export");
 			return;
@@ -167,36 +168,4 @@ public class TwitterCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-	/**
-	 * Method to export data into MongoDB
-	 */
-//	public void exportMongo() {
-//		boolean exist = false;
-//		//connect to mongoDB atlas
-//		MongoClient mongoClient = MongoClients.create(
-//				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-//		MongoDatabase database = mongoClient.getDatabase("spooder");
-//		//check if specified collection is in database
-//		for (String name : database.listCollectionNames()){
-//			if (name.equals("twitter")) {
-//				exist = true;
-//			}
-//		}
-//		if (!exist) {
-//			database.createCollection("twitter");
-//			System.out.println("twitter collection created.");
-//		}
-//		MongoCollection<Document> collection = database.getCollection("twitter");
-//		//first clear all documents in collection, to avoid duplications from multiple crawls
-//		collection.deleteMany(new Document());
-//		System.out.println("Connected to MongoDB");
-//		for (TwitterPost post : twitterList) {
-//			Document doc = new Document();
-//			doc.append("Title", post.getTitle());
-//			doc.append("User", post.getUser());
-//			collection.insertOne(doc);
-//		}
-//		mongoClient.close();
-//
-//	}
 }

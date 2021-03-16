@@ -96,6 +96,7 @@ public class STCrawler extends Crawler {
 	}
 	
 	public void exportExcel() throws IOException {
+		postArray = importSTMongo();
 		if (postArray.isEmpty()) {
 			System.out.println("No straitstimes data to export");
 			return;
@@ -109,35 +110,5 @@ public class STCrawler extends Crawler {
 		writer.close();
 		System.out.println("Exported");
 	}
-
-//	public void exportMongo() {
-//		boolean exist = false;
-//		//connect to mongoDB atlas
-//		MongoClient mongoClient = MongoClients.create(
-//				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-//		MongoDatabase database = mongoClient.getDatabase("spooder");
-//		//check if specified collection is in database
-//		for (String name : database.listCollectionNames()){
-//			if (name.equals("straitstimes")) {
-//				exist = true;
-//			}
-//		}
-//		if (!exist) {
-//			database.createCollection("straitstimes");
-//			System.out.println("straitstimes collection created.");
-//		}
-//		MongoCollection<Document> collection = database.getCollection("straitstimes");
-//		//first clear all documents in collection, to avoid duplications from multiple crawls
-//		collection.deleteMany(new Document());
-//		System.out.println("Connected to MongoDB");
-//		for (STPost post : postArray) {
-//			Document doc = new Document();
-//			doc.append("Title", post.getTitle());
-//			collection.insertOne(doc);
-//		}
-//		mongoClient.close();
-//
-//	}
 	
-
 }

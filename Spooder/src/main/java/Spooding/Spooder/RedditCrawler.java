@@ -31,6 +31,7 @@ public class RedditCrawler extends Crawler {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
+	
 	/**
 	 * Method to set default URL if none is provided
 	 */
@@ -100,6 +101,7 @@ public class RedditCrawler extends Crawler {
 	}
 
 	public void exportExcel() throws IOException {
+		redditList = importRedditMongo();
 		if (redditList.isEmpty()) {
 			System.out.println("No reddit data to export");
 			return;

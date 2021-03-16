@@ -47,7 +47,6 @@ public abstract class MongoConnect {
         System.out.println("Connected to MongoDB");
         for (Document doc : collection.find()) {
             list.add(new RedditPost(doc.get("Title").toString(), (int) doc.get("Votes")));
-            System.out.println((int) doc.get("Votes"));
         }
         mongoClient.close();
         return list;

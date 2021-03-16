@@ -96,7 +96,7 @@ public abstract class MongoConnect {
 	
 	/**
 	 * Connects to the sentiment collection of MongoDB and extracts out individual documents into
-	 * SentimentPost objects, whereby they're stored into a array lis
+	 * SentimentPost objects, whereby they're stored into a array list
 	 * @return ArrayList of SentimentPost objects.
 	 */
 	protected ArrayList<SentimentPost> importSentimentMongo(){

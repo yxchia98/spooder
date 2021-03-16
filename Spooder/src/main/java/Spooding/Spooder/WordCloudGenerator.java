@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 /**
  * Word Cloud Generator Class
  */
-public class WordCloudGenerator {
+public class WordCloudGenerator extends MongoConnect {
 	private String source;
 	private Dimension dimension = new Dimension(600, 600);
 	/**
@@ -68,9 +69,33 @@ public class WordCloudGenerator {
         frequencyAnalyzer.setMinWordLength(4);
         // set stop words to be excluded in the word cloud
         frequencyAnalyzer.setStopWords(loadStopWords());
+        // initialise a list to store all the string of data from the source
+        List<String> dataList = new ArrayList<String>();
+        
+        // Twitter
+        if (source == "twitter") {
+        	List<TwitterPost> twitterList = importTwitterMongo();
+        	for (TwitterPost post: twitterList) {
+            	dataList.add(post.getTitle());
+            }	
+        }
+        // Reddit
+        if (source == "reddit") {
+        	List<RedditPost> redditList = importRedditMongo();
+        	for (RedditPost post: redditList) {
+            	dataList.add(post.getTitle());
+            }	
+        }
+        // StraitsTimes
+        if (source == "straitstimes") {
+        	List<STPost> STList = importSTMongo();
+        	for (STPost post: STList) {
+            	dataList.add(post.getTitle());
+            }	
+        }
         
         // load the source csv file into the analyzer
-		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(source + ".csv");
+		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(dataList);
 		// there are 2 collision mode to choose from, PIXEL_PERFECT and RECTANGLE
 		final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 		

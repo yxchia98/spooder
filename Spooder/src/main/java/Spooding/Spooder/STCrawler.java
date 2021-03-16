@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.opencsv.CSVWriter;
 import twitter4j.TwitterException;
 /**
@@ -95,7 +90,7 @@ public class STCrawler extends Crawler {
 			list.addAll(nextList);
 			System.out.println(list.size());
 		}
-		exportMongo();
+		exportSTMongo(postArray);
 		driver.close();
 		driver.quit();
 	}
@@ -115,34 +110,34 @@ public class STCrawler extends Crawler {
 		System.out.println("Exported");
 	}
 
-	public void exportMongo() {
-		boolean exist = false;
-		//connect to mongoDB atlas
-		MongoClient mongoClient = MongoClients.create(
-				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-		MongoDatabase database = mongoClient.getDatabase("spooder");
-		//check if specified collection is in database
-		for (String name : database.listCollectionNames()){
-			if (name.equals("straitstimes")) {
-				exist = true;
-			}
-		}
-		if (!exist) {
-			database.createCollection("straitstimes");
-			System.out.println("straitstimes collection created.");
-		}
-		MongoCollection<Document> collection = database.getCollection("straitstimes");
-		//first clear all documents in collection, to avoid duplications from multiple crawls
-		collection.deleteMany(new Document());
-		System.out.println("Connected to MongoDB");
-		for (STPost post : postArray) {
-			Document doc = new Document();
-			doc.append("Title", post.getTitle());
-			collection.insertOne(doc);
-		}
-		mongoClient.close();
-
-	}
+//	public void exportMongo() {
+//		boolean exist = false;
+//		//connect to mongoDB atlas
+//		MongoClient mongoClient = MongoClients.create(
+//				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+//		MongoDatabase database = mongoClient.getDatabase("spooder");
+//		//check if specified collection is in database
+//		for (String name : database.listCollectionNames()){
+//			if (name.equals("straitstimes")) {
+//				exist = true;
+//			}
+//		}
+//		if (!exist) {
+//			database.createCollection("straitstimes");
+//			System.out.println("straitstimes collection created.");
+//		}
+//		MongoCollection<Document> collection = database.getCollection("straitstimes");
+//		//first clear all documents in collection, to avoid duplications from multiple crawls
+//		collection.deleteMany(new Document());
+//		System.out.println("Connected to MongoDB");
+//		for (STPost post : postArray) {
+//			Document doc = new Document();
+//			doc.append("Title", post.getTitle());
+//			collection.insertOne(doc);
+//		}
+//		mongoClient.close();
+//
+//	}
 	
 
 }

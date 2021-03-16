@@ -15,7 +15,7 @@ import twitter4j.TwitterException;
 /**
  * Crawler Class
  */
-public abstract class Crawler implements Exportable{
+public abstract class Crawler extends MongoConnect implements Exportable{
 	/**
 	 * Method for initializing crawl function using ChromeDriver
 	 * @throws IOException Throws exception is related to Input and Output operations

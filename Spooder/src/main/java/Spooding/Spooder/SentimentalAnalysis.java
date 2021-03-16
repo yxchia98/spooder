@@ -24,7 +24,7 @@ import org.bson.Document;
 /**
  * Sentimental Analysis Class using NLP
  */
-public class SentimentalAnalysis {
+public class SentimentalAnalysis extends MongoConnect {
 	String[] nextRecord;
 	String[] tempRecord;
 

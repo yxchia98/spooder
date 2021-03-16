@@ -68,8 +68,8 @@ public class App {
 		ArrayList<SentimentPost> data = new ArrayList<>();
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
-		
-		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
+
+        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
 
 		while (proceed) {
 			System.out.print(

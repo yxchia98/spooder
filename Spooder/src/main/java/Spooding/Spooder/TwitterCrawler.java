@@ -112,14 +112,14 @@ public class TwitterCrawler extends Crawler {
 	 * @throws IOException exception regarding input/output
 	 */
 	public void printTweet(QueryResult r) throws IOException {
-		CrawlProgressBar newBar = new CrawlProgressBar("Crawling Twitter...","crawlTwitter");
+		CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling Twitter...","crawlTwitter");
 		for (Status s: r.getTweets()) {
 			String text = String.format("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
 								  s.getUser().getScreenName(),
 								  cleanString(s.getText()));
 			
-			newBar.setTextArea(text);
+			twitterBar.setTextArea(text);
 			
 			System.out.printf("At %s, @%-15s :  %s\n",
 								  s.getCreatedAt().toString(),
@@ -130,6 +130,8 @@ public class TwitterCrawler extends Crawler {
 			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
 			this.twitterList.add(currentTweet);
 		}
+		twitterBar.crawlBar.setIndeterminate(false);
+		twitterBar.close.setEnabled(true);
 	}
 	
 	/**

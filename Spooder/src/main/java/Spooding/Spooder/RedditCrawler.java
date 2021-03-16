@@ -76,6 +76,7 @@ public class RedditCrawler extends Crawler {
 		exportRedditMongo(redditList);
 		driver.close();
 		driver.quit();
+		redditBar.close.setEnabled(true);
 	}
 	
 	/**

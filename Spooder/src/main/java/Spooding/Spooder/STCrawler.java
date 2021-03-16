@@ -95,6 +95,7 @@ public class STCrawler extends Crawler {
 		exportSTMongo(postArray);
 		driver.close();
 		driver.quit();
+		straitstimesBar.close.setEnabled(true);
 	}
 	
 	public void exportExcel() throws IOException {

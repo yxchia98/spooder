@@ -5,12 +5,16 @@ public class SentimentData {
 	private int positiveCounter = 0;
 	private int negativeCounter = 0;
 	private int neutralCounter = 0;
+	private int veryPositiveCounter = 0;
+	private int veryNegativeCounter = 0;
 	
 	private String positiveString = "Positive";
 	private String negativeString = "Negative";
 	private String neutralString = "Neutral";
+	private String veryPositiveString = "Very positive";
+	private String veryNegativeString = "Very negative";
 	
-	private String filePath = "src/main/java/Spooding/Spooder/CSV Files/test.csv";
+	private String filePath = "src/main/java/Spooding/Spooder/";
 	
 	public SentimentData()
 	{
@@ -37,6 +41,16 @@ public class SentimentData {
 		return negativeCounter;
 	}
 	
+	public int getVeryPositiveCounter()
+	{
+		return veryPositiveCounter;
+	}
+	
+	public int getVeryNegativeCounter()
+	{
+		return veryNegativeCounter;
+	}
+	
 	public void setNegativeCounter(int negativeCounter)
 	{
 		this.negativeCounter = negativeCounter;
@@ -52,6 +66,16 @@ public class SentimentData {
 		this.neutralCounter = neutralCounter;
 	}
 	
+	public void setVeryPositiveCounter(int veryPositiveCounter)
+	{
+		this.veryPositiveCounter = veryPositiveCounter;
+	}
+	
+	public void setVeryNegativeCounter(int veryNegativeCounter)
+	{
+		this.veryNegativeCounter = veryNegativeCounter;
+	}
+	
 	public String getPositiveString()
 	{
 		return positiveString;
@@ -65,6 +89,16 @@ public class SentimentData {
 	public String getNeutralString()
 	{
 		return neutralString;
+	}
+	
+	public String getVeryPositiveString()
+	{
+		return veryPositiveString;
+	}
+	
+	public String getVeryNegativeString()
+	{
+		return veryNegativeString;
 	}
 	
 	public String getFilePath()

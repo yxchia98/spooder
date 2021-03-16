@@ -3,6 +3,7 @@ package Spooding.Spooder;
 import java.io.IOException;
 import java.util.Scanner;
 import com.opencsv.exceptions.CsvValidationException;
+import java.util.ArrayList;
 
 import twitter4j.*;
 
@@ -42,7 +43,7 @@ public class App {
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = true;
 		String url;
-		int choice, subChoice;
+		int choice, subChoice, analysisChoice;
 		Scanner input = new Scanner(System.in);
 //		System.out.print("Enter search string: ");
 //		String searchString = input.next();
@@ -59,8 +60,13 @@ public class App {
 		Crawler straitsCrawler = new STCrawler(50);
 		//GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
 		
+		SentimentalAnalysis redditAnalysis = new SentimentalAnalysis();
+		SentimentalAnalysis twitterAnalysis = new SentimentalAnalysis();
+		SentimentalAnalysis straitsTimeAnalysis = new SentimentalAnalysis();
 		
-		SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
+		SentimentPost allData = new SentimentPost();
+		ArrayList<SentimentPost> data = new ArrayList<>();
+		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
 		while (proceed) {
@@ -93,7 +99,29 @@ public class App {
 				}
 				break;
 			case 3:
-				sentimentalAnalysis.Analyze();
+				System.out.print(
+						"\n----------Sentimental Analysis----------\n1. Analyze all sources\n2. Analyze reddit dataset\n3. Analyze twitter dataset\n4. Analyze straits time dataset \n5. Return\nEnter choice: ");
+				analysisChoice = input.nextInt();
+				switch(analysisChoice) {
+				case 1:
+					redditAnalysis.Analyze("reddit.csv", "Reddit");
+					twitterAnalysis.Analyze("twitter.csv", "Twitter");
+					straitsTimeAnalysis.Analyze("straitstimes.csv", "Straits Time");
+					break;
+				case 2:
+					redditAnalysis.Analyze("reddit.csv", "Reddit");
+					break;
+				case 3:
+					twitterAnalysis.Analyze("twitter.csv", "Twitter");
+					break;
+				case 4:
+					straitsTimeAnalysis.Analyze("straitstimes.csv", "Straits Time");
+					break;
+				case 5:
+					break;
+				default:
+					break;
+				}
 				// generate word cloud for each sources
 				wordCloud.setSource("twitter");
 				wordCloud.generateCloud();

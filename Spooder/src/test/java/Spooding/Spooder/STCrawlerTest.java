@@ -19,16 +19,25 @@ class STCrawlerTest {
 	}
 
 	@Test
+	/**
+	 * Test to see if getBaseUrl() returns the correct default value
+	 */
 	void getBaseurlTest() {
 		assertEquals("https://www.straitstimes.com/tags/budget-2021?page=", test.getBaseUrl());
 	}
 
 	@Test
+	/**
+	 * Test to successfully change the base URL
+	 */
 	void setBaseurlTestPass() {
 		test.setBaseUrl("http://www.facebook.com");
 	}
 
 	@Test
+	/**
+	 * Test to throw exception when an invalid URL is provided
+	 */
 	void setBaseurlTestFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setBaseUrl("Straits Times");
@@ -36,17 +45,26 @@ class STCrawlerTest {
 	}
 
 	@Test
+	/**
+	 * Test to see if getLimit() returns the default correct value 
+	 */
 	void getLimitTest() {
 		assertEquals(50, test.getLimit());
 	}
 
 	@Test
+	/**
+	 * Test to successfully change the limit value
+	 */
 	void setLimitTestPass() {
 		test.setLimit(80);
 		assertEquals(80, test.getLimit());
 	}
 
 	@Test
+	/**
+	 * Test to throw exception when a value >100 is entered
+	 */
 	void setLimitTestFailOutofRange() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setLimit(200);
@@ -54,6 +72,9 @@ class STCrawlerTest {
 	}
 
 	@Test
+	/**
+	 * Test to throw exception when a negative value is entered
+	 */
 	void setLimitTestFailNegative() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setLimit(-7);

@@ -14,7 +14,7 @@ public class App {
 	
 	//Polymorphism methods
 	/**
-	 * Method to crawl data based on crawler input
+	 * Polymorphism to crawl data based on crawler input
 	 * @param crawler crawler type data variable
 	 * @throws IOException Throws exception is related to Input and Output operations
 	 * @throws InterruptedException Throws exception when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
@@ -24,7 +24,7 @@ public class App {
 		crawler.crawl();
 	}
 	/**
-	 * Method to export data into a .csv file based on crawler input
+	 * Polymorphism to export data into a .csv file based on crawler input
 	 * @param crawler crawler type data variable
 	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
@@ -41,7 +41,7 @@ public class App {
 	 * @throws CsvValidationException Exception thrown by a LineValidator or LineValidatorAggregator when a single line is invalid.
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
-		Boolean proceed = true;
+		Boolean proceed = false;
 		String url;
 		int choice, subChoice, analysisChoice;
 		Scanner input = new Scanner(System.in);
@@ -54,7 +54,7 @@ public class App {
 		// instantiate redditCrawler
 		Crawler redditCrawler = new RedditCrawler();
 		// instantiate twitterCrawler
-		Crawler twitterCrawler = new TwitterCrawler("Singapore", 100);
+		Crawler twitterCrawler = new TwitterCrawler("singapore policy", 100);
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
@@ -69,7 +69,7 @@ public class App {
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
-//        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
+        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
 
 		while (proceed) {
 			System.out.print(
@@ -80,6 +80,7 @@ public class App {
 //				crawlerProgram.crawl(twitterCrawler);
 //				crawlerProgram.crawl(redditCrawler);
 //				crawlerProgram.crawl(straitsCrawler);
+				//Create individual threads for respective crawlers, allowing them to be executed concurrently
 				Thread redditThread = new Thread(redditCrawler);
 				Thread twitterThread = new Thread(twitterCrawler);
 				Thread stThread = new Thread(straitsCrawler);

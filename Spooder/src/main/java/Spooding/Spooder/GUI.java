@@ -155,42 +155,31 @@ public class GUI implements ActionListener {
         	if (searchText == true) {
             bottomText.setText("Crawling Twitter and Reddit");
             //CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
-            	try {
-					crawlerProgram.crawl(twitterCrawler);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (TwitterException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-					crawlerProgram.crawl(redditCrawler);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (TwitterException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-					crawlerProgram.crawl(straitsCrawler);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (TwitterException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+            Thread redditThread = new Thread(redditCrawler);
+			Thread twitterThread = new Thread(twitterCrawler);
+			Thread stThread = new Thread(straitsCrawler);
+			redditThread.start();
+			twitterThread.start();
+			stThread.start();
+			// wait for all to end
+			try {
+				redditThread.join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				twitterThread.join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				stThread.join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             	
         	}
         	else if (searchText == false) {

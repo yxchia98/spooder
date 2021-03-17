@@ -10,11 +10,12 @@ import org.openqa.selenium.*;
 import com.opencsv.CSVWriter;
 /**
  * Reddit Crawler Class
+ * Contains methods to crawl individual posts from reddit, afterwards uploading them into MongoDB
  */
 public class RedditCrawler extends Crawler {
 	private String baseUrl;		//baseurl of reddit link based on search string
 	private ArrayList<RedditPost> redditList = new ArrayList<>();	//arraylist to store post objects
-	private WebDriver driver;
+	private WebDriver driver;	//selenium webdriver variable
 	/**
 	 * Get Method to return URL
 	 * @return URL
@@ -23,7 +24,6 @@ public class RedditCrawler extends Crawler {
 		return baseUrl;
 	}
 	
-	//if user wants to crawl from another url
 	/**
 	 * Set Method to modify baseUrl variable
 	 * @param baseUrl URL
@@ -33,23 +33,28 @@ public class RedditCrawler extends Crawler {
 	}
 	
 	/**
-	 * Method to set default URL if none is provided
+	 * Default Constructor
+	 * Method to set default URL if none is provided, default to budget 2021 policies
 	 */
 	public RedditCrawler() {
 		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 	}
 	
 	/**
-	 * Method???
+	 * Specified Constructor
+	 * A different reddit url can be specified based on user requirements. 
 	 * @param baseUrl
 	 */
 	public RedditCrawler(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 	
+	/**
+	 * Initiate crawling from reddit, crawling till a minimum of 50 individual post titles with their respective vote scores will be scraped and 
+	 * uploaded into the reddit collection in MongoDB
+	 */
 	public void crawl() throws InterruptedException, IOException {
 		driver = initWebDriver();
-//launching the specified URL
 		CrawlProgressBar redditBar = new CrawlProgressBar("Crawling Reddit...","crawlReddit");
 		System.out.println("Crawling from reddit...");
 		driver.get(getBaseUrl());
@@ -101,7 +106,11 @@ public class RedditCrawler extends Crawler {
 		return (int) result;
 		
 	}
-
+	
+	/**
+	 * Exports crawled reddit data from MongoDB into Excel CSV
+	 * An Excel CSV file named 'reddit' will be generated.
+	 */
 	public void exportExcel() throws IOException {
 		redditList = importRedditMongo();
 		if (redditList.isEmpty()) {
@@ -118,15 +127,16 @@ public class RedditCrawler extends Crawler {
 		System.out.println("Exported");
 	}
 
+	/**
+	 * Thread runnable method that will be called upon thread.start()
+	 */
 	public void run() {
 		System.out.println("Reddit Crawler");
 		try {
 			this.crawl();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -25,13 +25,11 @@ public abstract class Crawler extends MongoConnect implements Exportable, Runnab
 	public abstract void crawl() throws IOException, InterruptedException, TwitterException;
 	protected WebDriver initWebDriver() {
 		// Setting system properties of ChromeDriver
-//		System.setProperty("webdriver.chrome.driver", "C://WebDriver//bin//chromedriver.exe");	
-//		String postText = "";
 		WebDriverManager.chromedriver().setup();
 
 		// Creating an object of ChromeDriver
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
+		options.addArguments("--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
 				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage", "--disable-popup-blocking");
 		options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 		//suppress info loggings
@@ -39,7 +37,7 @@ public abstract class Crawler extends MongoConnect implements Exportable, Runnab
 		Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
 		WebDriver driver = new ChromeDriver(options);
 
-//Deleting all the cookies
+		//Deleting all the cookies
 		driver.manage().deleteAllCookies();
 
 //Specifiying pageLoadTimeout and Implicit wait

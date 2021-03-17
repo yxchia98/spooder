@@ -180,6 +180,9 @@ public class TwitterCrawler extends Crawler{
 		System.out.println("Exported");
 	}
 	
+	/**
+	 * Thread runnable method that will be called upon thread.start()
+	 */
 	public void run() {
 		System.out.println("Twitter Crawler");
 		try {

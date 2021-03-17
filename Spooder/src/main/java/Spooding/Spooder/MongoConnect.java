@@ -9,7 +9,10 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
-
+/**
+ * 
+ *
+ */
 public abstract class MongoConnect {
 	/**
 	 * Opens a connection to the Mongo collection in the parsed in Mongo Database.

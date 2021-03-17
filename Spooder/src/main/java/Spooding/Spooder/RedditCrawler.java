@@ -28,7 +28,10 @@ public class RedditCrawler extends Crawler {
 	 * Set Method to modify baseUrl variable
 	 * @param baseUrl URL
 	 */
-	public void setBaseUrl(String baseUrl) {
+	public void setBaseUrl(String baseUrl) throws IllegalArgumentException{
+		if(!baseUrl.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
+			throw new IllegalArgumentException("Not a valid URL or incomplete (missing https)");
+		}
 		this.baseUrl = baseUrl;
 	}
 	

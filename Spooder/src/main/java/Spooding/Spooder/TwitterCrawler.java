@@ -52,7 +52,7 @@ public class TwitterCrawler extends Crawler{
 	 * Set method to set topic variable
 	 * @param topic topic to crawl for
 	 */
-	public void setTopic(String topic) {
+	public void setTopic(String topic) throws IllegalArgumentException {
 		if (!topic.matches("[a-zA-Z0-9]+")) {
 			throw new IllegalArgumentException("Topic should only contain letters and numbers");
 		}
@@ -69,7 +69,7 @@ public class TwitterCrawler extends Crawler{
 	 * Set method to modify count variable
 	 * @param count number of queries to search for
 	 */
-	public void setCount(int count) {
+	public void setCount(int count) throws IllegalArgumentException {
 		if (count<0) {
 			throw new IllegalArgumentException("Value of count should be more than 0");
 		}

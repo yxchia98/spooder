@@ -45,7 +45,7 @@ class TwitterCrawlerTest {
 	@Test
 	void setCountTestPass() {
 		test.setCount(50);
-		assertEquals(50,test.getCount());
+		assertEquals(50, test.getCount());
 	}
 
 	@Test

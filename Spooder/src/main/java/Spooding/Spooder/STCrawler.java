@@ -42,7 +42,10 @@ public class STCrawler extends Crawler{
 	 * Set Method to modify baseUrl variable
 	 * @param baseUrl URL
 	 */
-	public void setBaseUrl(String baseUrl) {
+	public void setBaseUrl(String baseUrl) throws IllegalArgumentException{
+		if(!baseUrl.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
+			throw new IllegalArgumentException("Not a valid URL or incomplete (missing https)");
+		}
 		this.baseUrl = baseUrl;
 	}
 	/**
@@ -56,7 +59,10 @@ public class STCrawler extends Crawler{
 	 * Set method to modify limit variable
 	 * @param limit Limit
 	 */
-	public void setLimit(int limit) {
+	public void setLimit(int limit) throws IllegalArgumentException {
+		if (limit < 0 || limit > 100) {
+			throw new IllegalArgumentException("Limit should be between 0-100");
+		}
 		this.limit = limit;
 	}
 

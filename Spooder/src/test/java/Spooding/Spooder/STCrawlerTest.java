@@ -2,9 +2,13 @@ package Spooding.Spooder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import twitter4j.TwitterException;
 
 class STCrawlerTest {
 
@@ -79,6 +83,28 @@ class STCrawlerTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setLimit(-7);
 		});
+	}
+	
+	@Test
+	/**
+	 * Test to check if the crawler has crawl at least a specified number of posts defined by the limit variable
+	 */
+	void checkListSize() {
+		try {
+			test.crawl();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		assertTrue(test.getListSize()>=test.getLimit());
+		
 	}
 
 }

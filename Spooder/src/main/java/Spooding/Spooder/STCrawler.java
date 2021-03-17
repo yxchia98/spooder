@@ -65,6 +65,10 @@ public class STCrawler extends Crawler{
 		}
 		this.limit = limit;
 	}
+	
+	public int getListSize() {
+		return postArray.size();
+	}
 
 	public void crawl() throws IOException, InterruptedException, TwitterException {
 		postArray.clear();

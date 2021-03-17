@@ -50,7 +50,7 @@ class STCrawlerTest {
 
 	@Test
 	/**
-	 * Test to see if getLimit() returns the default correct value 
+	 * Test to see if getLimit() returns the default correct value
 	 */
 	void getLimitTest() {
 		assertEquals(50, test.getLimit());
@@ -84,10 +84,11 @@ class STCrawlerTest {
 			test.setLimit(-7);
 		});
 	}
-	
+
 	@Test
 	/**
-	 * Test to check if the crawler has crawl at least a specified number of posts defined by the limit variable
+	 * Test to check if the crawler has crawl at least a specified number of posts
+	 * defined by the limit variable
 	 */
 	void checkListSize() {
 		try {
@@ -98,13 +99,9 @@ class STCrawlerTest {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-	
-		assertTrue(test.getListSize()>=test.getLimit());
-		
+		assertTrue(test.getListSize() >= test.getLimit());
+
 	}
 
 }

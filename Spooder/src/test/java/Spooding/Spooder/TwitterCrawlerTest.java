@@ -2,9 +2,13 @@ package Spooding.Spooder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import twitter4j.TwitterException;
 
 class TwitterCrawlerTest {
 	TwitterCrawler test = new TwitterCrawler("Singapore", 100);
@@ -37,7 +41,8 @@ class TwitterCrawlerTest {
 
 	@Test
 	/**
-	 * Test to throw exception if topic is entered with anything other than letters and numbers
+	 * Test to throw exception if topic is entered with anything other than letters
+	 * and numbers
 	 */
 	void setTopicTestFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -65,13 +70,36 @@ class TwitterCrawlerTest {
 
 	@Test
 	/**
-	 * Test to throw exception if a negative number is to be set for count
-	 * count should not be a negative value
+	 * Test to throw exception if a negative number is to be set for count, count
+	 * should not be a negative value
 	 */
 	void setCountTestFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setCount(-100);
 		});
+	}
+
+	@Test
+	/**
+	 * Test to check if the crawler has crawl at least a specified number of posts
+	 * defined by the count variable
+	 */
+	void checkListSize() {
+		try {
+			test.crawl();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println("LIST SIZE" + test.getListSize());
+		// System.out.println("COUNT SIZE" + test.getCount());
+		assertTrue(test.getListSize() >= test.getCount());
 	}
 
 }

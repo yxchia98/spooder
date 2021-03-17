@@ -10,53 +10,65 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.opencsv.CSVWriter;
 import twitter4j.TwitterException;
+
 /**
  * Straits Times Crawler Class
  */
-public class STCrawler extends Crawler{
+public class STCrawler extends Crawler {
 	private String baseUrl = "https://www.straitstimes.com/tags/budget-2021?page=";
 	private int limit = 50;
 	private ArrayList<STPost> postArray = new ArrayList<>();
 	private WebDriver driver;
+
 	/**
 	 * Method???
 	 */
 	public STCrawler() {
 		this.driver = initWebDriver();
 	}
+
 	/**
 	 * Method???
+	 * 
 	 * @param limit
 	 */
 	public STCrawler(int limit) {
 		this.limit = limit;
 	}
+
 	/**
 	 * Get Method to return URL
+	 * 
 	 * @return URL
 	 */
 	public String getBaseUrl() {
 		return baseUrl;
 	}
+
 	/**
 	 * Set Method to modify baseUrl variable
+	 * 
 	 * @param baseUrl URL
 	 */
-	public void setBaseUrl(String baseUrl) throws IllegalArgumentException{
-		if(!baseUrl.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
+	public void setBaseUrl(String baseUrl) throws IllegalArgumentException {
+		if (!baseUrl.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
 			throw new IllegalArgumentException("Not a valid URL or incomplete (missing https)");
 		}
 		this.baseUrl = baseUrl;
 	}
+
 	/**
 	 * Get Method to return limit variable
+	 * 
 	 * @return Limit
 	 */
 	public int getLimit() {
 		return limit;
 	}
+
 	/**
 	 * Set method to modify limit variable
+	 * 
 	 * @param limit Limit
 	 */
 	public void setLimit(int limit) throws IllegalArgumentException {
@@ -65,18 +77,23 @@ public class STCrawler extends Crawler{
 		}
 		this.limit = limit;
 	}
-	
+
+	/**
+	 * Method to return size of array list
+	 * 
+	 * @return size of list
+	 */
 	public int getListSize() {
 		return postArray.size();
 	}
 
-	public void crawl() throws IOException, InterruptedException, TwitterException {
+	public void crawl() throws IOException, InterruptedException {
 		postArray.clear();
-		//launching the specified URL
+		// launching the specified URL
 		int count = 0;
 		driver = initWebDriver();
 //		WebDriverWait wait = new WebDriverWait(driver, 10);
-		CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling The Straits Times...","crawlStraitstimes");
+		CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling The Straits Times...", "crawlStraitstimes");
 		System.out.println("Crawling from straits times...");
 		driver.get(getBaseUrl() + String.valueOf(count));
 		System.out.println("Website reached.");
@@ -107,7 +124,7 @@ public class STCrawler extends Crawler{
 		driver.quit();
 		straitstimesBar.close.setEnabled(true);
 	}
-	
+
 	public void exportExcel() throws IOException {
 		postArray = importSTMongo();
 		if (postArray.isEmpty()) {
@@ -123,7 +140,7 @@ public class STCrawler extends Crawler{
 		writer.close();
 		System.out.println("Exported");
 	}
-	
+
 	/**
 	 * Thread runnable method that will be called upon thread.start()
 	 */
@@ -137,10 +154,7 @@ public class STCrawler extends Crawler{
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
-	
+
 }

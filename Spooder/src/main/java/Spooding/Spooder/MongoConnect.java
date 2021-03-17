@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import org.bson.Document;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 /**
- * 
- *
+ * MongoConnect Class
+ * Contains all the methods needed to establish a connection as well as CRUD operations
+ * customized to this application
  */
 public abstract class MongoConnect {
 	/**
@@ -149,7 +151,8 @@ public abstract class MongoConnect {
 		MongoDatabase database = mongoClient.getDatabase("spooder");
 		MongoCollection<Document> collection = mongoConnectCollection(database, "reddit");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
-		collection.deleteMany(new Document());
+		BasicDBObject bdoc = new BasicDBObject();
+		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
 		for (RedditPost post : redditList) {
 			Document doc = new Document();
@@ -172,7 +175,8 @@ public abstract class MongoConnect {
 		MongoDatabase database = mongoClient.getDatabase("spooder");
 		MongoCollection<Document> collection = mongoConnectCollection(database, "twitter");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
-		collection.deleteMany(new Document());
+		BasicDBObject bdoc = new BasicDBObject();
+		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
 		for (TwitterPost post : twitterList) {
 			Document doc = new Document();
@@ -195,7 +199,8 @@ public abstract class MongoConnect {
 		MongoDatabase database = mongoClient.getDatabase("spooder");
 		MongoCollection<Document> collection = mongoConnectCollection(database, "straitstimes");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
-		collection.deleteMany(new Document());
+		BasicDBObject bdoc = new BasicDBObject();
+		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
 		for (STPost post : postArray) {
 			Document doc = new Document();
@@ -217,7 +222,8 @@ public abstract class MongoConnect {
 		MongoDatabase database = mongoClient.getDatabase("spooder");
 		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
-		collection.deleteMany(new Document());
+		BasicDBObject bdoc = new BasicDBObject();
+		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
 		for (SentimentPost sentiment : sentimentArray) {
 			Document doc = new Document();

@@ -54,6 +54,7 @@ public class RedditCrawler extends Crawler {
 	 * uploaded into the reddit collection in MongoDB
 	 */
 	public void crawl() throws InterruptedException, IOException {
+		redditList.clear();
 		driver = initWebDriver();
 		CrawlProgressBar redditBar = new CrawlProgressBar("Crawling Reddit...","crawlReddit");
 		System.out.println("Crawling from reddit...");

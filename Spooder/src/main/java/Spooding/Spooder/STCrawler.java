@@ -61,6 +61,7 @@ public class STCrawler extends Crawler{
 	}
 
 	public void crawl() throws IOException, InterruptedException, TwitterException {
+		postArray.clear();
 		//launching the specified URL
 		int count = 0;
 		driver = initWebDriver();

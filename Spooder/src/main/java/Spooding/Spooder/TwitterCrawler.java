@@ -94,6 +94,7 @@ public class TwitterCrawler extends Crawler{
 	 * Method for searching Tweets with some sample query fields, can add more
 	 */
 	public void crawl() throws IOException, InterruptedException, TwitterException {
+		twitterList.clear();
 		//set configurations for twitter crawler
 		this.twitterStart();
 		//Initialise Query

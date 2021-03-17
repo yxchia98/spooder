@@ -53,6 +53,9 @@ public class TwitterCrawler extends Crawler{
 	 * @param topic topic to crawl for
 	 */
 	public void setTopic(String topic) {
+		if (!topic.matches("[a-zA-Z0-9]+")) {
+			throw new IllegalArgumentException("Topic should only contain letters and numbers");
+		}
 		this.topic = topic;
 	}
 	/**
@@ -67,6 +70,9 @@ public class TwitterCrawler extends Crawler{
 	 * @param count number of queries to search for
 	 */
 	public void setCount(int count) {
+		if (count<0) {
+			throw new IllegalArgumentException("Value of count should be more than 0");
+		}
 		this.count = count;
 	}
 

@@ -118,5 +118,17 @@ public class RedditCrawler extends Crawler {
 		System.out.println("Exported");
 	}
 
+	public void run() {
+		System.out.println("Reddit Crawler");
+		try {
+			this.crawl();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

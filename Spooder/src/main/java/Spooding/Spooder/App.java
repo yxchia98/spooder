@@ -63,12 +63,13 @@ public class App {
 		SentimentalAnalysis redditAnalysis = new SentimentalAnalysis();
 		SentimentalAnalysis twitterAnalysis = new SentimentalAnalysis();
 		SentimentalAnalysis straitsTimeAnalysis = new SentimentalAnalysis();
+
 		
 		SentimentData allData = new SentimentData();
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
-        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
+//        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
 
 		while (proceed) {
 			System.out.print(
@@ -76,9 +77,20 @@ public class App {
 			choice = input.nextInt();
 			switch (choice) {
 			case 1:
-				crawlerProgram.crawl(twitterCrawler);
-				crawlerProgram.crawl(redditCrawler);
-				crawlerProgram.crawl(straitsCrawler);
+//				crawlerProgram.crawl(twitterCrawler);
+//				crawlerProgram.crawl(redditCrawler);
+//				crawlerProgram.crawl(straitsCrawler);
+				Thread redditThread = new Thread(redditCrawler);
+				Thread twitterThread = new Thread(twitterCrawler);
+				Thread stThread = new Thread(straitsCrawler);
+				redditThread.start();
+				twitterThread.start();
+				stThread.start();
+				// wait for all to end
+				redditThread.join();
+				twitterThread.join();
+				stThread.join();
+				
 				// generate word cloud for each sources
 				wordCloud.setSource("twitter");
 				wordCloud.generateCloud();

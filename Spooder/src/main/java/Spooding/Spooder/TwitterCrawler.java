@@ -12,7 +12,7 @@ import twitter4j.auth.AccessToken;
 /**
  * Twitter Crawler Class
  */
-public class TwitterCrawler extends Crawler {
+public class TwitterCrawler extends Crawler{
 	
 	//consumer key, secret consumer key, access token and secret access token of the twitter app
 	private final static String CONSUMER_KEY = 
@@ -178,5 +178,21 @@ public class TwitterCrawler extends Crawler {
 		writer.writeAll(writeList, false);
 		writer.close();
 		System.out.println("Exported");
+	}
+	
+	public void run() {
+		System.out.println("Twitter Crawler");
+		try {
+			this.crawl();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

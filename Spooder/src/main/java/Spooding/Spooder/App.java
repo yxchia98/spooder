@@ -69,7 +69,7 @@ public class App {
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
-        GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,wordCloud);
+		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,allData,wordCloud);
 
 		while (proceed) {
 			System.out.print(

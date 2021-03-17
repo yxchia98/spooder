@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import twitter4j.TwitterException;
 
 public class GUI implements ActionListener {
@@ -22,21 +24,29 @@ public class GUI implements ActionListener {
 	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exportData, exit, submitWord;
 	private static JTextField textField;
 	
-	public static boolean frameOpen = false, searchText = false;
+	public static boolean frameOpen = false, searchText = true;
 	public static String crawlText = null;
 	
 	Boolean proceed = true;
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
 	protected SentimentalAnalysis sentimentalAnalysis;
+	protected SentimentData allData;
 	protected WordCloudGenerator wordCloud;
 
-	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,SentimentalAnalysis sentimentalAnalysis,WordCloudGenerator wordCloud ) {
+	public GUI(App crawlerProgram,
+			Crawler redditCrawler,
+			Crawler twitterCrawler,
+			Crawler straitsCrawler,
+			SentimentalAnalysis sentimentalAnalysis,
+			SentimentData allData,
+			WordCloudGenerator wordCloud ) {		
 		this.crawlerProgram = crawlerProgram;
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
 		this.sentimentalAnalysis = sentimentalAnalysis;
+		this.allData = allData;
 		this.wordCloud =wordCloud;
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -62,7 +72,8 @@ public class GUI implements ActionListener {
 		topText = new JLabel();
 		middleText = new JLabel();
 		bottomText = new JLabel();
-		topText.setText("Crawl Text");
+		topText.setText("Crawl Policy Opinions");
+		topText.setForeground(Color.BLUE);
 		topText.setFont(new Font("Arial", Font.BOLD, 25));
 		topText.setVerticalAlignment(JLabel.CENTER);
 		topText.setHorizontalAlignment(JLabel.CENTER);
@@ -71,7 +82,7 @@ public class GUI implements ActionListener {
 		middleText.setVerticalAlignment(JLabel.CENTER);
 		middleText.setHorizontalAlignment(JLabel.CENTER);
 		bottomText.setText("");
-		bottomText.setForeground(Color.RED);
+		bottomText.setForeground(Color.RED); 
 		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
 		bottomText.setVerticalAlignment(JLabel.CENTER);
 		bottomText.setHorizontalAlignment(JLabel.CENTER);
@@ -84,7 +95,7 @@ public class GUI implements ActionListener {
 		//frame.setResizable(true);
 
 		// panel5 setup
-		panel5.setLayout(new GridLayout(9, 3, 10, 10));
+		panel5.setLayout(new GridLayout(8, 3, 10, 10));
 		panel6.setLayout(new GridLayout(1, 2, 10, 10));
 
 		// buttons
@@ -107,16 +118,16 @@ public class GUI implements ActionListener {
 		exit.addActionListener(this);
 
 		// for getting Keyword
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(250, 40));
-		textField.setFont(new Font("Arial", Font.PLAIN, 20));
-		textField.setText("");
+//		textField = new JTextField();
+//		textField.setPreferredSize(new Dimension(250, 40));
+//		textField.setFont(new Font("Arial", Font.PLAIN, 20));
+//		textField.setText("");
 
 		// button within panel5
 		panel5.add(topText);
-		panel5.add(panel6);
-		panel6.add(textField);
-		panel6.add(submitWord);
+//		panel5.add(panel6);
+//		panel6.add(textField);
+//		panel6.add(submitWord);
 		panel5.add(middleText);
 		panel5.add(crawlAll);
 		panel5.add(crawlSpecific);
@@ -212,6 +223,14 @@ public class GUI implements ActionListener {
         	if (searchText == true) {
         		bottomText.setText("Generating Sentiment Analysis");
         		wordCloud.setSource("twitter");
+
+				try {
+					sentimentalAnalysis.Analyze(allData.getAllData(), "All Sources");
+				} catch (CsvValidationException | IOException | InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
 				try {
 					
 					wordCloud.generateCloud();
@@ -235,6 +254,17 @@ public class GUI implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				try {
+					crawlerChart demo = new crawlerChart( "Sentiment Analysis",
+							sentimentalAnalysis.positiveCounter,
+							sentimentalAnalysis.negativeCounter,
+							sentimentalAnalysis.neutralCounter,
+							sentimentalAnalysis.veryPositiveCounter,
+							sentimentalAnalysis.veryNegativeCounter);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
             }
         	else if (searchText == false) {
             	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);

@@ -90,14 +90,6 @@ public class App {
 				redditThread.join();
 				twitterThread.join();
 				stThread.join();
-				
-				// generate word cloud for each sources
-				wordCloud.setSource("twitter");
-				wordCloud.generateCloud();
-				wordCloud.setSource("reddit");
-				wordCloud.generateCloud();
-				wordCloud.setSource("straitstimes");
-				wordCloud.generateCloud();
 				break;
 			case 2:
 				System.out.print("\n----------Specific crawl----------\n1. Crawl from twitter\n2. Crawl from reddit\n3. Crawl from Straits Times\n4. Return\nEnter Choice: ");
@@ -105,18 +97,12 @@ public class App {
 				switch(subChoice) {
 				case 1:
 					crawlerProgram.crawl(twitterCrawler);
-					wordCloud.setSource("twitter");
-					wordCloud.generateCloud();
 					break;
 				case 2:
 					crawlerProgram.crawl(redditCrawler);
-					wordCloud.setSource("reddit");
-					wordCloud.generateCloud();
 					break;
 				case 3:
 					crawlerProgram.crawl(straitsCrawler);
-					wordCloud.setSource("straitstimes");
-					wordCloud.generateCloud();
 					break;
 				case 4:
 					break;
@@ -131,15 +117,28 @@ public class App {
 				switch(analysisChoice) {
 				case 1:
 					redditAnalysis.Analyze(allData.getAllData(),"All Sources");
+					// generate word cloud for each sources
+					wordCloud.setSource("twitter");
+					wordCloud.generateCloud();
+					wordCloud.setSource("reddit");
+					wordCloud.generateCloud();
+					wordCloud.setSource("straitstimes");
+					wordCloud.generateCloud();
 					break;
 				case 2:
 					redditAnalysis.Analyze(allData.getRedditData(), "Reddit");
+					wordCloud.setSource("reddit");
+					wordCloud.generateCloud();
 					break;
 				case 3:
 					twitterAnalysis.Analyze(allData.getTwitterData(), "Twitter");
+					wordCloud.setSource("twitter");
+					wordCloud.generateCloud();
 					break;
 				case 4:
 					straitsTimeAnalysis.Analyze(allData.getSTData(), "Straits Time");
+					wordCloud.setSource("straitstimes");
+					wordCloud.generateCloud();
 					break;
 				case 5:
 					break;

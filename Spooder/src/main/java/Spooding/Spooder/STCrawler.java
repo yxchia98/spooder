@@ -14,7 +14,7 @@ import twitter4j.TwitterException;
 /**
  * Straits Times Crawler Class
  */
-public class STCrawler extends Crawler {
+public class STCrawler extends Crawler{
 	private String baseUrl = "https://www.straitstimes.com/tags/budget-2021";
 	private int limit = 50;
 	private ArrayList<STPost> postArray = new ArrayList<>();
@@ -112,6 +112,21 @@ public class STCrawler extends Crawler {
 		}
 		writer.close();
 		System.out.println("Exported");
+	}
+	public void run() {
+		System.out.println("ST Crawler");
+		try {
+			this.crawl();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

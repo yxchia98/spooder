@@ -29,7 +29,7 @@ public abstract class Crawler extends MongoConnect implements Exportable, Runnab
 
 		// Creating an object of ChromeDriver
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
+		options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200", "--ignore-certificate-errors",
 				"--disable-extensions", "--no-sandbox", "--disable-dev-shm-usage", "--disable-popup-blocking");
 		options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 		//suppress info loggings

@@ -22,6 +22,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 public class WordCloudGenerator extends MongoConnect {
 	private String source;
 	private Dimension dimension = new Dimension(600, 600);
+	final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 	/**
 	 * Constructor
 	 */
@@ -58,11 +59,10 @@ public class WordCloudGenerator extends MongoConnect {
 		this.dimension.height = height;
 	}
 	/**
-	 * Method to create and save the word cloud image onto disk
+	 * Method to create and save the word cloud image onto disk, depending on the source and sentiment type
 	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
-	public void generateCloud() throws IOException { 
-		final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+	public void generateSentimentCloud(String source, String sentimentType) throws IOException { 
 		// set word limit
         frequencyAnalyzer.setWordFrequenciesToReturn(250);
         // set word length to be at least 4
@@ -72,27 +72,12 @@ public class WordCloudGenerator extends MongoConnect {
         // initialise a list to store all the string of data from the source
         List<String> dataList = new ArrayList<String>();
         
-        // Twitter
-        if (source == "twitter") {
-        	List<TwitterPost> twitterList = importTwitterMongo();
-        	for (TwitterPost post: twitterList) {
-            	dataList.add(post.getTitle());
-            }	
-        }
-        // Reddit
-        if (source == "reddit") {
-        	List<RedditPost> redditList = importRedditMongo();
-        	for (RedditPost post: redditList) {
-            	dataList.add(post.getTitle());
-            }	
-        }
-        // StraitsTimes
-        if (source == "straitstimes") {
-        	List<STPost> STList = importSTMongo();
-        	for (STPost post: STList) {
-            	dataList.add(post.getTitle());
-            }	
-        }
+        // load the sentiment data from mongodb, filter by the source and and sentiment type
+        List<SentimentPost> SentimentList = importSentimentMongo();
+    	for (SentimentPost post: SentimentList) {
+        	if (post.getSource().equals(source) && post.getSentiment().equals(sentimentType))
+    			dataList.add(post.getTitle());
+    	}
         
         // load the data source from mongodb into the analyzer
 		final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(dataList);
@@ -106,7 +91,15 @@ public class WordCloudGenerator extends MongoConnect {
 		wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 		wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
 		wordCloud.build(wordFrequencies);
-		wordCloud.writeToFile("wordCloud/" + source + "_word_cloud.png");
+		wordCloud.writeToFile(String.format("wordCloud/%s/%s_%s_word_cloud.png", source, source, sentimentType.toLowerCase()));
+		//wordCloud.writeToFile("wordCloud/" + source + "/" + source + "_word_cloud.png");
+	}
+	
+	public void generateCloud() throws IOException {
+		generateSentimentCloud(source, "Positive");
+		generateSentimentCloud(source, "Neutral");
+		generateSentimentCloud(source, "Negative");
+		
 	}
 	/**
 	 * Method to load in stop words from .txt file

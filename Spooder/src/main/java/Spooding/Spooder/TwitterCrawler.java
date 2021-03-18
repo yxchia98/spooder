@@ -80,6 +80,9 @@ public class TwitterCrawler extends Crawler {
 		if (count < 0) {
 			throw new IllegalArgumentException("Value of count should be more than 0");
 		}
+		if (count > 100) {
+			throw new IllegalArgumentException("Maximum value of count is 100");
+		}
 		this.count = count;
 	}
 

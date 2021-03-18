@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
-public class CrawlDataInfo implements ActionListener{
+public class CrawlDataInfo extends MongoConnect implements ActionListener{
 	private static int fillCounter = 0;
 	private int maxValue;
 
@@ -17,13 +17,9 @@ public class CrawlDataInfo implements ActionListener{
 	private JLabel topText, bottomText;
 	private JTextArea textArea = new JTextArea();
 	
-	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
 
 	//UI setup
-	CrawlDataInfo(Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
-		this.redditCrawler = redditCrawler;
-		this.twitterCrawler = twitterCrawler;
-		this.straitsCrawler = straitsCrawler;
+	CrawlDataInfo() {
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -156,7 +152,7 @@ public class CrawlDataInfo implements ActionListener{
 	}
     public void showTwitterPosts() {
         ArrayList<TwitterPost> postList = new ArrayList<>();
-        postList = twitterCrawler.importTwitterMongo();
+        postList = importTwitterMongo();
         for( TwitterPost post : postList) {
             //print out title, and user who tweeted
             textArea.append("@"+ post.getUser()+"\n");
@@ -165,7 +161,7 @@ public class CrawlDataInfo implements ActionListener{
     }
     public void showRedditPosts() {
         ArrayList<RedditPost> postList = new ArrayList<>();
-        postList = redditCrawler.importRedditMongo();
+        postList = importRedditMongo();
         for( RedditPost post : postList) {
             //print out title, and votes
         	 textArea.append("Title: " + post.getTitle() + "\n");
@@ -174,7 +170,7 @@ public class CrawlDataInfo implements ActionListener{
     }
 	public void showSTPosts() {
         ArrayList<STPost> postList = new ArrayList<>();
-        postList = straitsCrawler.importSTMongo();
+        postList = importSTMongo();
         for( STPost post : postList) {
             //print out title 
         	 textArea.append("Headlines: " + post.getTitle()+"\n\n");

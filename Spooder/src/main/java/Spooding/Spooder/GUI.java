@@ -219,7 +219,7 @@ public class GUI implements ActionListener {
 		if (e.getSource() == showCrawled) {
 			// if search text and frame not open
 			if (searchText == true && crawlInfoOpen == false) {
-				CrawlDataInfo crawlDataInfo = new CrawlDataInfo(redditCrawler, twitterCrawler, straitsCrawler);
+				CrawlDataInfo crawlDataInfo = new CrawlDataInfo();
 				crawlInfoOpen = true;
 				bottomText.setText("Crawling Specific");
 			} else if (searchText == true && crawlInfoOpen == true) {

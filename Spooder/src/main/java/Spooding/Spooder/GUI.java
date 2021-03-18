@@ -189,6 +189,8 @@ public class GUI implements ActionListener {
 				twitterThread.setDaemon(true);
 				stThread.setDaemon(true);
 				GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
+								
+
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}

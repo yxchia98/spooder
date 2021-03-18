@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.opencsv.CSVWriter;
-import twitter4j.TwitterException;
 
 /**
  * Straits Times Crawler Class

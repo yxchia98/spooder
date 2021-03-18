@@ -23,10 +23,10 @@ public class GUI implements ActionListener {
 	private JLabel topText, middleText, bottomText;
 	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exportData, exit, submitWord;
 	private static JTextField textField;
-	
+
 	public static boolean frameOpen = false, searchText = true;
 	public static String crawlText = null;
-	
+
 	Boolean proceed = true;
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
@@ -34,20 +34,15 @@ public class GUI implements ActionListener {
 	protected SentimentData allData;
 	protected WordCloudGenerator wordCloud;
 
-	public GUI(App crawlerProgram,
-			Crawler redditCrawler,
-			Crawler twitterCrawler,
-			Crawler straitsCrawler,
-			SentimentalAnalysis sentimentalAnalysis,
-			SentimentData allData,
-			WordCloudGenerator wordCloud ) {		
+	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,
+			SentimentalAnalysis sentimentalAnalysis, SentimentData allData, WordCloudGenerator wordCloud) {
 		this.crawlerProgram = crawlerProgram;
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
 		this.sentimentalAnalysis = sentimentalAnalysis;
 		this.allData = allData;
-		this.wordCloud =wordCloud;
+		this.wordCloud = wordCloud;
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		panel3 = new JPanel();
@@ -82,7 +77,7 @@ public class GUI implements ActionListener {
 		middleText.setVerticalAlignment(JLabel.CENTER);
 		middleText.setHorizontalAlignment(JLabel.CENTER);
 		bottomText.setText("");
-		bottomText.setForeground(Color.RED); 
+		bottomText.setForeground(Color.RED);
 		bottomText.setFont(new Font("Arial", Font.BOLD, 25));
 		bottomText.setVerticalAlignment(JLabel.CENTER);
 		bottomText.setHorizontalAlignment(JLabel.CENTER);
@@ -92,7 +87,7 @@ public class GUI implements ActionListener {
 		frame.setTitle("Crawl Policy Opinions");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
-		//frame.setResizable(true);
+		// frame.setResizable(true);
 
 		// panel5 setup
 		panel5.setLayout(new GridLayout(8, 3, 10, 10));
@@ -110,7 +105,7 @@ public class GUI implements ActionListener {
 
 		sentimentAnalysis = new JButton("Sentiment Analysis with current Dataset");
 		sentimentAnalysis.addActionListener(this);
-		
+
 		exportData = new JButton("Export Data to Excel");
 		exportData.addActionListener(this);
 
@@ -145,94 +140,84 @@ public class GUI implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-	}	
+	}
 
-    public void actionPerformed(ActionEvent e) {
-		//if crawl word is empty show error message
-		//if crawl word is not empty, set 
-        if(e.getSource()==submitWord) {
-            if(textField.getText().isBlank()) {
-            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-            }
-            else if(!textField.getText().isBlank()) {
-            	searchText = true;
-            	crawlText = textField.getText(); //set crawl Text
-            	System.out.println("Crawling :" + textField.getText());
-            }
-        }
-        
-        //crawling all sources
-        if(e.getSource()==crawlAll) { 
-        	if (searchText == true) {
-            bottomText.setText("Crawling Twitter and Reddit");
-            //CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
-            Thread redditThread = new Thread(redditCrawler);
-			Thread twitterThread = new Thread(twitterCrawler);
-			Thread stThread = new Thread(straitsCrawler);
-			redditThread.start();
-			twitterThread.start();
-			stThread.start();
-			// wait for all to end
-			try {
-				redditThread.join();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+	public void actionPerformed(ActionEvent e) {
+		// if crawl word is empty show error message
+		// if crawl word is not empty, set
+		if (e.getSource() == submitWord) {
+			if (textField.getText().isBlank()) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+			} else if (!textField.getText().isBlank()) {
+				searchText = true;
+				crawlText = textField.getText(); // set crawl Text
+				System.out.println("Crawling :" + textField.getText());
 			}
-			try {
-				twitterThread.join();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+		}
+
+		// crawling all sources
+		if (e.getSource() == crawlAll) {
+			if (searchText == true) {
+				bottomText.setText("Crawling Twitter and Reddit");
+				// CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
+				Thread redditThread = new Thread(redditCrawler);
+				Thread twitterThread = new Thread(twitterCrawler);
+				Thread stThread = new Thread(straitsCrawler);
+				redditThread.start();
+				twitterThread.start();
+				stThread.start();
+				// wait for all to end
+				try {
+					redditThread.join();
+					twitterThread.join();
+					stThread.join();
+
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+								
+
+			} else if (searchText == false) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
-			try {
-				stThread.join();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+
+		}
+		// if crawlWindow closed turn back on button.
+		if (frameOpen == false) {
+			crawlSpecific.setEnabled(true);
+		}
+		// crawl Specific button
+		if (e.getSource() == crawlSpecific) {
+			// if search text and frame not open
+			if (searchText == true && frameOpen == false) {
+				CrawlWindow crawlWindow = new CrawlWindow(crawlerProgram, redditCrawler, twitterCrawler,
+						straitsCrawler);
+				frameOpen = true;
+				bottomText.setText("Crawling Specific");
+			} else if (searchText == true && frameOpen == true) {
+				bottomText.setText("Window Open");
 			}
-            	
-        	}
-        	else if (searchText == false) {
-        		JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-            }
-        	
-        }
-        //if crawlWindow closed turn back on button.
-        if (frameOpen == false) { 
-            crawlSpecific.setEnabled(true);
-        }
-        //crawl Specific button
-        if(e.getSource()==crawlSpecific) {
-        	//if search text and frame not open
-        	if (searchText == true && frameOpen == false) {
-        		CrawlWindow crawlWindow = new CrawlWindow(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler);
-            	frameOpen = true;
-            	bottomText.setText("Crawling Specific");
-            }
-        	else if (searchText == true && frameOpen == true) {
-            	bottomText.setText("Window Open");
-            }
-        	//if no search text show error message
-            else if (searchText == false ) {
-            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        //start sentiment analysis
-        if(e.getSource()==sentimentAnalysis ) {
-        	if (searchText == true) {
-        		bottomText.setText("Generating Sentiment Analysis");
-        		wordCloud.setSource("twitter");
+			// if no search text show error message
+			else if (searchText == false) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		// start sentiment analysis
+		if (e.getSource() == sentimentAnalysis) {
+			if (searchText == true) {
+				bottomText.setText("Generating Sentiment Analysis");
+				wordCloud.setSource("twitter");
 
 				try {
 					sentimentalAnalysis.Analyze(allData.getAllData(), "All Sources");
-				} catch (CsvValidationException | IOException | InterruptedException e2) {
+				} catch (InterruptedException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 
 				try {
-					
+
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -240,7 +225,7 @@ public class GUI implements ActionListener {
 				}
 				wordCloud.setSource("reddit");
 				try {
-					
+
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -248,32 +233,28 @@ public class GUI implements ActionListener {
 				}
 				wordCloud.setSource("straitstimes");
 				try {
-					
+
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				try {
-					crawlerChart demo = new crawlerChart( "Sentiment Analysis",
-							sentimentalAnalysis.positiveCounter,
-							sentimentalAnalysis.negativeCounter,
-							sentimentalAnalysis.neutralCounter,
-							sentimentalAnalysis.veryPositiveCounter,
-							sentimentalAnalysis.veryNegativeCounter);
+					crawlerChart demo = new crawlerChart("Sentiment Analysis", sentimentalAnalysis.positiveCounter,
+							sentimentalAnalysis.negativeCounter, sentimentalAnalysis.neutralCounter,
+							sentimentalAnalysis.veryPositiveCounter, sentimentalAnalysis.veryNegativeCounter);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} 
-            }
-        	else if (searchText == false) {
-            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        
-        if(e.getSource()==exportData ) {
-        	if (searchText == true) {
-        		bottomText.setText("Exporting Data");
+				}
+			} else if (searchText == false) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+		if (e.getSource() == exportData) {
+			if (searchText == true) {
+				bottomText.setText("Exporting Data");
 				try {
 					crawlerProgram.exportExcel(twitterCrawler);
 				} catch (IOException e1) {
@@ -292,19 +273,18 @@ public class GUI implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-            	CrawlProgressBar newBar = new CrawlProgressBar("Exporting...","export");
-        		//add in sentiment analysis
+				CrawlProgressBar newBar = new CrawlProgressBar("Exporting...", "export");
+				// add in sentiment analysis
 //        		sentimentalAnalysis.Analyze();
-            }
-        	else if (searchText == false) {
-            	JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        
-        //close window
-        else if(e.getSource()==exit) {
-            frame.dispose();
-        }
+			} else if (searchText == false) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 
-    }
+		// close window
+		else if (e.getSource() == exit) {
+			frame.dispose();
+		}
+
+	}
 }

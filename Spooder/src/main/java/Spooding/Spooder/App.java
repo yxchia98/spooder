@@ -3,8 +3,6 @@ package Spooding.Spooder;
 import java.io.IOException;
 import java.util.Scanner;
 import com.opencsv.exceptions.CsvValidationException;
-import java.util.ArrayList;
-
 import twitter4j.*;
 
 /**
@@ -42,7 +40,7 @@ public class App {
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, TwitterException, CsvValidationException {
 		Boolean proceed = false;
-		String url;
+//		String url;
 		int choice, subChoice, analysisChoice;
 		Scanner input = new Scanner(System.in);
 //		System.out.print("Enter search string: ");
@@ -69,7 +67,7 @@ public class App {
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 
-		GUI gui = new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,allData,wordCloud);
+		new GUI(crawlerProgram, redditCrawler, twitterCrawler, straitsCrawler,redditAnalysis,allData,wordCloud);
 
 		while (proceed) {
 			System.out.print(

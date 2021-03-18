@@ -17,7 +17,9 @@ import javax.swing.*;
 import com.opencsv.exceptions.CsvValidationException;
 
 import twitter4j.TwitterException;
-
+/**
+ * GUI Class
+ */
 public class GUI implements ActionListener {
 
 	static JFrame frame;
@@ -36,7 +38,16 @@ public class GUI implements ActionListener {
 //	protected SentimentalAnalysis sentimentalAnalysis;
 //	protected SentimentData allData;
 	protected WordCloudGenerator wordCloud;
-
+	/**
+	 * Constructor for the GUI Class
+	 * @param crawlerProgram instance of crawler Program
+	 * @param redditCrawler instance of Reddit Crawler
+	 * @param twitterCrawler instance of Twitter Crawler
+	 * @param straitsCrawler instance of Straits Times Crawler
+	 * @param sentimentalAnalysis instance of SentimentAnalysis
+	 * @param allData instance of SentimentData
+	 * @param wordCloud instance of WordCloudGenerator
+	 */
 	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,
 			WordCloudGenerator wordCloud) {
 		this.crawlerProgram = crawlerProgram;
@@ -118,17 +129,8 @@ public class GUI implements ActionListener {
 		exit = new JButton("Exit");
 		exit.addActionListener(this);
 
-		// for getting Keyword
-//		textField = new JTextField();
-//		textField.setPreferredSize(new Dimension(250, 40));
-//		textField.setFont(new Font("Arial", Font.PLAIN, 20));
-//		textField.setText("");
-
 		// button within panel5
 		panel5.add(topText);
-//		panel5.add(panel6);
-//		panel6.add(textField);
-//		panel6.add(submitWord);
 		panel5.add(middleText);
 		panel5.add(crawlAll);
 		panel5.add(crawlSpecific);
@@ -145,24 +147,15 @@ public class GUI implements ActionListener {
 		frame.add(panel4, BorderLayout.SOUTH);
 		frame.add(panel5, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
 		frame.setCursor(null);
+		frame.setVisible(true);
 
 	}
-
+	/**
+	 * Method for listening to button click
+	 * Contains action to be performed on different button clicks
+	 */
 	public void actionPerformed(ActionEvent e) {
-		// if crawl word is empty show error message
-		// if crawl word is not empty, set
-//		if (e.getSource() == submitWord) {
-//			if (textField.getText().isBlank()) {
-//				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-//			} else if (!textField.getText().isBlank()) {
-//				searchText = true;
-//				crawlText = textField.getText(); // set crawl Text
-//				System.out.println("Crawling :" + textField.getText());
-//			}
-//		}
-
 		// crawling all sources
 		if (e.getSource() == crawlAll) {
 			if (searchText == true) {
@@ -232,6 +225,7 @@ public class GUI implements ActionListener {
 		}
 		// start sentiment analysis
 		if (e.getSource() == sentimentAnalysis) {
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			if (searchText == true) {
 				bottomText.setText("Generating Sentiment Analysis");
 				SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
@@ -279,6 +273,7 @@ public class GUI implements ActionListener {
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 
 		if (e.getSource() == exportData) {

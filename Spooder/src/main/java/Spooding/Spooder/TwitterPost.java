@@ -9,7 +9,7 @@ public class TwitterPost extends PostObject{
 	/**
 	 * Method Constructor
 	 */
-	TwitterPost(){
+	public TwitterPost(){
 		
 	}
 	/**
@@ -17,7 +17,7 @@ public class TwitterPost extends PostObject{
 	 * @param title
 	 * @param user
 	 */
-	TwitterPost(String title, String user){
+	public TwitterPost(String title, String user){
 		super(title);
 		this.user = user;
 	}

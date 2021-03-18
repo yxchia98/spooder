@@ -2,6 +2,7 @@ package Spooding.Spooder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -79,7 +80,7 @@ public class CrawlWindow implements ActionListener {
 		back.addActionListener(this);		
 		
 //panel5 setup
-		panel5.setLayout(new GridLayout(7, 3, 10, 10));
+		panel5.setLayout(new GridLayout(6, 3, 10, 10));
 		panel5.add(topText);
 		panel5.add(crawlTwitter);
 		panel5.add(crawlReddit);
@@ -100,63 +101,53 @@ public class CrawlWindow implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
-			bottomText.setText("Crawling from Twitter");
-			//CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling...","crawlTwitter");
-        	try {
-				crawlerProgram.crawl(twitterCrawler);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			bottomText.setText("Crawled from Twitter");
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Thread twitterThread = new Thread(twitterCrawler);
+			twitterThread.start();
+			// wait for all to end
+			try {
+				twitterThread.join();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (TwitterException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			//add CrawlTwitter
-//			GUI.crawlerProgram.crawl(twitterCrawler);
-//			WordCloudGenerator wordCloudT = new WordCloudGenerator("twitter.csv");
-//			wordCloudT.generateCloud();
-			
+			twitterThread.setDaemon(true);
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == crawlReddit) {
-			bottomText.setText("Crawling from Reddit");
-			//CrawlProgressBar redditBar = new CrawlProgressBar("Crawling...","crawlReddit");
-        	try {
-				crawlerProgram.crawl(redditCrawler);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			bottomText.setText("Crawled from Reddit");
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Thread redditThread = new Thread(redditCrawler);
+			redditThread.start();
+			// wait for all to end
+			try {
+				redditThread.join();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (TwitterException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			//add CrawlReddit
-//			GUI.crawlerProgram.crawl(redditCrawler);
-//			WordCloudGenerator wordCloudR = new WordCloudGenerator("reddit.csv");
-//			wordCloudR.generateCloud();
+			redditThread.setDaemon(true);
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == crawlStraitstimes) {
-			bottomText.setText("Crawl from Straits Times");
-			//CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling...","crawlStraitstimes");
-        	try {
-				crawlerProgram.crawl(straitsCrawler);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			bottomText.setText("Crawled from Straits Times");
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Thread stThread = new Thread(straitsCrawler);
+			stThread.start();
+			// wait for all to end
+			try {
+				stThread.join();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (TwitterException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			//add CrawlStraitsTimes
-//			GUI.crawlerProgram.crawl(straitsCrawler);
-//			WordCloudGenerator wordCloudS = new WordCloudGenerator("straits.csv");
-//			wordCloudS.generateCloud();
+			stThread.setDaemon(true);
+			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == back) {
 			GUI.crawlFrameOpen = false;
 			GUI.bottomText.setText("");

@@ -69,7 +69,7 @@ public class CrawlDataInfo implements ActionListener{
 
 //New Window
 		frame = new JFrame("Crawl Data Info");
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
 		//frame.setResizable(true);
 

@@ -1,5 +1,6 @@
 package Spooding.Spooder;
 
+import java.awt.Cursor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -134,7 +135,6 @@ public class TwitterCrawler extends Crawler {
 	 * @throws IOException exception regarding input/output
 	 */
 	public void printTweet(QueryResult r) throws IOException {
-		CrawlProgressBar twitterBar = new CrawlProgressBar("Crawling Twitter...", "crawlTwitter");
 		for (Status s : r.getTweets()) {
 
 			System.out.printf("At %s, @%-15s :  %s\n", s.getCreatedAt().toString(), s.getUser().getScreenName(),
@@ -144,8 +144,6 @@ public class TwitterCrawler extends Crawler {
 			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
 			this.twitterList.add(currentTweet);
 		}
-		twitterBar.crawlBar.setIndeterminate(false);
-		twitterBar.close.setEnabled(true);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package Spooding.Spooder;
 
 import java.util.List;
+import java.awt.Cursor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,7 +98,6 @@ public class RedditCrawler extends Crawler {
 	public void crawl() throws InterruptedException, IOException {
 		redditList.clear();
 		driver = initWebDriver();
-		CrawlProgressBar redditBar = new CrawlProgressBar("Crawling Reddit...", "crawlReddit");
 		System.out.println("Crawling from reddit...");
 		driver.get(getBaseUrl());
 		System.out.println("Website reached.");
@@ -123,7 +123,6 @@ public class RedditCrawler extends Crawler {
 		exportRedditMongo(redditList);
 		driver.close();
 		driver.quit();
-		redditBar.close.setEnabled(true);
 	}
 
 	/**

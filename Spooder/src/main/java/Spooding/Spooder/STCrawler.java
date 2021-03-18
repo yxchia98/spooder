@@ -1,5 +1,6 @@
 package Spooding.Spooder;
 
+import java.awt.Cursor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +95,6 @@ public class STCrawler extends Crawler {
 		int count = 0;
 		driver = initWebDriver();
 //		WebDriverWait wait = new WebDriverWait(driver, 10);
-		CrawlProgressBar straitstimesBar = new CrawlProgressBar("Crawling The Straits Times...", "crawlStraitstimes");
 		System.out.println("Crawling from straits times...");
 		driver.get(getBaseUrl() + String.valueOf(count));
 		System.out.println("Website reached.");
@@ -123,7 +123,6 @@ public class STCrawler extends Crawler {
 		exportSTMongo(postArray);
 		driver.close();
 		driver.quit();
-		straitstimesBar.close.setEnabled(true);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package Spooding.Spooder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -19,7 +20,7 @@ import twitter4j.TwitterException;
 
 public class GUI implements ActionListener {
 
-	private JFrame frame;
+	static JFrame frame;
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
 	private JLabel topText, middleText;
 	static JLabel bottomText;
@@ -145,6 +146,7 @@ public class GUI implements ActionListener {
 		frame.add(panel5, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setCursor(null);
 
 	}
 
@@ -164,7 +166,8 @@ public class GUI implements ActionListener {
 		// crawling all sources
 		if (e.getSource() == crawlAll) {
 			if (searchText == true) {
-				bottomText.setText("Crawling Twitter and Reddit");
+				frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				bottomText.setText("Crawling All Sources");
 				// CrawlProgressBar newBar = new CrawlProgressBar("Crawling...","crawlAll");
 				Thread redditThread = new Thread(redditCrawler);
 				Thread twitterThread = new Thread(twitterCrawler);
@@ -182,8 +185,10 @@ public class GUI implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-								
-
+				redditThread.setDaemon(true);
+				twitterThread.setDaemon(true);
+				stThread.setDaemon(true);
+				GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));		
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
@@ -303,7 +308,7 @@ public class GUI implements ActionListener {
 
 		// close window
 		else if (e.getSource() == exit) {
-			frame.dispose();;
+			frame.dispose();
 		}
 
 	}

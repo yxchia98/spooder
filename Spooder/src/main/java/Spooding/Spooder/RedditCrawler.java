@@ -74,7 +74,7 @@ public class RedditCrawler extends Crawler {
 	 * Specified Constructor A different reddit url can be specified based on user
 	 * requirements.
 	 * 
-	 * @param baseUrl
+	 * @param baseUrl Base URL of Reddit to crawl from
 	 */
 	public RedditCrawler(String baseUrl) {
 		this.baseUrl = baseUrl;

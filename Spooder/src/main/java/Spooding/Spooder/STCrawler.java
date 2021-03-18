@@ -28,7 +28,7 @@ public class STCrawler extends Crawler {
 
 	/**
 	 * Constructor to initilize minimum articles threshold
-	 * @param limit
+	 * @param limit limit
 	 */
 	public STCrawler(int limit) {
 		this.limit = limit;

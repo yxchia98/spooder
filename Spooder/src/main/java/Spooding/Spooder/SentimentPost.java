@@ -31,7 +31,7 @@ public class SentimentPost {
 
 	/**
 	 * Get Method to return title string
-	 * @return title
+	 * @return title Title of post
 	 */
 	public String getTitle() {
 		return title;
@@ -39,7 +39,7 @@ public class SentimentPost {
 
 	/**
 	 * Set Method to modify title string
-	 * @param title
+	 * @param title Title of post
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -47,7 +47,7 @@ public class SentimentPost {
 
 	/**
 	 * Get Method to return sentiment string
-	 * @return sentiment
+	 * @return sentiment sentiment string
 	 */
 	public String getSentiment() {
 		return sentiment;
@@ -55,7 +55,7 @@ public class SentimentPost {
 
 	/**
 	 * Set Method to modify sentiment string
-	 * @param sentiment
+	 * @param sentiment sentiment string
 	 */
 	public void setSentiment(String sentiment) {
 		this.sentiment = sentiment;
@@ -63,7 +63,7 @@ public class SentimentPost {
 
 	/**
 	 * Get Method to return source string
-	 * @return source
+	 * @return source source
 	 */
 	public String getSource() {
 		return source;
@@ -71,7 +71,7 @@ public class SentimentPost {
 
 	/**
 	 * Set Method to modify Source string
-	 * @param source
+	 * @param source source
 	 */
 	public void setSource(String source) {
 		this.source = source;

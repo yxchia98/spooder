@@ -41,7 +41,7 @@ public class SentimentData extends MongoConnect {
 	
 	/**
 	 * Get method to return dataCount value
-	 * @return dataCount
+	 * @return dataCount  number of data
 	 */
 	public int getDataCount() {
 		return dataCount;
@@ -49,7 +49,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get Method to return positiveCounter value
-	 * @return positiveCounter
+	 * @return positiveCounter  counter for positive sentiment
 	 */
 	public int getPositiveCounter() {
 		return positiveCounter;
@@ -57,7 +57,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Set Method to modify positiveCounter variable
-	 * @param positiveCounter
+	 * @param positiveCounter  counter for positive sentiment
 	 */
 	public void setPositiveCounter(int positiveCounter) {
 		this.positiveCounter = positiveCounter;
@@ -65,7 +65,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get Method to return negativeCounter value
-	 * @return negativeCounter
+	 * @return negativeCounter  counter for negative sentiment
 	 */
 	public int getNegativeCounter() {
 		return negativeCounter;
@@ -73,7 +73,7 @@ public class SentimentData extends MongoConnect {
 	
 	/**
 	 * Set Method to modify negativeCounter variable
-	 * @param negativeCounter
+	 * @param negativeCounter counter for negative sentiment
 	 */
 	public void setNegativeCounter(int negativeCounter) {
 		this.negativeCounter = negativeCounter;
@@ -81,7 +81,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get Method to return veryPositiveCounter value
-	 * @return veryPositiveCounter
+	 * @return veryPositiveCounter counter for very positive sentiment
 	 */
 	public int getVeryPositiveCounter() {
 		return veryPositiveCounter;
@@ -89,7 +89,7 @@ public class SentimentData extends MongoConnect {
 	
 	/**
 	 * Set Method to modify veryPositiveCounter variable
-	 * @param veryPositiveCounter
+	 * @param veryPositiveCounter counter for very positive sentiment
 	 */
 	public void setVeryPositiveCounter(int veryPositiveCounter) {
 		this.veryPositiveCounter = veryPositiveCounter;
@@ -97,7 +97,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get Method to return veryNegativeCounter value
-	 * @return veryNegativeCounter
+	 * @return veryNegativeCounter counter for very negative sentiment
 	 */
 	public int getVeryNegativeCounter() {
 		return veryNegativeCounter;
@@ -105,7 +105,7 @@ public class SentimentData extends MongoConnect {
 	
 	/**
 	 * Set Method to modify veryNegativeCounter variable
-	 * @param veryNegativeCounter
+	 * @param veryNegativeCounter counter for very negative sentiment
 	 */
 	public void setVeryNegativeCounter(int veryNegativeCounter) {
 		this.veryNegativeCounter = veryNegativeCounter;
@@ -113,7 +113,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get method to return neutralCounter value
-	 * @return neutralCounter
+	 * @return neutralCounter  counter for neutral sentiment
 	 */
 	public int getNeutralCounter() {
 		return neutralCounter;
@@ -121,7 +121,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Set Method to modify neutralCounter variable
-	 * @param neutralCounter
+	 * @param neutralCounter  counter for neutral sentiment
 	 */
 	public void setNeutralCounter(int neutralCounter) {
 		this.neutralCounter = neutralCounter;
@@ -169,7 +169,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Get Method to return filePath string
-	 * @return filePath
+	 * @return filePath path to file
 	 */
 	public String getFilePath() {
 		return filePath;
@@ -177,7 +177,7 @@ public class SentimentData extends MongoConnect {
 
 	/**
 	 * Set Method to modify filePath variable
-	 * @param filePath
+	 * @param filePath path to file
 	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;

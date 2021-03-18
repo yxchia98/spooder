@@ -23,6 +23,10 @@ public abstract class Crawler extends MongoConnect implements Exportable, Runnab
 	 * @throws TwitterException Throws exception when TwitterAPI calls are failed
 	 */
 	public abstract void crawl() throws IOException, InterruptedException, TwitterException;
+	/**
+	 * Method to start Webdriver
+	 * @return driver
+	 */
 	protected WebDriver initWebDriver() {
 		// Setting system properties of ChromeDriver
 		WebDriverManager.chromedriver().setup();

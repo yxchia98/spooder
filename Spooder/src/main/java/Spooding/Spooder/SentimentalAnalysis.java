@@ -45,9 +45,9 @@ public class SentimentalAnalysis extends MongoConnect {
 
 	/**
 	 * Method to analyze posts and generate sentiment value
-	 * @param dataList
-	 * @param source
-	 * @throws InterruptedException
+	 * @param dataList data to analyze
+	 * @param source source
+	 * @throws InterruptedException Throws exception when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
 	 */
 	public void Analyze(ArrayList<SentimentPost> dataList, String source) 
 			throws InterruptedException {

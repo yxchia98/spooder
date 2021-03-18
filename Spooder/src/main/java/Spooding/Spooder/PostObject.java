@@ -11,7 +11,7 @@ public abstract class PostObject {
 		
 	}
 	/**
-	 * Method???
+	 * Method to create Post Object with Title variable
 	 * @param title Title of Post
 	 */
 	public PostObject(String title) {

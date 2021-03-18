@@ -13,7 +13,7 @@ public class TwitterPost extends PostObject{
 		
 	}
 	/**
-	 * 
+	 * Constructor, to initialize title and user parsed in
 	 * @param title
 	 * @param user
 	 */

@@ -46,7 +46,7 @@ class TwitterCrawlerTest {
 	 */
 	void setTopicTestFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			test.setTopic("$&^@ you");
+			test.setTopic("$&^@");
 		});
 	}
 

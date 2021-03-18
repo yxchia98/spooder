@@ -33,18 +33,18 @@ public class GUI implements ActionListener {
 	Boolean proceed = true;
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
-	protected SentimentalAnalysis sentimentalAnalysis;
-	protected SentimentData allData;
+//	protected SentimentalAnalysis sentimentalAnalysis;
+//	protected SentimentData allData;
 	protected WordCloudGenerator wordCloud;
 
 	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,
-			SentimentalAnalysis sentimentalAnalysis, SentimentData allData, WordCloudGenerator wordCloud) {
+			WordCloudGenerator wordCloud) {
 		this.crawlerProgram = crawlerProgram;
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
-		this.sentimentalAnalysis = sentimentalAnalysis;
-		this.allData = allData;
+//		this.sentimentalAnalysis = sentimentalAnalysis;
+//		this.allData = allData;
 		this.wordCloud = wordCloud;
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -234,6 +234,8 @@ public class GUI implements ActionListener {
 		if (e.getSource() == sentimentAnalysis) {
 			if (searchText == true) {
 				bottomText.setText("Generating Sentiment Analysis");
+				SentimentalAnalysis sentimentalAnalysis = new SentimentalAnalysis();
+				SentimentData allData = new SentimentData();
 				wordCloud.setSource("twitter");
 
 				try {

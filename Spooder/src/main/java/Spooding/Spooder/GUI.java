@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.*;
@@ -20,11 +21,12 @@ public class GUI implements ActionListener {
 
 	private JFrame frame;
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6;
-	private JLabel topText, middleText, bottomText;
-	private JButton crawlAll, crawlSpecific, sentimentAnalysis, exportData, exit, submitWord;
+	private JLabel topText, middleText;
+	static JLabel bottomText;
+	private JButton crawlAll, crawlSpecific,showCrawled, sentimentAnalysis, exportData, exit, submitWord;
 	private static JTextField textField;
 
-	public static boolean frameOpen = false, searchText = true;
+	public static boolean crawlFrameOpen = false, crawlInfoOpen = false, searchText = true;
 	public static String crawlText = null;
 
 	Boolean proceed = true;
@@ -85,12 +87,12 @@ public class GUI implements ActionListener {
 		// New Window
 		frame = new JFrame();
 		frame.setTitle("Crawl Policy Opinions");
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500, 500);
 		// frame.setResizable(true);
 
 		// panel5 setup
-		panel5.setLayout(new GridLayout(8, 3, 10, 10));
+		panel5.setLayout(new GridLayout(9, 3, 10, 10));
 		panel6.setLayout(new GridLayout(1, 2, 10, 10));
 
 		// buttons
@@ -102,6 +104,9 @@ public class GUI implements ActionListener {
 
 		crawlSpecific = new JButton("Crawl from Specific Sources");
 		crawlSpecific.addActionListener(this);
+		
+		showCrawled = new JButton("Show Crawled Data");
+		showCrawled.addActionListener(this);
 
 		sentimentAnalysis = new JButton("Sentiment Analysis with current Dataset");
 		sentimentAnalysis.addActionListener(this);
@@ -126,6 +131,7 @@ public class GUI implements ActionListener {
 		panel5.add(middleText);
 		panel5.add(crawlAll);
 		panel5.add(crawlSpecific);
+		panel5.add(showCrawled);
 		panel5.add(sentimentAnalysis);
 		panel5.add(exportData);
 		panel5.add(exit);
@@ -145,15 +151,15 @@ public class GUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// if crawl word is empty show error message
 		// if crawl word is not empty, set
-		if (e.getSource() == submitWord) {
-			if (textField.getText().isBlank()) {
-				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
-			} else if (!textField.getText().isBlank()) {
-				searchText = true;
-				crawlText = textField.getText(); // set crawl Text
-				System.out.println("Crawling :" + textField.getText());
-			}
-		}
+//		if (e.getSource() == submitWord) {
+//			if (textField.getText().isBlank()) {
+//				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+//			} else if (!textField.getText().isBlank()) {
+//				searchText = true;
+//				crawlText = textField.getText(); // set crawl Text
+//				System.out.println("Crawling :" + textField.getText());
+//			}
+//		}
 
 		// crawling all sources
 		if (e.getSource() == crawlAll) {
@@ -184,19 +190,33 @@ public class GUI implements ActionListener {
 
 		}
 		// if crawlWindow closed turn back on button.
-		if (frameOpen == false) {
+		if (crawlFrameOpen == false) {
 			crawlSpecific.setEnabled(true);
 		}
 		// crawl Specific button
 		if (e.getSource() == crawlSpecific) {
 			// if search text and frame not open
-			if (searchText == true && frameOpen == false) {
-				CrawlWindow crawlWindow = new CrawlWindow(crawlerProgram, redditCrawler, twitterCrawler,
-						straitsCrawler);
-				frameOpen = true;
+			if (searchText == true && crawlFrameOpen == false) {
+				CrawlWindow crawlWindow = new CrawlWindow(redditCrawler, twitterCrawler,straitsCrawler);
+				crawlFrameOpen = true;
 				bottomText.setText("Crawling Specific");
-			} else if (searchText == true && frameOpen == true) {
-				bottomText.setText("Window Open");
+			} else if (searchText == true && crawlFrameOpen == true) {
+				bottomText.setText("Crawl Specific Window Open");
+			}
+			// if no search text show error message
+			else if (searchText == false) {
+				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		//Open show Data Window
+		if (e.getSource() == showCrawled) {
+			// if search text and frame not open
+			if (searchText == true && crawlInfoOpen == false) {
+				CrawlDataInfo crawlDataInfo = new CrawlDataInfo(redditCrawler, twitterCrawler, straitsCrawler);
+				crawlInfoOpen = true;
+				bottomText.setText("Crawling Specific");
+			} else if (searchText == true && crawlInfoOpen == true) {
+				bottomText.setText("Crawl Info Window Open");
 			}
 			// if no search text show error message
 			else if (searchText == false) {
@@ -283,7 +303,7 @@ public class GUI implements ActionListener {
 
 		// close window
 		else if (e.getSource() == exit) {
-			frame.dispose();
+			frame.dispose();;
 		}
 
 	}

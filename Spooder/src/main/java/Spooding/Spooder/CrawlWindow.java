@@ -22,8 +22,7 @@ public class CrawlWindow implements ActionListener {
 
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
-	CrawlWindow(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
-		this.crawlerProgram = crawlerProgram;
+	CrawlWindow(Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
@@ -159,7 +158,8 @@ public class CrawlWindow implements ActionListener {
 //			WordCloudGenerator wordCloudS = new WordCloudGenerator("straits.csv");
 //			wordCloudS.generateCloud();
 		} else if (e.getSource() == back) {
-			GUI.frameOpen = false;
+			GUI.crawlFrameOpen = false;
+			GUI.bottomText.setText("");
 			frame.dispose();
 		}
 

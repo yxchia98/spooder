@@ -3,12 +3,9 @@ package Spooding.Spooder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
-
-import Spooding.Spooder.ProgressBarDemo.Task;
 
 public class CrawlProgressBar implements ActionListener{
 	JProgressBar crawlBar = new JProgressBar(); //values are the min and max value of progress
@@ -145,9 +142,6 @@ public class CrawlProgressBar implements ActionListener{
 	}
     class Task extends SwingWorker<Void, Void> {
     	
-        /*
-         * Main task. Executed in background thread.
-         */
     	@Override
         public Void doInBackground() {
            crawlBar.setIndeterminate(false);
@@ -168,10 +162,6 @@ public class CrawlProgressBar implements ActionListener{
             
         }
 
-
-		/*
-         * Executed in event dispatching thread
-         */
         public void done() {
         	
             frame.setCursor(null); //turn off the wait cursor
@@ -194,7 +184,7 @@ public class CrawlProgressBar implements ActionListener{
 	
 	public static void main(String[] args) {
 
-		CrawlProgressBar newBar = new CrawlProgressBar("test","crawlAll");
+//		CrawlProgressBar newBar = new CrawlProgressBar("test","crawlAll");
 
 		// new MyFrame();
 	}

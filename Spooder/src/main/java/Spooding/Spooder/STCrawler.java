@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import com.opencsv.CSVWriter;
 
 /**
- * Straits Times Crawler Class
+ * Straits Times Crawler. Crawls for posts in news website Straits Times, and uploading crawled articles into MongoDB
  */
 public class STCrawler extends Crawler {
 	private String baseUrl = "https://www.straitstimes.com/tags/budget-2021?page=";
@@ -20,15 +20,14 @@ public class STCrawler extends Crawler {
 	private WebDriver driver;
 
 	/**
-	 * Method???
+	 * Constructor
 	 */
 	public STCrawler() {
 		this.driver = initWebDriver();
 	}
 
 	/**
-	 * Method???
-	 * 
+	 * Constructor to initilize minimum articles threshold
 	 * @param limit
 	 */
 	public STCrawler(int limit) {
@@ -86,6 +85,9 @@ public class STCrawler extends Crawler {
 		return postArray.size();
 	}
 
+	/**
+	 * Crawl function of the class. Crawls post from Straits Times and store them into MongoDB.
+	 */
 	public void crawl() throws IOException, InterruptedException {
 		postArray.clear();
 		// launching the specified URL
@@ -124,6 +126,9 @@ public class STCrawler extends Crawler {
 		straitstimesBar.close.setEnabled(true);
 	}
 
+	/**
+	 * Exports straits times data retrieved from MongoDB, into excel csv named 'straitstimes.csv'
+	 */
 	public void exportExcel() throws IOException {
 		postArray = importSTMongo();
 		if (postArray.isEmpty()) {
@@ -148,10 +153,8 @@ public class STCrawler extends Crawler {
 		try {
 			this.crawl();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

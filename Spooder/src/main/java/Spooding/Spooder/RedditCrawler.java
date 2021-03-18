@@ -10,7 +10,8 @@ import org.openqa.selenium.*;
 import com.opencsv.CSVWriter;
 
 /**
- * Reddit Crawler Class Contains methods to crawl individual posts from reddit,
+ * Reddit Crawler. 
+ * Contains methods to crawl individual posts from reddit,
  * afterwards uploading them into MongoDB
  */
 public class RedditCrawler extends Crawler {
@@ -89,7 +90,7 @@ public class RedditCrawler extends Crawler {
 	}
 
 	/**
-	 * Initiate crawling from reddit, crawling till a minimum of 50 individual post
+	 * Initiate crawling from reddit, crawling till a minimum of specified individual posts, post's
 	 * titles with their respective vote scores will be scraped and uploaded into
 	 * the reddit collection in MongoDB
 	 */

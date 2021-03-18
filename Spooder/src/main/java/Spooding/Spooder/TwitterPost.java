@@ -1,6 +1,6 @@
 package Spooding.Spooder;
 /**
- * Twitter Post Class
+ * Twitter Post Class. Objects for posts crawled from twitter platform.
  */
 public class TwitterPost extends PostObject{
 	//configure twitter post variables

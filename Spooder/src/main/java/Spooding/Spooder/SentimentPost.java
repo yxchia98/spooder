@@ -19,9 +19,9 @@ public class SentimentPost {
 
 	/**
 	 * Constructor to create SentimentPost object containing post title, sentiment and source
-	 * @param title
-	 * @param sentiment
-	 * @param source
+	 * @param title title of post 
+	 * @param sentiment sentiment analysis score of post
+	 * @param source source which post came from
 	 */
 	public SentimentPost(String title, String sentiment, String source) {
 		this.title = title;

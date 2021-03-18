@@ -11,9 +11,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.*;
 /**
- * MongoConnect Class
- * Contains all the methods needed to establish a connection as well as CRUD operations
- * customized to this application
+ * Contains all the methods needed to establish a connection as well as CRUD operations customized to this application
  */
 public abstract class MongoConnect {
 	/**

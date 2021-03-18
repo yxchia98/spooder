@@ -1,6 +1,6 @@
 package Spooding.Spooder;
 /**
- * Straits Times Post Class
+ * Straits Times Post Class. Object for posts crawled from Straits Times.
  */
 public class STPost extends PostObject{
 
@@ -9,7 +9,7 @@ public class STPost extends PostObject{
 	 */
 	public STPost() {
 	/**
-	 * Method???
+	 * Method to get title from the object
 	 */
 	}
 	public STPost(String title) {

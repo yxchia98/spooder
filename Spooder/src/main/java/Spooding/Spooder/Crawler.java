@@ -13,7 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import twitter4j.TwitterException;
 /**
- * Crawler Class
+ * Crawler abstract class. Contains methods to be inherited across all crawlers, enabling a degree of polymorphism.
  */
 public abstract class Crawler extends MongoConnect implements Exportable, Runnable{
 	/**

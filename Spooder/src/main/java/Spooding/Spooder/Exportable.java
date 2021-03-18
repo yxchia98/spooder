@@ -2,7 +2,7 @@ package Spooding.Spooder;
 
 import java.io.IOException;
 /**
- * Exportable Interface
+ * Exportable Interface to enable export to excel features.
  */
 public interface Exportable {
 	/**

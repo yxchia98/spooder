@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
-
+/**
+ * CrawlDataInfo Class, open a new frame for looking at the existing crawled data for Reddit, Twitter, Straits Times
+ */
 public class CrawlDataInfo extends MongoConnect implements ActionListener{
 	private static int fillCounter = 0;
 	private int maxValue;
@@ -19,6 +21,9 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 	
 
 	//UI setup
+	/**
+	 * Constructor for CrawlDataInfo 
+	 */
 	CrawlDataInfo() {
 		
 		JPanel panel1 = new JPanel();
@@ -63,13 +68,12 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 		textArea.setMargin(new Insets(5,5,5,5));
         textArea.setEditable(false);
 
-//New Window
+        //New Window
 		frame = new JFrame("Crawl Data Info");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
-		//frame.setResizable(true);
 
-//buttons
+		//buttons	
 		close = new JButton("Close Window");
 		close.addActionListener(this);	
 		close.setPreferredSize(new Dimension(100,40));
@@ -87,29 +91,37 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 		straitsTimes.addActionListener(this);	
 		close.setPreferredSize(new Dimension(100,40));
 		
-//panel5 setup
+		
+		//setup for scrolling Text Area
+		JScrollPane scrollPaneText = new JScrollPane(textArea);
+		scrollPaneText.setPreferredSize(new Dimension(5, 150));
+		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
+		//panel5 setup
 		panel5.setLayout(new BorderLayout());
 		panel5.add(panel7,BorderLayout.PAGE_START);
+		panel5.add(scrollPaneText,BorderLayout.CENTER);
+		panel5.add(panel6, BorderLayout.PAGE_END);
+		//panel5.setBorder(null);
+		
+		
+		//panel6 setup
+		panel6.add(close,BorderLayout.CENTER);
+		
+		//panel7 setup
 		panel7.add(panel8,BorderLayout.CENTER);
 		panel7.add(panel9,BorderLayout.NORTH);
 		panel7.add(panel10,BorderLayout.WEST);
 		panel7.add(panel11,BorderLayout.EAST);
 		panel7.add(panel12,BorderLayout.SOUTH);
+		
+		//panel8 setup
 		panel8.add(twitter);
 		panel8.add(reddit);
 		panel8.add(straitsTimes);
-		JScrollPane scrollPaneText = new JScrollPane(textArea);
-		panel5.add(scrollPaneText,BorderLayout.CENTER);
-		scrollPaneText.setPreferredSize(new Dimension(5, 150));
-		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
-		//make it keep scrolling down
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		panel5.setBorder(null);
-		//
-		panel5.add(panel6, BorderLayout.PAGE_END);
-		panel6.add(close,BorderLayout.CENTER);
 		
-//borders
+		//frame borders
 		frame.add(panel1, BorderLayout.NORTH);
 		frame.add(panel2, BorderLayout.WEST);
 		frame.add(panel3, BorderLayout.EAST);
@@ -120,6 +132,10 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 
 	}
 	
+	/**
+	 * Method for listening to button click
+	 * Contains action to be performed on different button clicks
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == close) {
 			GUI.crawlInfoOpen = false;
@@ -140,17 +156,10 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 		}
 
 	}
-
-//	Timer timer = new Timer(50, new ActionListener() {
-//		public void actionPerformed(ActionEvent e) {
-//			fillCounter += 1;
-//		}
-//	});
-	
-	public static void main(String[] args) {
-
-	}
-    public void showTwitterPosts() {
+	/**
+	 * Method for getting Twitter Posts from MongoDB and displaying in textArea
+	 */
+    private void showTwitterPosts() {
         ArrayList<TwitterPost> postList = new ArrayList<>();
         postList = importTwitterMongo();
         for( TwitterPost post : postList) {
@@ -159,7 +168,10 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
             textArea.append("Tweet: " + post.getTitle() + "\n\n");
         }
     }
-    public void showRedditPosts() {
+	/**
+	 * Method for getting Reddit Posts from MongoDB and displaying in textArea
+	 */
+    private void showRedditPosts() {
         ArrayList<RedditPost> postList = new ArrayList<>();
         postList = importRedditMongo();
         for( RedditPost post : postList) {
@@ -168,7 +180,10 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
         	 textArea.append("Upvotes: " +String.valueOf(post.getVotes())+"\n\n");
         }
     }
-	public void showSTPosts() {
+	/**
+	 * Method for getting Straits Times Posts from MongoDB and displaying in textArea
+	 */
+    private void showSTPosts() {
         ArrayList<STPost> postList = new ArrayList<>();
         postList = importSTMongo();
         for( STPost post : postList) {

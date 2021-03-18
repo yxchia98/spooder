@@ -13,7 +13,9 @@ import java.io.IOException;
 import javax.swing.*;
 
 import twitter4j.TwitterException;
-
+/**
+ * CrawlWindow class, open a new frame for picking specific source to crawl from, Reddit, Twitter, Straits Times
+ */
 public class CrawlWindow implements ActionListener {
 
 	private JButton crawlReddit, crawlTwitter, crawlStraitstimes, back;
@@ -23,6 +25,13 @@ public class CrawlWindow implements ActionListener {
 
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
+	/**
+	 * Constructor for CrawlWindow Class
+	 * 
+	 * @param redditCrawler instance of Reddit Crawler
+	 * @param twitterCrawler instance of Twitter Crawler
+	 * @param straitsCrawler instance of Straits Times Crawler
+	 */
 	CrawlWindow(Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler) {
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
@@ -59,14 +68,14 @@ public class CrawlWindow implements ActionListener {
 		bottomText.setVerticalAlignment(JLabel.CENTER);
 		bottomText.setHorizontalAlignment(JLabel.CENTER);
 
-//New Window
+		//New Window
 		frame = new JFrame();
 		frame.setTitle("Crawl Specific");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
 		//frame.setResizable(true);
 
-//buttons
+		//buttons
 		crawlTwitter = new JButton("Crawl from Twitter");
 		crawlTwitter.addActionListener(this);
 
@@ -79,7 +88,7 @@ public class CrawlWindow implements ActionListener {
 		back = new JButton("Exit");
 		back.addActionListener(this);		
 		
-//panel5 setup
+		//panel5 setup
 		panel5.setLayout(new GridLayout(6, 3, 10, 10));
 		panel5.add(topText);
 		panel5.add(crawlTwitter);
@@ -88,7 +97,7 @@ public class CrawlWindow implements ActionListener {
 		panel5.add(back);
 		panel5.add(bottomText);
 
-//borders
+		//borders
 		frame.add(panel1, BorderLayout.NORTH);
 		frame.add(panel2, BorderLayout.WEST);
 		frame.add(panel3, BorderLayout.EAST);
@@ -98,7 +107,10 @@ public class CrawlWindow implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	@Override
+	/**
+	 * Method for listening to button click
+	 * Contains action to be performed on different button clicks
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
 			bottomText.setText("Crawled from Twitter");
@@ -106,7 +118,6 @@ public class CrawlWindow implements ActionListener {
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread twitterThread = new Thread(twitterCrawler);
 			twitterThread.start();
-			// wait for all to end
 			try {
 				twitterThread.join();
 			} catch (InterruptedException e1) {
@@ -122,7 +133,6 @@ public class CrawlWindow implements ActionListener {
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread redditThread = new Thread(redditCrawler);
 			redditThread.start();
-			// wait for all to end
 			try {
 				redditThread.join();
 			} catch (InterruptedException e1) {
@@ -138,7 +148,6 @@ public class CrawlWindow implements ActionListener {
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread stThread = new Thread(straitsCrawler);
 			stThread.start();
-			// wait for all to end
 			try {
 				stThread.join();
 			} catch (InterruptedException e1) {

@@ -182,6 +182,9 @@ public class GUI implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				redditThread.setDaemon(true);
+				twitterThread.setDaemon(true);
+				stThread.setDaemon(true);
 								
 
 			} else if (searchText == false) {

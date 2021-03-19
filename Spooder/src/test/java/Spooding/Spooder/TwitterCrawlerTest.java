@@ -73,9 +73,19 @@ class TwitterCrawlerTest {
 	 * Test to throw exception if a negative number is to be set for count, count
 	 * should not be a negative value
 	 */
-	void setCountTestFail() {
+	void setCountTestFailNegative() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			test.setCount(-100);
+		});
+	}
+	
+	@Test
+	/**
+	 * Test to throw exception when a value >100 is entered
+	 */
+	void setCountTestFailOutofRange() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			test.setCount(200);
 		});
 	}
 

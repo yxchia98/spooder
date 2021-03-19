@@ -50,7 +50,7 @@ public class App {
 		App crawlerProgram = new App();
 
 		// instantiate redditCrawler
-		Crawler redditCrawler = new RedditCrawler();
+		Crawler redditCrawler = new RedditCrawler(50);
 		// instantiate twitterCrawler
 		Crawler twitterCrawler = new TwitterCrawler("singapore", 100);
 //		twitterCrawler.twitterStart();

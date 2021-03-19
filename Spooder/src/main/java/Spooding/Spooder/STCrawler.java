@@ -16,7 +16,7 @@ import com.opencsv.CSVWriter;
  */
 public class STCrawler extends Crawler {
 	private String baseUrl = "https://www.straitstimes.com/tags/budget-2021?page=";
-	private int limit = 50;
+	private int limit = 0;
 	private ArrayList<STPost> postArray = new ArrayList<>();
 	private WebDriver driver;
 

@@ -17,7 +17,7 @@ import com.opencsv.CSVWriter;
  */
 public class RedditCrawler extends Crawler {
 	private String baseUrl; // baseurl of reddit link based on search string
-	private int limit = 50;
+	private int limit = 0;
 	private ArrayList<RedditPost> redditList = new ArrayList<>(); // arraylist to store post objects
 	private WebDriver driver; // selenium webdriver variable
 
@@ -69,6 +69,10 @@ public class RedditCrawler extends Crawler {
 	 */
 	public RedditCrawler() {
 		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
+	}
+	
+	public RedditCrawler(int limit) {
+		this.limit = limit;
 	}
 
 	/**

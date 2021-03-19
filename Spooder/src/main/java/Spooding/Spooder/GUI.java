@@ -100,7 +100,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		switchPanel.setLayout(card); // panel that contains the other panels
 		
 		mainMenuPanel.setBackground(Color.white);
-		mainMenuPanel.setLayout(new GridLayout(9, 3, 10, 10));
+		mainMenuPanel.setLayout(new GridLayout(8, 3, 10, 10));
 
 		crawlPanel.setBackground(Color.white);
 		crawlPanel.setLayout(new BorderLayout());
@@ -119,6 +119,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		frame.setTitle("Crawl Policy Opinions");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setSize(500, 500);
+		frame.setMinimumSize(new Dimension(500, 500));
 		// frame.setResizable(true);
 
 
@@ -206,7 +207,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		mainMenuPanel.add(sentimentAnalysis);
 		mainMenuPanel.add(exportData);
 		mainMenuPanel.add(exit);
-		mainMenuPanel.add(bottomText);
+		//mainMenuPanel.add(bottomText);
 
 		// Crawl Window Content
 		crawlTopText = new JLabel();
@@ -308,6 +309,7 @@ public class GUI extends MongoConnect implements ActionListener {
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
+			JOptionPane.showMessageDialog(null, "Crawled all sources", "Crawled all sources", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 		// if crawlWindow closed turn back on button.
@@ -423,11 +425,11 @@ public class GUI extends MongoConnect implements ActionListener {
 					e1.printStackTrace();
 				}
 				// CrawlProgressBar newBar = new CrawlProgressBar("Exporting...", "export");
-				JOptionPane.showMessageDialog(null, "Exported Data", "Exported Data", JOptionPane.PLAIN_MESSAGE);
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			JOptionPane.showMessageDialog(null, "Exported Data", "Exported Data", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		// close window
@@ -439,7 +441,6 @@ public class GUI extends MongoConnect implements ActionListener {
 		else if (e.getSource() == crawlTwitter) {
 			crawlBottomText.setText("Crawled from Twitter");
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread twitterThread = new Thread(twitterCrawler);
 			twitterThread.start();
 			try {
@@ -450,10 +451,9 @@ public class GUI extends MongoConnect implements ActionListener {
 			}
 			twitterThread.setDaemon(true);
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			JOptionPane.showMessageDialog(null, "Crawled Twitter", "Crawled Twitter", JOptionPane.INFORMATION_MESSAGE);
 		} else if (e.getSource() == crawlReddit) {
 			crawlBottomText.setText("Crawled from Reddit");
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread redditThread = new Thread(redditCrawler);
 			redditThread.start();
@@ -465,10 +465,9 @@ public class GUI extends MongoConnect implements ActionListener {
 			}
 			redditThread.setDaemon(true);
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			JOptionPane.showMessageDialog(null, "Crawled Reddit", "Crawled Reddit", JOptionPane.INFORMATION_MESSAGE);
 		} else if (e.getSource() == crawlStraitstimes) {
 			crawlBottomText.setText("Crawled from Straits Times");
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread stThread = new Thread(straitsCrawler);
 			stThread.start();
@@ -480,15 +479,15 @@ public class GUI extends MongoConnect implements ActionListener {
 			}
 			stThread.setDaemon(true);
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			JOptionPane.showMessageDialog(null, "Crawled Straits Times", "Crawled Straits Times", JOptionPane.INFORMATION_MESSAGE);
 		} else if (e.getSource() == backToMenu) {
 			card.show(switchPanel, "mainMenu");
 			crawlFrameOpen = false;
 			crawlBottomText.setText("");
 		} else if (e.getSource() == backToMenu1) {
+			card.show(switchPanel, "mainMenu");
 			crawlInfoOpen = false;
 			bottomText.setText("");
-			frame.dispose();
 		} else if (e.getSource() == twitter) {
 			textArea.setText(null);
 			showTwitterPosts();

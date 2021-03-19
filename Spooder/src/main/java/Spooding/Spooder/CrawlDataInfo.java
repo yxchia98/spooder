@@ -70,7 +70,7 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 
         //New Window
 		frame = new JFrame("Crawl Data Info");
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(500, 500);
 
 		//buttons	
@@ -81,15 +81,15 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 		
 		twitter = new JButton("Twitter");
 		twitter.addActionListener(this);	
-		close.setPreferredSize(new Dimension(100,40));
+		twitter.setPreferredSize(new Dimension(100,40));
 		
 		reddit = new JButton("Reddit");
 		reddit.addActionListener(this);	
-		close.setPreferredSize(new Dimension(100,40));
+		reddit.setPreferredSize(new Dimension(100,40));
 		
 		straitsTimes = new JButton("Straits Times");
 		straitsTimes.addActionListener(this);	
-		close.setPreferredSize(new Dimension(100,40));
+		straitsTimes.setPreferredSize(new Dimension(100,40));
 		
 		
 		//setup for scrolling Text Area
@@ -138,8 +138,8 @@ public class CrawlDataInfo extends MongoConnect implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == close) {
-			GUI.crawlInfoOpen = false;
-			GUI.bottomText.setText("");
+			//GUI.crawlInfoOpen = false;
+			//GUI.bottomText.setText("");
 			frame.dispose();
 		}
 		if (e.getSource() == twitter) {

@@ -71,7 +71,7 @@ public class CrawlWindow implements ActionListener {
 		//New Window
 		frame = new JFrame();
 		frame.setTitle("Crawl Specific");
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(500, 500);
 		//frame.setResizable(true);
 
@@ -158,8 +158,8 @@ public class CrawlWindow implements ActionListener {
 			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == back) {
-			GUI.crawlFrameOpen = false;
-			GUI.bottomText.setText("");
+			//GUI.crawlFrameOpen = false;
+			//GUI.bottomText.setText("");
 			frame.dispose();
 		}
 

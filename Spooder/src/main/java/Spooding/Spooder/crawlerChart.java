@@ -35,7 +35,7 @@ public class crawlerChart extends JFrame {
       this.neutral = new Double (neutral);
       this.veryPositive = new Double (veryPositive);
       this.veryNegative = new Double (veryNegative);
-      this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+      this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       setContentPane(createPanel( ));
 
       this.setSize( 500 , 500 );    

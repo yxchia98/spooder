@@ -8,10 +8,13 @@ public class STPost extends PostObject{
 	 * Method Constructor
 	 */
 	public STPost() {
+		
+	}
+	
 	/**
 	 * Method to get title from the object
+	 * @param title title
 	 */
-	}
 	public STPost(String title) {
 		super(title);
 	}

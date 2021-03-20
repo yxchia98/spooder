@@ -70,7 +70,10 @@ public class RedditCrawler extends Crawler {
 	public RedditCrawler() {
 		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 	}
-	
+	/**
+	 * Constructor for object with limit argument
+	 * @param limit limit
+	 */
 	public RedditCrawler(int limit) {
 		this.baseUrl = "https://www.reddit.com/r/singapore/search/?q=budget%20flair%3ANews%20OR%20flair%3APolitics%20OR%20flair%3AOpinion_Article%20OR%20flair%3ASerious_Discussion&restrict_sr=1";
 		this.limit = limit;

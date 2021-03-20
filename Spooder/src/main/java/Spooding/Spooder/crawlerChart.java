@@ -21,14 +21,16 @@ public class crawlerChart extends JFrame {
 	private static Double neutral;
 	private static Double veryPositive;
 	private static Double veryNegative;
+
 	/**
-	 * 
+	 * Method to generate Pie Chart
 	 * @param title name of Chart
 	 * @param positive number of positive Sentiments
 	 * @param negative number of negative Sentiments
 	 * @param neutral number of neutral Sentiments
 	 * @param veryPositive number of veryPositive Sentiments
 	 * @param veryNegative number of veryNegative Sentiments
+	 * @throws IOException Throws exception is related to Input and Output operations
 	 */
    public crawlerChart( String title , int positive,int negative, int neutral, int veryPositive, int veryNegative ) throws IOException {
       super( title ); 
@@ -85,6 +87,7 @@ public class crawlerChart extends JFrame {
    /**
     * Show Pie Chart in a window
     * @return Pie Chart window
+    * @throws IOException Throws exception is related to Input and Output operations
     */
    public static JPanel createPanel( ) throws IOException {
       JFreeChart chart = createChart(createDataset( ) );  

@@ -14,8 +14,8 @@ public class TwitterPost extends PostObject{
 	}
 	/**
 	 * Constructor, to initialize title and user parsed in
-	 * @param title
-	 * @param user
+	 * @param title title
+	 * @param user username
 	 */
 	public TwitterPost(String title, String user){
 		super(title);

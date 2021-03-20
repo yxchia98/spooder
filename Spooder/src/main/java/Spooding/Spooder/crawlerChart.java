@@ -1,5 +1,7 @@
 package Spooding.Spooder;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 
 import javax.swing.JFrame;
@@ -35,7 +37,12 @@ public class crawlerChart extends JFrame {
       this.neutral = new Double (neutral);
       this.veryPositive = new Double (veryPositive);
       this.veryNegative = new Double (veryNegative);
-      this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+      this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+      this.addWindowListener(new WindowAdapter() {
+    	   public void windowClosing(WindowEvent evt) {
+    		     onExit();
+    		   }
+    		  });
       setContentPane(createPanel( ));
 
       this.setSize( 500 , 500 );    
@@ -72,6 +79,7 @@ public class crawlerChart extends JFrame {
       int height = 500;  /* Height of the image */ 
       File pieChart = new File( "PieChart.jpeg" ); 
       ChartUtils.saveChartAsJPEG( pieChart , chart , width , height );
+      GUI.chartOpen = true;
       return chart;
    }
    /**
@@ -81,5 +89,11 @@ public class crawlerChart extends JFrame {
    public static JPanel createPanel( ) throws IOException {
       JFreeChart chart = createChart(createDataset( ) );  
       return new ChartPanel( chart ); 
+   }
+   private void onExit() {
+   
+	   GUI.chartOpen= false;
+	   this.dispose();
+	   
    }
 }

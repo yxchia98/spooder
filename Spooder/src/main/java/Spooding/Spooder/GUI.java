@@ -27,7 +27,8 @@ import twitter4j.TwitterException;
 public class GUI extends MongoConnect implements ActionListener {
 
 	static JFrame frame;
-	CardLayout card = new CardLayout();
+	static boolean chartOpen = false;
+	private CardLayout card = new CardLayout();
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12,
 			panel13, panel14, panel15, panel16, panel17, panel18, panel19, switchPanel, mainMenuPanel, crawlPanel,
 			dataPanel, sentimentPanel;
@@ -332,7 +333,6 @@ public class GUI extends MongoConnect implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setCursor(null);
 		frame.setVisible(true);
-
 	}
 
 	/**
@@ -397,7 +397,7 @@ public class GUI extends MongoConnect implements ActionListener {
 			}
 		}
 		// Open show Data Window
-		if (e.getSource() == showCrawled) {
+		else if (e.getSource() == showCrawled) {
 			card.show(switchPanel, "dataWindow");
 			// if search text and frame not open
 			if (searchText == true && crawlInfoOpen == false) {
@@ -414,6 +414,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		}
 		// start sentiment analysis
 		if (e.getSource() == sentimentAnalysis) {
+			chartOpen = false;
 			card.show(switchPanel, "sentimentAnalysis");
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			if (searchText == true) {
@@ -449,20 +450,11 @@ public class GUI extends MongoConnect implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				// try {
-				positive = sentimentalAnalysis.positiveCounter;
+				 positive = sentimentalAnalysis.positiveCounter;
 				negative = sentimentalAnalysis.negativeCounter;
 				neutral = sentimentalAnalysis.neutralCounter;
 				veryPositive = sentimentalAnalysis.veryPositiveCounter;
 				veryNegative = sentimentalAnalysis.veryNegativeCounter;
-//					crawlerChart demo = new crawlerChart("Sentiment Analysis", sentimentalAnalysis.positiveCounter,
-//							sentimentalAnalysis.negativeCounter, sentimentalAnalysis.neutralCounter,
-//							sentimentalAnalysis.veryPositiveCounter, sentimentalAnalysis.veryNegativeCounter);
-
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
@@ -501,7 +493,7 @@ public class GUI extends MongoConnect implements ActionListener {
 
 		// close window
 		else if (e.getSource() == exit) {
-			frame.dispose();
+			System.exit(0);
 		}
 		// --------------------
 		// Crawl Window Buttons
@@ -572,12 +564,18 @@ public class GUI extends MongoConnect implements ActionListener {
 			textArea1.setText(null);
 			showSentimentAnalysis();
 		} else if (e.getSource() == pieChart) {
-			try {
-				crawlerChart demo = new crawlerChart("Sentiment Analysis", positive, negative, neutral, veryPositive, veryNegative);
 
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (chartOpen == false) {
+				try {
+					crawlerChart demo = new crawlerChart("Sentiment Analysis", positive, negative, neutral,
+							veryPositive, veryNegative);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (chartOpen = true) {
+				JOptionPane.showMessageDialog(null, "Pie Chart already open", "Pie Chart already open",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (e.getSource() == backToMenu2) {
 			card.show(switchPanel, "mainMenu");

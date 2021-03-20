@@ -1,6 +1,5 @@
 package Spooding.Spooder;
 
-import java.awt.Cursor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,20 +92,20 @@ public class STCrawler extends Crawler {
 		postArray.clear();
 		// launching the specified URL
 		int count = 0;
-		driver = initWebDriver();
+		driver = initWebDriver();			//initialize headless chrome browser
 //		WebDriverWait wait = new WebDriverWait(driver, 10);
 		System.out.println("Crawling from straits times...");
-		driver.get(getBaseUrl() + String.valueOf(count));
+		driver.get(getBaseUrl() + String.valueOf(count));		//append page number to url 
 		System.out.println("Website reached.");
 //		Thread.sleep(5000);
-		driver.navigate().refresh();
+		driver.navigate().refresh();				//refresh to get rid of iframe and advertistments
 		Thread.sleep(3000);
-		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));
+		List<WebElement> list = driver.findElements(By.xpath("//span[@class='story-headline']"));		//get element by XPath
 		for (WebElement listItem : list) {
 			postArray.add(new STPost(listItem.getText()));
 		}
 		List<WebElement> nextList;
-		while (list.size() < limit) {
+		while (list.size() < limit) {		//go into next page if theres more needed to crawl
 //			WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='pager-next']")));
 //			element.click();
 //			driver.findElement(By.xpath("//li[@class='pager-next']")).click();
@@ -114,7 +113,7 @@ public class STCrawler extends Crawler {
 			driver.get(baseUrl + String.valueOf(count));
 			Thread.sleep(1000);
 			nextList = driver.findElements(By.xpath("//span[@class='story-headline']"));
-			for (WebElement listItem : nextList) {
+			for (WebElement listItem : nextList) {			//create a new STPost object and add it into the arraylist
 				postArray.add(new STPost(listItem.getText()));
 			}
 			list.addAll(nextList);

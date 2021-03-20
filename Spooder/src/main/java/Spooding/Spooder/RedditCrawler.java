@@ -1,7 +1,6 @@
 package Spooding.Spooder;
 
 import java.util.List;
-import java.awt.Cursor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,26 +106,26 @@ public class RedditCrawler extends Crawler {
 		redditList.clear();
 		driver = initWebDriver();
 		System.out.println("Crawling from reddit...");
-		driver.get(getBaseUrl());
+		driver.get(getBaseUrl());		//access the url
 		System.out.println("Website reached.");
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+		js.executeScript("window.scrollBy(0,document.body.scrollHeight)");	//scroll down to the base of the page, for it to load more posts
 		Thread.sleep(4000); // pause the browser to let javascript load new posts
-		List<WebElement> list = driver.findElements(By.xpath("//div[contains(@class, '_1oQyIsiPHYt6nx7VOmd1sz')]"));
-		while (list.size() < limit) {
+		List<WebElement> list = driver.findElements(By.xpath("//div[contains(@class, '_1oQyIsiPHYt6nx7VOmd1sz')]"));	//find post elements by XPath
+		while (list.size() < limit) {			//scrolls down to fetch more posts, if total posts does not meet the required number
 			js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
 			Thread.sleep(4000); // pause the browser to let javascript load new posts
 			list = driver.findElements(By.xpath("//div[contains(@class, '_1oQyIsiPHYt6nx7VOmd1sz')]"));
 		}
 		System.out.println("Retrieved " + list.size() + " posts");
 
-		for (WebElement listItem : list) {
+		for (WebElement listItem : list) {	//use XPath to extract out texts of posts, as well as number of votes.
 			WebElement postTitle = listItem.findElement(By.xpath(".//a[@data-click-id='body']"));
 			WebElement postVote = listItem
 					.findElement(By.xpath(".//div[@class='_1rZYMD_4xY3gRcSS3p8ODO _3a2ZHWaih05DgAOtvu6cIo']"));
 			String title = postTitle.getText();
-			int votes = formatVotes(postVote.getText());
-			redditList.add(new RedditPost(title, votes));
+			int votes = formatVotes(postVote.getText());			//format votes
+			redditList.add(new RedditPost(title, votes));			//store post title and votes into an object, and into the arraylist
 		}
 		exportRedditMongo(redditList);
 		driver.close();

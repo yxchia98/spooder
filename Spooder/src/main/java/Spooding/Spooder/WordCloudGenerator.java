@@ -22,7 +22,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 public class WordCloudGenerator extends MongoConnect {
 	private String source;
 	private Dimension dimension = new Dimension(600, 600);
-	final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+	private final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 	/**
 	 * Constructor
 	 */

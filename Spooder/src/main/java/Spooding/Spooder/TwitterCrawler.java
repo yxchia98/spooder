@@ -143,7 +143,7 @@ public class TwitterCrawler extends Crawler {
 			System.out.printf("At %s, @%-15s :  %s\n", s.getCreatedAt().toString(), s.getUser().getScreenName(),
 					cleanString(s.getText()));
 
-			// instantiate new twitterobject
+			// instantiate new twitter object
 			TwitterPost currentTweet = new TwitterPost(cleanString(s.getText()), s.getUser().getScreenName());
 			this.twitterList.add(currentTweet);
 		}
@@ -162,7 +162,7 @@ public class TwitterCrawler extends Crawler {
 				.replaceAll("[\n\t]", " ")
 				// remove retweet "RT" tag
 				.replaceAll("RT ", "")
-				// remove usernames
+				// remove username tag
 				.replaceAll("@[\\S]+ ", "")
 				// remove links
 				.replaceAll("http[s]:[\\S]+", "")
@@ -187,9 +187,7 @@ public class TwitterCrawler extends Crawler {
 		List<String[]> writeList = new ArrayList<>();
 		CSVWriter writer = new CSVWriter(new FileWriter("twitter.csv"));
 		for (TwitterPost post : twitterList) {
-//			System.out.print(twitterList.indexOf(post)+1 + ". @" + post.getUser() + ": " + post.getTitle() + "\n");		//print out user handles and tweets
-//			String[] data = {post.getUser(), post.getTitle()};
-			String[] data = { post.getTitle() };
+			String[] data = {post.getUser(), post.getTitle()};
 			writeList.add(data);
 		}
 		writer.writeAll(writeList, false);

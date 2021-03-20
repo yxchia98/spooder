@@ -56,14 +56,6 @@ public class App {
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
-
-		
-//		SentimentalAnalysis redditAnalysis = new SentimentalAnalysis();
-//		SentimentalAnalysis twitterAnalysis = new SentimentalAnalysis();
-//		SentimentalAnalysis straitsTimeAnalysis = new SentimentalAnalysis();
-
-		
-//		SentimentData allData = new SentimentData();
 		
 		WordCloudGenerator wordCloud = new WordCloudGenerator();
 

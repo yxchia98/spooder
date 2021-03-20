@@ -114,7 +114,7 @@ public class CrawlWindow implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == crawlTwitter) {
 			bottomText.setText("Crawled from Twitter");
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread twitterThread = new Thread(twitterCrawler);
 			twitterThread.start();
@@ -125,11 +125,11 @@ public class CrawlWindow implements ActionListener {
 				e1.printStackTrace();
 			}
 			twitterThread.setDaemon(true);
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == crawlReddit) {
 			bottomText.setText("Crawled from Reddit");
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread redditThread = new Thread(redditCrawler);
 			redditThread.start();
@@ -140,11 +140,11 @@ public class CrawlWindow implements ActionListener {
 				e1.printStackTrace();
 			}
 			redditThread.setDaemon(true);
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == crawlStraitstimes) {
 			bottomText.setText("Crawled from Straits Times");
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			Thread stThread = new Thread(straitsCrawler);
 			stThread.start();
@@ -155,7 +155,7 @@ public class CrawlWindow implements ActionListener {
 				e1.printStackTrace();
 			}
 			stThread.setDaemon(true);
-			GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			//GUI.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		} else if (e.getSource() == back) {
 			//GUI.crawlFrameOpen = false;

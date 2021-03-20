@@ -45,11 +45,11 @@ public abstract class MongoConnect {
         ArrayList<RedditPost> list = new ArrayList<>();
         //connect to mongoDB atlas
         MongoClient mongoClient = MongoClients.create(
-                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("spooder");
-		MongoCollection<Document> collection = mongoConnectCollection(database, "reddit");
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+        MongoDatabase database = mongoClient.getDatabase("spooder");				//connect to specified database
+		MongoCollection<Document> collection = mongoConnectCollection(database, "reddit");		//connect to the reddit collection
         System.out.println("Connected to MongoDB");
-        for (Document doc : collection.find()) {
+        for (Document doc : collection.find()) {				//retrieve data from collection
             list.add(new RedditPost(doc.get("Title").toString(), (int) doc.get("Votes")));
         }
         mongoClient.close();
@@ -65,10 +65,10 @@ public abstract class MongoConnect {
         ArrayList<TwitterPost> list = new ArrayList<>();
         //connect to mongoDB atlas
         MongoClient mongoClient = MongoClients.create(
-                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("spooder");
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+        MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
         //check if specified collection is in database
-		MongoCollection<Document> collection = mongoConnectCollection(database, "twitter");
+		MongoCollection<Document> collection = mongoConnectCollection(database, "twitter");		//connect to twitter collection
         System.out.println("Connected to MongoDB");
         for (Document doc : collection.find()) {
             list.add(new TwitterPost(doc.get("Title").toString(), doc.get("User").toString()));
@@ -86,9 +86,9 @@ public abstract class MongoConnect {
         ArrayList<STPost> list = new ArrayList<>();
         //connect to mongoDB atlas
         MongoClient mongoClient = MongoClients.create(
-                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("spooder");
-		MongoCollection<Document> collection = mongoConnectCollection(database, "straitstimes");
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+        MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
+		MongoCollection<Document> collection = mongoConnectCollection(database, "straitstimes");	//connect to straitstimes collection
         System.out.println("Connected to MongoDB");
         for (Document doc : collection.find()) {
             list.add(new STPost(doc.get("Title").toString()));
@@ -106,9 +106,9 @@ public abstract class MongoConnect {
         ArrayList<SentimentPost> list = new ArrayList<>();
         //connect to mongoDB atlas
         MongoClient mongoClient = MongoClients.create(
-                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("spooder");
-		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+        MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
+		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");		//connect to sentiment collection
         System.out.println("Connected to MongoDB");
         for (Document doc : collection.find()) {
             list.add(new SentimentPost(doc.get("Title").toString(), doc.get("Sentiment").toString(), doc.getString("Source").toString()));
@@ -126,11 +126,11 @@ public abstract class MongoConnect {
         ArrayList<SentimentPost> list = new ArrayList<>();
         //connect to mongoDB atlas
         MongoClient mongoClient = MongoClients.create(
-                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("spooder");
-		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
+                "mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+        MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
+		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");		//connect to sentiment collection
         System.out.println("Connected to MongoDB");
-        for (Document doc : collection.find(eq("Source", source))) {
+        for (Document doc : collection.find(eq("Source", source))) {			//query the documents in the collection according to source
             list.add(new SentimentPost(doc.get("Title").toString(), doc.get("Sentiment").toString(), doc.getString("Source").toString()));
         }
         mongoClient.close();
@@ -145,14 +145,14 @@ public abstract class MongoConnect {
 	protected void exportRedditMongo(ArrayList<RedditPost> redditList) {
 		//connect to mongoDB atlas
 		MongoClient mongoClient = MongoClients.create(
-				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-		MongoDatabase database = mongoClient.getDatabase("spooder");
-		MongoCollection<Document> collection = mongoConnectCollection(database, "reddit");
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+		MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
+		MongoCollection<Document> collection = mongoConnectCollection(database, "reddit");			//connect to reddit collection
 		//first clear all documents in collection, to avoid duplications from multiple crawls
 		BasicDBObject bdoc = new BasicDBObject();
 		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
-		for (RedditPost post : redditList) {
+		for (RedditPost post : redditList) {			//store data into collection
 			Document doc = new Document();
 			doc.append("Title", post.getTitle());
 			doc.append("Votes", post.getVotes());
@@ -169,14 +169,14 @@ public abstract class MongoConnect {
 	protected void exportTwitterMongo(ArrayList<TwitterPost> twitterList) {
 		//connect to mongoDB atlas
 		MongoClient mongoClient = MongoClients.create(
-				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-		MongoDatabase database = mongoClient.getDatabase("spooder");
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+		MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
 		MongoCollection<Document> collection = mongoConnectCollection(database, "twitter");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
 		BasicDBObject bdoc = new BasicDBObject();
 		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
-		for (TwitterPost post : twitterList) {
+		for (TwitterPost post : twitterList) {	//store data into collection
 			Document doc = new Document();
 			doc.append("Title", post.getTitle());
 			doc.append("User", post.getUser());
@@ -193,14 +193,14 @@ public abstract class MongoConnect {
 	protected void exportSTMongo(ArrayList<STPost> postArray) {
 		//connect to mongoDB atlas
 		MongoClient mongoClient = MongoClients.create(
-				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-		MongoDatabase database = mongoClient.getDatabase("spooder");
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+		MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
 		MongoCollection<Document> collection = mongoConnectCollection(database, "straitstimes");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
 		BasicDBObject bdoc = new BasicDBObject();
 		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
-		for (STPost post : postArray) {
+		for (STPost post : postArray) {		//store data into collection
 			Document doc = new Document();
 			doc.append("Title", post.getTitle());
 			collection.insertOne(doc);
@@ -216,14 +216,14 @@ public abstract class MongoConnect {
 	protected void exportSentimentMongo(ArrayList<SentimentPost> sentimentArray) {
 		//connect to mongoDB atlas
 		MongoClient mongoClient = MongoClients.create(
-				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
-		MongoDatabase database = mongoClient.getDatabase("spooder");
+				"mongodb+srv://crawlerAdmin:spooder@cluster0.whwla.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");	//MongoDB cluster connection string
+		MongoDatabase database = mongoClient.getDatabase("spooder");			//connect to specified database
 		MongoCollection<Document> collection = mongoConnectCollection(database, "sentiment");
 		//first clear all documents in collection, to avoid duplications from multiple crawls
 		BasicDBObject bdoc = new BasicDBObject();
 		collection.deleteMany(bdoc);
 		System.out.println("Connected to MongoDB");
-		for (SentimentPost sentiment : sentimentArray) {
+		for (SentimentPost sentiment : sentimentArray) {		//store data into collection
 			Document doc = new Document();
 			doc.append("Title", sentiment.getTitle());
 			doc.append("Sentiment", sentiment.getSentiment());

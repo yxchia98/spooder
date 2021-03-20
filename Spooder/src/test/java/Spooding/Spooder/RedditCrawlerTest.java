@@ -12,7 +12,7 @@ import twitter4j.TwitterException;
 
 class RedditCrawlerTest {
 
-	RedditCrawler test = new RedditCrawler();
+	RedditCrawler test = new RedditCrawler(50);
 
 	@BeforeEach
 	void setUp() throws Exception {

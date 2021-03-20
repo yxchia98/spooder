@@ -12,7 +12,7 @@ import twitter4j.TwitterException;
 
 class STCrawlerTest {
 
-	STCrawler test = new STCrawler();
+	STCrawler test = new STCrawler(50);
 
 	@BeforeEach
 	void setUp() throws Exception {

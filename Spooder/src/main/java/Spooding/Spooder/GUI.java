@@ -28,22 +28,26 @@ public class GUI extends MongoConnect implements ActionListener {
 
 	static JFrame frame;
 	CardLayout card = new CardLayout();
-	private JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12, switchPanel, mainMenuPanel, crawlPanel, dataPanel;
+	private JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12,
+			panel13, panel14, panel15, panel16, panel17, panel18, panel19, switchPanel, mainMenuPanel, crawlPanel,
+			dataPanel, sentimentPanel;
 
 	private JLabel topText, middleText, bottomText, crawlTopText, crawlBottomText;
 
 	private JButton crawlAll, crawlSpecific, showCrawled, sentimentAnalysis, exportData, exit, submitWord, crawlTwitter,
-			crawlReddit, crawlStraitstimes, backToMenu, backToMenu1, twitter, reddit, straitsTimes;
+			crawlReddit, crawlStraitstimes, backToMenu, twitter, reddit, straitsTimes, backToMenu1,
+			sentimentAnalysisData, pieChart, backToMenu2;
 
-	private JTextArea textArea = new JTextArea();
+	private JTextArea textArea, textArea1;
 
 	private boolean crawlFrameOpen = false, crawlInfoOpen = false, searchText = true;
 	public String crawlText = null;
 
-	Boolean proceed = true;
 	protected App crawlerProgram;
 	protected Crawler redditCrawler, twitterCrawler, straitsCrawler;
 	protected WordCloudGenerator wordCloud;
+
+	private int positive, negative, neutral, veryPositive, veryNegative;
 
 	/**
 	 * Constructor for the GUI Class
@@ -78,10 +82,21 @@ public class GUI extends MongoConnect implements ActionListener {
 		panel10 = new JPanel();
 		panel11 = new JPanel();
 		panel12 = new JPanel();
+		panel13 = new JPanel();
+		panel14 = new JPanel();
+		panel15 = new JPanel();
+		panel16 = new JPanel();
+		panel17 = new JPanel();
+		panel18 = new JPanel();
+		panel19 = new JPanel();
 		switchPanel = new JPanel();
 		mainMenuPanel = new JPanel();
 		crawlPanel = new JPanel();
 		dataPanel = new JPanel();
+		sentimentPanel = new JPanel();
+
+		textArea = new JTextArea();
+		textArea1 = new JTextArea();
 
 		panel1.setBackground(Color.white);
 		panel2.setBackground(Color.white);
@@ -95,10 +110,17 @@ public class GUI extends MongoConnect implements ActionListener {
 		panel10.setBackground(Color.white);
 		panel11.setBackground(Color.white);
 		panel12.setBackground(Color.white);
+		panel13.setBackground(Color.white);
+		panel14.setBackground(Color.white);
+		panel15.setBackground(Color.white);
+		panel16.setBackground(Color.white);
+		panel17.setBackground(Color.white);
+		panel18.setBackground(Color.white);
+		panel19.setBackground(Color.white);
 
 		// Panel setup
 		switchPanel.setLayout(card); // panel that contains the other panels
-		
+
 		mainMenuPanel.setBackground(Color.white);
 		mainMenuPanel.setLayout(new GridLayout(8, 3, 10, 10));
 
@@ -107,6 +129,9 @@ public class GUI extends MongoConnect implements ActionListener {
 
 		dataPanel.setBackground(Color.white);
 		dataPanel.setLayout(new BorderLayout());
+
+		sentimentPanel.setBackground(Color.white);
+		sentimentPanel.setLayout(new BorderLayout());
 
 		// Frame Borders
 		panel1.setPreferredSize(new Dimension(50, 50));
@@ -121,8 +146,6 @@ public class GUI extends MongoConnect implements ActionListener {
 		frame.setSize(500, 500);
 		frame.setMinimumSize(new Dimension(500, 500));
 		// frame.setResizable(true);
-
-
 
 		// Main Menu buttons
 		submitWord = new JButton("Submit");
@@ -177,6 +200,20 @@ public class GUI extends MongoConnect implements ActionListener {
 		straitsTimes.addActionListener(this);
 		straitsTimes.setPreferredSize(new Dimension(100, 40));
 
+		// Sentiment Analysis Buttons
+		sentimentAnalysisData = new JButton("Sentiment Analysis Data");
+		sentimentAnalysisData.addActionListener(this);
+		sentimentAnalysisData.setPreferredSize(new Dimension(100, 40));
+
+		pieChart = new JButton("Show Pie Chart");
+		pieChart.addActionListener(this);
+		pieChart.setPreferredSize(new Dimension(100, 40));
+
+		backToMenu2 = new JButton("Back to Menu");
+		backToMenu2.addActionListener(this);
+		backToMenu2.setPreferredSize(new Dimension(200, 40));
+		backToMenu2.setEnabled(true);
+
 		// Main menu Content
 		topText = new JLabel();
 		middleText = new JLabel();
@@ -207,7 +244,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		mainMenuPanel.add(sentimentAnalysis);
 		mainMenuPanel.add(exportData);
 		mainMenuPanel.add(exit);
-		//mainMenuPanel.add(bottomText);
+		// mainMenuPanel.add(bottomText);
 
 		// Crawl Window Content
 		crawlTopText = new JLabel();
@@ -239,22 +276,46 @@ public class GUI extends MongoConnect implements ActionListener {
 		scrollPaneText.setPreferredSize(new Dimension(5, 150));
 		DefaultCaret caret = (DefaultCaret) textArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		
+
 		dataPanel.setLayout(new BorderLayout());
-		dataPanel.add(panel7,BorderLayout.PAGE_START);
-		dataPanel.add(scrollPaneText,BorderLayout.CENTER);
+		dataPanel.add(panel7, BorderLayout.PAGE_START);
+		dataPanel.add(scrollPaneText, BorderLayout.CENTER);
 		dataPanel.add(panel6, BorderLayout.PAGE_END);
-		panel6.add(backToMenu1,BorderLayout.CENTER);
+		panel6.add(backToMenu1, BorderLayout.CENTER);
 		panel7.setLayout(new BorderLayout());
-		panel7.add(panel8,BorderLayout.CENTER);
-		panel7.add(panel9,BorderLayout.NORTH);
-		panel7.add(panel10,BorderLayout.WEST);
-		panel7.add(panel11,BorderLayout.EAST);
-		panel7.add(panel12,BorderLayout.SOUTH);
-		panel8.setLayout(new GridLayout(1,3,10,10));
+		panel7.add(panel8, BorderLayout.CENTER);
+		panel7.add(panel9, BorderLayout.NORTH);
+		panel7.add(panel10, BorderLayout.WEST);
+		panel7.add(panel11, BorderLayout.EAST);
+		panel7.add(panel12, BorderLayout.SOUTH);
+		panel8.setLayout(new GridLayout(1, 3, 10, 10));
 		panel8.add(twitter);
 		panel8.add(reddit);
 		panel8.add(straitsTimes);
+
+		// Sentiment Analysis Panel Content
+		textArea1.setBackground(Color.LIGHT_GRAY);
+		textArea1.setMargin(new Insets(5, 5, 5, 5));
+		textArea1.setEditable(false);
+		JScrollPane scrollPaneText1 = new JScrollPane(textArea1);
+		scrollPaneText1.setPreferredSize(new Dimension(5, 150));
+		DefaultCaret caret1 = (DefaultCaret) textArea1.getCaret();
+		caret1.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
+		sentimentPanel.setLayout(new BorderLayout());
+		sentimentPanel.add(panel14, BorderLayout.PAGE_START);
+		sentimentPanel.add(scrollPaneText1, BorderLayout.CENTER);
+		sentimentPanel.add(panel13, BorderLayout.PAGE_END);
+		panel13.add(backToMenu2, BorderLayout.CENTER);
+		panel14.setLayout(new BorderLayout());
+		panel14.add(panel15, BorderLayout.CENTER);
+		panel14.add(panel16, BorderLayout.NORTH);
+		panel14.add(panel17, BorderLayout.WEST);
+		panel14.add(panel18, BorderLayout.EAST);
+		panel14.add(panel19, BorderLayout.SOUTH);
+		panel15.setLayout(new GridLayout(1, 3, 10, 10));
+		panel15.add(sentimentAnalysisData);
+		panel15.add(pieChart);
 
 		// borders
 		frame.add(panel1, BorderLayout.NORTH);
@@ -265,6 +326,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		switchPanel.add(mainMenuPanel, "mainMenu");
 		switchPanel.add(crawlPanel, "crawlWindow");
 		switchPanel.add(dataPanel, "dataWindow");
+		switchPanel.add(sentimentPanel, "sentimentAnalysis");
 		card.show(switchPanel, "mainMenu");
 
 		frame.setLocationRelativeTo(null);
@@ -309,7 +371,8 @@ public class GUI extends MongoConnect implements ActionListener {
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
-			JOptionPane.showMessageDialog(null, "Crawled all sources", "Crawled all sources", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Crawled all sources", "Crawled all sources",
+					JOptionPane.INFORMATION_MESSAGE);
 
 		}
 		// if crawlWindow closed turn back on button.
@@ -351,6 +414,7 @@ public class GUI extends MongoConnect implements ActionListener {
 		}
 		// start sentiment analysis
 		if (e.getSource() == sentimentAnalysis) {
+			card.show(switchPanel, "sentimentAnalysis");
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			if (searchText == true) {
 				bottomText.setText("Generated Sentiment Analysis");
@@ -366,7 +430,6 @@ public class GUI extends MongoConnect implements ActionListener {
 				}
 
 				try {
-
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -374,7 +437,6 @@ public class GUI extends MongoConnect implements ActionListener {
 				}
 				wordCloud.setSource("reddit");
 				try {
-
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -382,20 +444,25 @@ public class GUI extends MongoConnect implements ActionListener {
 				}
 				wordCloud.setSource("straitstimes");
 				try {
-
 					wordCloud.generateCloud();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				try {
-					crawlerChart demo = new crawlerChart("Sentiment Analysis", sentimentalAnalysis.positiveCounter,
-							sentimentalAnalysis.negativeCounter, sentimentalAnalysis.neutralCounter,
-							sentimentalAnalysis.veryPositiveCounter, sentimentalAnalysis.veryNegativeCounter);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// try {
+				positive = sentimentalAnalysis.positiveCounter;
+				negative = sentimentalAnalysis.negativeCounter;
+				neutral = sentimentalAnalysis.neutralCounter;
+				veryPositive = sentimentalAnalysis.veryPositiveCounter;
+				veryNegative = sentimentalAnalysis.veryNegativeCounter;
+//					crawlerChart demo = new crawlerChart("Sentiment Analysis", sentimentalAnalysis.positiveCounter,
+//							sentimentalAnalysis.negativeCounter, sentimentalAnalysis.neutralCounter,
+//							sentimentalAnalysis.veryPositiveCounter, sentimentalAnalysis.veryNegativeCounter);
+
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 			} else if (searchText == false) {
 				JOptionPane.showMessageDialog(null, "Please Enter crawl text", "title", JOptionPane.ERROR_MESSAGE);
 			}
@@ -479,7 +546,8 @@ public class GUI extends MongoConnect implements ActionListener {
 			}
 			stThread.setDaemon(true);
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			JOptionPane.showMessageDialog(null, "Crawled Straits Times", "Crawled Straits Times", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Crawled Straits Times", "Crawled Straits Times",
+					JOptionPane.INFORMATION_MESSAGE);
 		} else if (e.getSource() == backToMenu) {
 			card.show(switchPanel, "mainMenu");
 			crawlFrameOpen = false;
@@ -497,6 +565,24 @@ public class GUI extends MongoConnect implements ActionListener {
 		} else if (e.getSource() == straitsTimes) {
 			textArea.setText(null);
 			showSTPosts();
+		}
+		// --------------------
+		// Sentiment Analysis Window Buttons
+		else if (e.getSource() == sentimentAnalysisData) {
+			textArea1.setText(null);
+			showSentimentAnalysis();
+		} else if (e.getSource() == pieChart) {
+			try {
+				crawlerChart demo = new crawlerChart("Sentiment Analysis", positive, negative, neutral, veryPositive, veryNegative);
+
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == backToMenu2) {
+			card.show(switchPanel, "mainMenu");
+			crawlFrameOpen = false;
+			crawlBottomText.setText("");
 		}
 	}
 
@@ -537,5 +623,23 @@ public class GUI extends MongoConnect implements ActionListener {
 			// print out title
 			textArea.append("Headlines: " + post.getTitle() + "\n\n");
 		}
+	}
+
+	/**
+	 * Method for getting Sentiment Analysis Posts from MongoDB and displaying in
+	 * textArea
+	 */
+	private void showSentimentAnalysis() {
+		ArrayList<SentimentPost> postList = new ArrayList<>();
+		postList = importSentimentMongo();
+		int count = 0;
+		for (SentimentPost post : postList) {
+			count += 1;
+			// print out title, and votes
+			textArea1.append("Title: " + post.getTitle() + "\n");
+			textArea1.append("Sentiment: " + post.getSentiment() + "\n");
+			textArea1.append("Source: " + post.getSource() + "\n\n");
+		}
+		textArea1.append("Total Posts: " + count + "\n\n");
 	}
 }

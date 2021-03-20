@@ -13,7 +13,7 @@ public class CrawlProgressBar implements ActionListener{
 	private int maxValue;
 
 	JButton close;
-	private JFrame frame = new JFrame();
+	public JFrame frame = new JFrame();
 	private JPanel panel1, panel2, panel3, panel4, panel5,panel6;
 	private JLabel topText, bottomText;
 	private JTextArea textArea = new JTextArea();

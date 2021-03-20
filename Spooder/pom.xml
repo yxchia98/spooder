@@ -98,6 +98,7 @@
 			<artifactId>jcommon</artifactId>
 			<version>1.0.24</version>
 		</dependency>
+		
 	</dependencies>
 
 	<build>

@@ -1,6 +1,6 @@
 package Spooding.Spooder;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,21 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
-
-import com.opencsv.exceptions.CsvValidationException;
-
-import twitter4j.TwitterException;
 
 /**
  * GUI Class
  */
 public class GUI extends MongoConnect implements ActionListener {
 
-	static JFrame frame;
+	JFrame frame;
 	static boolean chartOpen = false;
 	private CardLayout card = new CardLayout();
 	private JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, panel9, panel10, panel11, panel12,
@@ -57,8 +52,6 @@ public class GUI extends MongoConnect implements ActionListener {
 	 * @param redditCrawler       instance of Reddit Crawler
 	 * @param twitterCrawler      instance of Twitter Crawler
 	 * @param straitsCrawler      instance of Straits Times Crawler
-	 * @param sentimentalAnalysis instance of SentimentAnalysis
-	 * @param allData             instance of SentimentData
 	 * @param wordCloud           instance of WordCloudGenerator
 	 */
 	public GUI(App crawlerProgram, Crawler redditCrawler, Crawler twitterCrawler, Crawler straitsCrawler,
@@ -67,8 +60,6 @@ public class GUI extends MongoConnect implements ActionListener {
 		this.redditCrawler = redditCrawler;
 		this.twitterCrawler = twitterCrawler;
 		this.straitsCrawler = straitsCrawler;
-//		this.sentimentalAnalysis = sentimentalAnalysis;
-//		this.allData = allData;
 		this.wordCloud = wordCloud;
 
 		panel1 = new JPanel();
@@ -336,8 +327,7 @@ public class GUI extends MongoConnect implements ActionListener {
 	}
 
 	/**
-	 * Method for listening to button click Contains action to be performed on
-	 * different button clicks
+	 * Method for listening to button click Contains action to be performed on different button clicks
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// Main Menu Buttons
@@ -450,7 +440,7 @@ public class GUI extends MongoConnect implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				 positive = sentimentalAnalysis.positiveCounter;
+				positive = sentimentalAnalysis.positiveCounter;
 				negative = sentimentalAnalysis.negativeCounter;
 				neutral = sentimentalAnalysis.neutralCounter;
 				veryPositive = sentimentalAnalysis.veryPositiveCounter;
@@ -611,8 +601,7 @@ public class GUI extends MongoConnect implements ActionListener {
 	}
 
 	/**
-	 * Method for getting Straits Times Posts from MongoDB and displaying in
-	 * textArea
+	 * Method for getting Straits Times Posts from MongoDB and displaying in textArea
 	 */
 	private void showSTPosts() {
 		ArrayList<STPost> postList = new ArrayList<>();
@@ -624,8 +613,7 @@ public class GUI extends MongoConnect implements ActionListener {
 	}
 
 	/**
-	 * Method for getting Sentiment Analysis Posts from MongoDB and displaying in
-	 * textArea
+	 * Method for getting Sentiment Analysis Posts from MongoDB and displaying in textArea
 	 */
 	private void showSentimentAnalysis() {
 		ArrayList<SentimentPost> postList = new ArrayList<>();

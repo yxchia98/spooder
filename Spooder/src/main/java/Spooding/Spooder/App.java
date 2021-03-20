@@ -52,7 +52,7 @@ public class App {
 		// instantiate redditCrawler
 		Crawler redditCrawler = new RedditCrawler(50);
 		// instantiate twitterCrawler
-		Crawler twitterCrawler = new TwitterCrawler("singapore", 100);
+		Crawler twitterCrawler = new TwitterCrawler("singapore policies", 50);
 //		twitterCrawler.twitterStart();
 		//instantiate straits times crawler
 		Crawler straitsCrawler = new STCrawler(50);
